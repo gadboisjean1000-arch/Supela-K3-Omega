@@ -1,0 +1,41 @@
+﻿# SUPELA-MONOLITHE .gitignore
+# --- Preuves / artefacts temporaires ---
+data/
+*.log
+*.bundle
+*.sig
+*.bin
+*.ctx
+primary.ctx
+quote.msg
+quote.sig
+pcr.bin
+artifact.json
+artifact.bundle
+gds_manifest.json
+gds_manifest.json.sig
+# --- outils/téléchargements ---
+opa.exe
+opa_linux_amd64_static
+cosign.key
+cosign.pub
+# --- secrets / credentials ---
+*.key
+*.pem
+secrets.json
+credentials.json
+# --- éditeur ---
+.vscode/*
+.idea/
+# --- OS ---
+.DS_Store
+Thumbs.db
+# --- local state ---
+.env
+.env.local
+# --- opa state ---
+policies/.opa/
+tests/.opa/
+policies/cache
+tests/cache
+# End of Supela-Monolithe .gitignore

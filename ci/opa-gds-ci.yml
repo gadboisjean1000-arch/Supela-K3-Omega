@@ -1,0 +1,88 @@
+﻿name: gds-monolithe-ci
+
+# Pipeline de preuve du Monolithe Supela-K3-Omega.
+# Il ne proclame rien : il MESURE. Chaque verrou est refutable.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  opa-policy:
+    name: OPA policy v1 (fmt + check + tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+          chmod +x opa && sudo mv opa /usr/local/bin/opa
+          opa version
+      - name: Format check (opa fmt --diff must be empty)
+        run: |
+          out=$(opa fmt --diff policies/ tests/ 2>&1) || true
+          if [ -n "$out" ]; then echo "::error::Rego not formatted"; echo "$out"; exit 1; fi
+          echo "Rego formatting OK"
+      - name: Syntax check (opa check --strict)
+        run: opa check --strict policies/ tests/
+      - name: Run OPA tests (13 positive + negative)
+        run: opa test policies/ tests/ -v --explain=fails
+
+  powershell-idempotence:
+    name: PowerShell runtime (idempotence + WORM append-only)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: First run (instantiate vault)
+        shell: pwsh
+        run: pwsh -NoProfile -File ./runtime/init_gds_pipeline.ps1 -VaultPath "$env:RUNNER_TEMP\gds"
+      - name: Snapshot after first run
+        id: snap
+        shell: pwsh
+        run: |
+          $h1 = (Get-FileHash "$env:RUNNER_TEMP\gds\gds_manifest.json" -Algorithm SHA256).Hash
+          $l1 = (Get-Content "$env:RUNNER_TEMP\gds\ledger_append_only.log").Count
+          "h1=$h1" >> $env:GITHUB_OUTPUT
+          "l1=$l1"  >> $env:GITHUB_OUTPUT
+      - name: Second run (must be convergent / idempotent)
+        shell: pwsh
+        run: pwsh -NoProfile -File ./runtime/init_gds_pipeline.ps1 -VaultPath "$env:RUNNER_TEMP\gds"
+      - name: Assert idempotence and append-only ledger
+        shell: pwsh
+        run: |
+          $h2 = (Get-FileHash "$env:RUNNER_TEMP\gds\gds_manifest.json" -Algorithm SHA256).Hash
+          $l2 = (Get-Content "$env:RUNNER_TEMP\gds\ledger_append_only.log").Count
+          if ($h2 -ne "${{ steps.snap.outputs.h1 }}") { Write-Error "manifest hash changed - NOT idempotent"; exit 1 }
+          if ($l2 -le ${{ steps.snap.outputs.l1 }}) { Write-Error "ledger did not grow - append-only broken"; exit 1 }
+          Write-Host "IDEMPOTENT: manifest stable; ledger grew ${{ steps.snap.outputs.l1 }} -> $l2"
+      - name: Pester runtime tests
+        shell: pwsh
+        run: |
+          Install-Module Pester -Force -SkipPublisherCheck -Scope CurrentUser -MinimumVersion 3.4.0
+          $r = Invoke-Pester -Script ./tests/init_gds_pipeline.Tests.ps1 -PassThru
+          if ($r.FailedCount -gt 0) { exit 1 }
+
+  cosign-sign-verify:
+    name: Cosign signature (provenance & non-repudiation)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: sigstore/action-cosign-installer@v3
+      - name: Generate throwaway keypair (CI proof)
+        run: |
+          export COSIGN_PASSWORD=ci-throwaway
+          cosign generate-key-pair
+      - name: Create + sign artifact (sign-blob --bundle)
+        run: |
+          export COSIGN_PASSWORD=ci-throwaway
+          echo "GDS = <D, O, A, gamma> | ci manifest" > artifact.json
+          cosign sign-blob --key cosign.key --yes --bundle artifact.bundle artifact.json
+      - name: Verify signature (verify-blob --bundle)
+        run: cosign verify-blob --key cosign.pub --bundle artifact.bundle artifact.json
+
+# Note de transparence :
+#  - PROUVE : validite OPA (fmt/check/13 tests), idempotence + append-only (PS),
+#    signature/verification cosign.
+#  - NE PROUVE PAS : ancrage TPM/TEE (tpm2-tools, hors de ce pipeline) et
+#    signatures keyless de production (Fulcio/OIDC) - le CI utilise une cle
+#    jetable pour prouver le MECANISME, pas une identite de production.
