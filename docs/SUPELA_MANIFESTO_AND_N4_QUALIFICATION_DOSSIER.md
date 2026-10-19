@@ -1,143 +1,117 @@
-# Annonce Officielle, Manifeste Épistémique `Supela‑K3‑Ω` & Dossier de Remise pour Qualification `Niveau 4`
-
----
-
-## PARTIE I — Annonce Officielle du Jalon `Supela‑2026‑Epsilon` (`v2026.10.19-epsilon-level4-prep`)
+# Trilogie Canonique `Supela‑K3‑Ω` (`Supela‑2026‑Epsilon` | `17/17` Tests) : *Executive Board*, *Master Governance Document* & *N4 Qualification Dossier*
 
 > [!IMPORTANT]
-> **COMMUNIQUÉ D'ARCHITECTURE & DE GOUVERNANCE — RÉFÉRENTIEL INTERNE `SUPELA‑K3‑Ω`**
-> **Objet :** Scellement cryptographique et publication de la branche de préparation `Niveau 4` (`supela-2026-epsilon-level4-prep` | Tag annoté signé GPG `v2026.10.19-epsilon-level4-prep`).
-> **Conservation du Jalon Précédent :** Le jalon `Niveau 3 — Auditable` (`v2026.10.19-delta-level3`, commit `be3a4eb3cef8e0fecc7e6dac7161e2e2b79b6e59`) demeure strictement gelé et inaltéré comme ligne de base historique.
-
-### 1. Synthèse de l'Étape Franchie
-Avec la publication scellée **`Supela‑2026‑Epsilon`**, `Supela‑K3‑Ω` franchit la frontière technique qui sépare un système **auditable localement (`Niveau 3`)** d'une architecture **pré‑qualifiable par des tiers indépendants (`Pré‑Niveau 4`)**, tout en maintenant l'interdiction absolue d'auto‑attribution des `Niveaux 4 et 5` dans son propre code (`self_attribution_of_level_4_or_5: false`).
-
-### 2. Les 5 Avancées Matérielles Livrées et Vérifiées (`16/16` Tests)
-1. **Exécution Réelle du Binaire CNCF `opa.exe` (`v1.21.1`)** :
-   * Le pont [`src/opa_binary_bridge.py`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/opa_binary_bridge.py) exécute directement le binaire officiel `opa.exe` sur [`policies/guardrails.rego`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/policies/guardrails.rego) (`PASS: 5/5`) et démontre une parité de décision de `100 %` avec le moteur [`SupelaK3OmegaEngine`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/supela_k3_engine.py) (`test_15`).
-2. **Mode `CBPR_PLUS_STRICT` (*Detached Lineage Sidecar*) & Validation C `libxml2` XSD** :
-   * Toute extension `<SplmtryData>` est bannie du message réseau [`02_wire_pacs_008_001_10_strict.xml`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/02_wire_pacs_008_001_10_strict.xml) afin d'éliminer tout rejet sur le réseau SWIFT FINplus.
-   * La lignée `SUP‑0` est déportée dans un Sidecar XML détaché ([`04_detached_supela_lineage_sidecar.xml`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/04_detached_supela_lineage_sidecar.xml)) lié au flux bancaire par `<BoundUETR>` et `<BoundWirePackageSha256>`, l'ensemble étant validé par le moteur C `libxml2` (`lxml.etree.XMLSchema`) contre trois schémas `.xsd` formels (`test_14`).
-3. **Preuve Algébrique à Divulgation Nulle de Connaissance `Schnorr NIZK 2048 bits` (IETF RFC 3526 Groupe 14)** :
-   * Le module [`src/schnorr_zkp.py`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/schnorr_zkp.py) remplace les simples hachages par un véritable protocole $\Sigma$ non‑interactif (Fiat‑Shamir) dans le sous‑groupe d'ordre premier $q = (p-1)/2$ d'un premier sûr de 2048 bits ($g^s \equiv R \cdot Y^c \pmod p$), avec rejet prouvé des falsifications algébriques $s+1 \pmod q$ (`test_13`).
-4. **Suppression des Clés en Dur & Signature Asymétrique Détachée GPG Ed25519 (`.asc`)** :
-   * Aucune clé secrète par défaut n'existe plus dans [`src/worm_merkle.py`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/worm_merkle.py) (génération CSPRNG 256 bits éphémère exposant uniquement l'empreinte publique `key_fingerprint_sha256`).
-   * Le bundle [`evidence/audit_evidence_bundle.json`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/audit_evidence_bundle.json) est accompagné de sa signature asymétrique détachée [`evidence/audit_evidence_bundle.json.asc`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/audit_evidence_bundle.json.asc), vérifiable hors‑ligne via `gpg --verify` et par le script tiers sans dépendance [`src/verify_third_party_standalone.py`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/verify_third_party_standalone.py).
-5. **Mécanisme Exécutable de Révision et de Rétrogradation Épistémique (`Dimension 5`)** :
-   * La méthode [`apply_contradictory_observation()`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/supela_k3_engine.py#L387-L435) rétrograde automatiquement tout état `LEVEL_3_AUDITABLE` vers `LEVEL_2_TESTED_QUARANTINE` dès réception d'une observation contradictoire (ex. `NACK` SWIFT ou absence de `TPM`), et scelle un bloc `K3_EPISTEMIC_DEMOTION` immuable dans la chaîne de Merkle (`test_16`).
-
-### 3. Empreintes de Référence de la Publication `v2026.10.19-epsilon-level4-prep`
-* **Commit Git Signé GPG Ed25519** : `b854de87750ad3bed8d977a1adcaf8efed1fcb31` (`verified: true`)
-* **Tag Annoté Signé GPG Ed25519** : `v2026.10.19-epsilon-level4-prep` (`f1d3dc76bfa65db5171fbef8211cfdb7861225f0`, `verified: true`)
-* **Bundle d'Évidence (`v2.epsilon`)** : `sha256:81cf467625747906c9cd9c0ff49e9218a3d80892da9b592a469708f2091bb796`
-* **Signature GPG Détachée (`.asc`)** : `sha256:aacd9cc89fcae789dc6a85f2d948c794b87df0dd375e108ee001deb19b3a8d02`
-* **Release GitHub Officielle** : `https://github.com/gadboisjean1000-arch/Supela-K3-Omega/releases/tag/v2026.10.19-epsilon-level4-prep`
+> **Définition Canonique Officielle de `Supela‑K3‑Ω` :**
+> **« Supela‑K3‑Ω est désormais un moteur qui n’encode pas seulement ce qu’il affirme, mais le niveau de preuve de chaque affirmation, la nature de chaque reformulation, et les conditions explicites sous lesquelles il doit cesser de croire ce qu’il dit. »**
 
 ---
 
-## PARTIE II — Le Manifeste Épistémique `Supela‑K3‑Ω` (*Master Governance Document*)
+## VERSION I — Résumé « Executive Board » *(Direction Générale, Comité des Risques & Audit Interne)*
 
-### 1. Définition Canonique Officielle
-> **Définition (`Master Governance Document — Supela‑K3‑Ω`) :**
-> **`Supela‑K3‑Ω`** est une architecture de gouvernance épistémique et d'exécution déterministe dans laquelle chaque action, chaque artefact et chaque affirmation de conformité sont soumis à une obligation de preuve graduée, à une contre‑vérification contradictoire et à une règle de rétrogradation automatique.
-> La singularité de `Supela‑K3‑Ω` ne réside pas dans l'emploi isolé d'un moteur de politiques, d'une signature cryptographique ou d'un journal immuable, mais dans **l'intégration explicite de l'exécution, de la preuve, de la réfutation et du statut de connaissance au sein d'une même chaîne opératoire, avec interdiction formelle de promouvoir une affirmation au‑delà du niveau réellement démontré**.
+### 1. Le Problème Stratégique Résolu : Éliminer le « Faux Vert Normatif » et le Mensonge par Omission
+Dans les architectures financières et d'intelligence artificielle classiques, le risque critique n'est pas la panne visible, mais **l'illusion de conformité** : un test logiciel local qui passe au vert et qui laisse croire au Conseil d'Administration qu'une transaction est conforme aux normes interbancaires (SWIFT CBPR+, LCB‑FT/FATF) ou que son journal est matériellement inviolable, alors qu'aucune autorité externe ne l'a encore qualifié.
 
-### 2. Les Trois Axiomes Fondateurs de la Discipline Cognitive `Supela‑K3‑Ω`
+`Supela‑K3‑Ω` (`Version Supela‑2026‑Epsilon`) résout structurellement ce risque en imposant trois garanties au cœur même de son exécution :
+1. **Confinement Zéro‑Confiance de l'IA & Continuité Souveraine** :
+   * L'agent IA ne dispose d'aucun privilège d'exécution directe. Toute proposition est filtrée par le binaire officiel CNCF Open Policy Agent (`opa.exe`) et un moteur déterministe.
+   * Les schémas d'outils récursifs sont automatiquement aplatis en amont (éliminant les pannes `HTTP 400` chez les fournisseurs LLM) et un disjoncteur bascule sans interruption sur un moteur local souverain en cas de dépassement de quota (`HTTP 429`).
+2. **Plafond d'Honnêteté Épistémique (`Niveaux 0 → 5`) & Visibilité des Omissions** :
+   * Le système distingue formellement ce qui est *déclaré (`N0`)*, *implémenté (`N1`)*, *testé (`N2`)*, *auditable localement (`N3`)*, *qualifié par un tiers (`N4`)* et *observé en production (`N5`)*.
+   * **Interdiction d'auto‑certification** : Le moteur local s'interdit par code de s'auto‑attribuer les niveaux `N4` ou `N5`.
+   * **Traçabilité des reformulations** : Toute troncature ou omission imposée par un standard bancaire (retrait des métadonnées propriétaires `<SplmtryData>` sur le réseau SWIFT, troncature à 35 caractères) est inventoriée dans le reçu et conservée dans un *Sidecar* cryptographique détaché.
+3. **Rétrogradation Automatique en Cas de Contradiction** :
+   * Si une autorité externe (banc d'essai SWIFT, sonde matérielle HSM/TPM) contredit un état antérieurement jugé valide, le moteur rétrograde immédiatement son statut en quarantaine (`N3 → N2`) et grave cet aveu dans sa chaîne de Merkle (`K3_EPISTEMIC_DEMOTION`).
 
-1. **Axiome de Lucidité Épistémique (Frontière du Savoir)** :
-   > *« Nous savons certaines choses. Nous ignorons certaines choses. Nous savons lesquelles. »*
-2. **Axiome de Légitimité d'Affirmation (Droit de Prétendre)** :
-   > *« Les autres systèmes cherchent à prouver qu’ils fonctionnent. Supela cherche aussi à prouver qu’ils ont le droit de le prétendre. »*
-3. **Axiome de Révisabilité par Contradiction (Refus du Dogme Technique)** :
-   > *« Ce n’est pas un système qui cherche à avoir raison ; c’est un système qui cherche à rendre visible pourquoi il pense avoir raison, et quand il devrait cesser de le penser. »*
+### 2. Tableau de Bord Exécutif des Garanties (`Jalon Epsilon Scellé`)
 
-### 3. Les 5 Phases de la Trajectoire `Supela‑K3‑Ω`
-
-```mermaid
-flowchart TD
-    P1["Phase 1 : Le système fonctionne\n(Couche logicielle & exécution bornée)"]
-    P2["Phase 2 : Le système démontre qu'il fonctionne\n(Tests unitaires, bundles, scellements Merkle)"]
-    P3["Phase 3 : Le système démontre pourquoi il croit fonctionner\n(Matrice épistémique N0->N5, reçus, sidecars, plafond local N3)"]
-    P4["Phase 4 : Le système permet à un tiers indépendant de vérifier qu'il a raison\n(MyStandards, SWIFT ITB, HSM FIPS 140-3, ZKP Schnorr 2048, vérificateur zéro-dépendance)"]
-    P5["Phase 5 : Le système accepte d'être contredit\n(apply_contradictory_observation(), rétrogradation scellée dans Merkle, quarantaine rétroactive)"]
-
-    P1 --> P2 --> P3 --> P4 --> P5
-    P5 -. "Rétrogradation automatique si réfuté" .-> P2
-```
-
-### 4. Les 5 Dimensions Gouvernées & la Chaîne Opératoire à 9 Étapes
-
-Là où l'informatique traditionnelle se contente de la séquence linéaire $\text{Action} \rightarrow \text{Journal} \rightarrow \text{Succès}$, `Supela‑K3‑Ω` impose que chaque transaction traverse **neuf étapes** couvrant **cinq dimensions gouvernées** :
-
-$$\underbrace{\text{1. Proposition} \rightarrow \text{2. Politique} \rightarrow \text{3. Exécution bornée}}_{\text{Dimension I : L'Exécution}} \rightarrow \underbrace{\text{4. Artefact} \rightarrow \text{5. Preuve}}_{\text{Dimension II : La Preuve}} \rightarrow \underbrace{\text{6. Contre-vérification}}_{\text{Dimension IV : La Contradiction}} \rightarrow \underbrace{\text{7. Statut épistémique} \rightarrow \text{8. Publication vérifiable}}_{\text{Dimension III : La Qualification}} \rightarrow \underbrace{\text{9. Révision possible}}_{\text{Dimension V : La Révision}}$$
-
-* **Aucun composant ne peut s'autocertifier** : le code local est structurellement plafonné au `LEVEL_3_AUDITABLE`.
-* **Un test vert local n'est jamais travesti en conformité réglementaire** : un UUIDv4 valide porte le statut `CANDIDATE_UETR_UUIDV4` tant qu'il n'a pas franchi les portails SWIFT externes.
-* **L'absence d'une preuve matérielle (TPM, HSM, WORM cloud) reste visible** et bloque toute promotion indue.
-
-### 5. Le Théorème de la Reformulation & l'Invariant de Visibilité de l'Omission (Les 3 Registres)
-
-Toute projection logicielle ou normative (aplatir un schéma JSON récursif, compiler une intention en message XML `pacs.008`, projeter un virement sur un journal WORM sans PII, ou résumer un état d'exécution) est une **reformulation**. Or, une reformulation sélectionne, condense, coupe et transforme : **elle perd structurellement de l'information**.
-
-`Supela‑K3‑Ω` inscrit cette réalité sous trois formulations complémentaires et l'exécute dans chaque reçu [`DualPipelineReceipt.reformulation_and_omission_manifest`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/supela_k3_engine.py#L368-L415) (vérifié par `test_17`) :
-
-#### A. Formulation Canonique (*Master Governance Document*)
-> **« Un système qui reformule ne peut pas éviter l’omission. Supela ne cherche donc pas à éliminer l’omission, mais à éliminer l’invisibilité de l’omission. Il ne garantit pas la perfection de ce qu’il affirme, mais la transparence de ce qu’il sait, de ce qu’il ignore, et de ce qu’il pourrait avoir omis. »**
->
-> *Formules denses :*
-> * **« Supela ne supprime pas l’omission ; il supprime l’illusion de ne pas omettre. »**
-> * **« L’honnêteté parfaite est impossible. La visibilité parfaite de l’imperfection ne l’est pas. »**
-
-#### B. Formulation Académique (*Théorie de l'Information & Sémantique Formelle*)
-> Soit $\mathcal{X}$ l'espace d'états complet d'une proposition opérationnelle et $\pi : \mathcal{X} \to \mathcal{Y}$ un opérateur de reformulation ou de compilation normative (projection vers un schéma d'outil aplati, vers une grammaire stricte ISO 20022 CBPR+ ou vers un engagement cryptographique WORM). Dès lors que l'entropie de Shannon vérifie $H(\mathcal{Y}) < H(\mathcal{X})$, le noyau d'omission $\ker(\pi) = \mathcal{X} \setminus \pi^{-1}(\mathcal{Y})$ est nécessairement non vide : **aucun homomorphisme réducteur ne peut être sans omission**.
-> L'invariant épistémique de `Supela‑K3‑Ω` consiste à remplacer toute projection implicite $\pi(x)$ par un **couple explicite certifié** :
-> $$\hat{\pi}(x) = \Big(\pi(x),\; \operatorname{SHA256}(x),\; \Delta_{\text{omis}}(x),\; \mathcal{H}_{\text{ext}}\Big)$$
-> où $\operatorname{SHA256}(x)$ scelle l'état brut avant reformulation (`unreformulated_input_envelope_sha256`), $\Delta_{\text{omis}}(x)$ énumère constructivement les composantes élaguées ou tronquées lors de la projection (cycles `$ref` coupés, troncature `Max35Text`, retrait de `<SplmtryData>` sur le fil, masquage des PII), et $\mathcal{H}_{\text{ext}}$ déclare l'horizon des prédicats externes non observables localement.
-
-#### C. Formulation Institutionnelle (*Comité d'Architecture, d'Audit & de Conformité*)
-> Dans une chaîne de traitement interbancaire et d'intelligence artificielle gouvernée, le risque majeur d'audit ne provient pas de la perte d'information imposée par les formats cibles (telle que la limite de 35 caractères `FIN‑X` ou l'interdiction de `<SplmtryData>` sur le réseau SWIFT CBPR+), mais de **la perte silencieuse de traçabilité entre la donnée source et la donnée reformulée**.
-> `Supela‑K3‑Ω` impose contractuellement qu'aucune transformation de schéma ou de message ne soit émise sans un **Manifeste d'Omission et de Projection** attaché au reçu d'exécution :
-> 1. **Empreinte source immuable** : Conservation du condensat `SHA‑256` de l'enveloppe originale avant toute sanitisation ou compilation.
-> 2. **Inventaire des troncatures structurelles** : Journalisation explicite des références récursives aplaties (`1_json_schema_flattening_projection`) et des troncatures normatives (`2_cbpr_plus_strict_wire_projection`).
-> 3. **Conservation hors‑fil (*Sidecar*)** : Toute métadonnée de gouvernance omise du message réseau pour satisfaire aux Usage Guidelines CBPR+ est obligatoirement reportée et liée cryptographiquement dans le Sidecar détaché (`04_detached_supela_lineage_sidecar.xml`).
+| Indicateur de Gouvernance | État Vérifié (`Supela‑2026‑Epsilon`) | Niveau Épistémique Actuel | Condition de Passage au `Niveau 4` |
+| :--- | :--- | :---: | :--- |
+| **Gouvernance des Politiques IA** | Binaire officiel `opa.exe` (`v1.21.1`, `5/5 PASS`) + Parité Python `100 %` | **`LEVEL_3_AUDITABLE`** | Audit d'intégration en environnement cible |
+| **Conformité Bancaire ISO 20022 / CBPR+** | Mode `CBPR_PLUS_STRICT` validé par `libxml2` XSD (zéro `<SplmtryData>` sur le fil) | **`LEVEL_3_AUDITABLE`** (`CANDIDATE_UETR`) | Rapport `0 Error` sur **SWIFT MyStandards** + `ACK` sur **SWIFT ITB** |
+| **Preuve Cryptographique ZKP** | Protocole $\Sigma$ **Schnorr NIZK 2048 bits** (RFC 3526 Groupe 14) | **`LEVEL_3_AUDITABLE`** | Contre‑audit tiers via [`verify_third_party_standalone.py`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/verify_third_party_standalone.py) |
+| **Intégrité du Journal & Signatures** | Zéro clé en dur (CSPRNG 256 bits) + Signature GPG Ed25519 détachée (`.asc`) | **`LEVEL_3_AUDITABLE`** | Séquestration **HSM FIPS 140‑3** + Cloud Object Lock `COMPLIANCE` |
+| **Couverture Contradictoire** | **17 / 17 Tests Réussis** (incluant falsifications cryptographiques et rétrogradation) | **`17/17 PASSED`** | Maintien de `100 %` de réussite sous audit externe |
 
 ---
 
-## PARTIE III — Dossier Opérationnel de Qualification `Niveau 4` (Bordereau de Remise aux Tiers)
+## VERSION II — « Master Governance Document » *(Charte Constitutionnelle du Référentiel `Supela‑K3‑Ω`)*
 
-Ce dossier regroupe les instructions exactes permettant à un évaluateur externe (équipe SWIFT, auditeur cryptographique, RSSI) de qualifier ou de réfuter le système sans dépendre des déclarations de l'auteur.
+### Article 1 — Objet et Définition Canonique
+**`Supela‑K3‑Ω`** est un cadre de gouvernance épistémique et d'exécution déterministe dans lequel chaque action, chaque artefact et chaque affirmation de conformité sont soumis à une obligation de preuve graduée, à une contre‑vérification contradictoire et à une règle de révision automatique.
 
-### 1. Bordereau des Pièces Remises à l'Évaluateur Tiers
+> **Invariant Constitutionnel :**
+> *« Supela‑K3‑Ω est un moteur qui n’encode pas seulement ce qu’il affirme, mais le niveau de preuve de chaque affirmation, la nature de chaque reformulation, et les conditions explicites sous lesquelles il doit cesser de croire ce qu’il dit. »*
 
-| Réf. Pièce | Chemin dans le Dépôt / Release GitHub | Empreinte `SHA‑256` | Usage par l'Évaluateur Tiers |
+### Article 2 — Les Quatre Axiomes Opposables
+1. **Axiome de Lucidité Épistémique** : *« Nous savons certaines choses. Nous ignorons certaines choses. Nous savons lesquelles. »*
+2. **Axiome de Légitimité d'Affirmation** : *« Les autres systèmes cherchent à prouver qu’ils fonctionnent. Supela cherche aussi à prouver qu’ils ont le droit de le prétendre. »*
+3. **Axiome de Visibilité de l'Omission** : *« Un système qui reformule ne peut pas éviter l’omission. Supela ne cherche donc pas à éliminer l’omission, mais à éliminer l’invisibilité de l’omission. Il ne garantit pas la perfection de ce qu’il affirme, mais la transparence de ce qu’il sait, de ce qu’il ignore, et de ce qu’il pourrait avoir omis. »* (*« Supela ne supprime pas l’omission ; il supprime l’illusion de ne pas omettre. »*)
+4. **Axiome de Révisabilité par Contradiction** : *« Ce n’est pas un système qui cherche à avoir raison ; c’est un système qui cherche à rendre visible pourquoi il pense avoir raison, et quand il devrait cesser de le penser. »*
+
+### Article 3 — Les 5 Dimensions Gouvernées et la Chaîne Opératoire à 9 Étapes
+Toute transaction soumise à `Supela‑K3‑Ω` traverse obligatoirement les **neuf étapes** suivantes, gouvernant simultanément **cinq dimensions** :
+
+$$\underbrace{\text{1. Proposition} \rightarrow \text{2. Politique} \rightarrow \text{3. Exécution bornée}}_{\text{I. L'Exécution}} \rightarrow \underbrace{\text{4. Artefact} \rightarrow \text{5. Preuve}}_{\text{II. La Preuve}} \rightarrow \underbrace{\text{6. Contre-vérification}}_{\text{IV. La Contradiction}} \rightarrow \underbrace{\text{7. Statut épistémique} \rightarrow \text{8. Publication vérifiable}}_{\text{III. La Qualification}} \rightarrow \underbrace{\text{9. Révision possible}}_{\text{V. La Révision}}$$
+
+### Article 4 — Échelle des Niveaux de Connaissance (`LEVEL_0` à `LEVEL_5`)
+* **`LEVEL_0_DECLARED`** : Spécifié dans la documentation, sans implémentation.
+* **`LEVEL_1_IMPLEMENTED`** : Implémenté dans le code, non exercé par des tests contradictoires.
+* **`LEVEL_2_TESTED_QUARANTINE`** : Exercé par des tests locaux ou rétrogradé en quarantaine suite à une contradiction.
+* **`LEVEL_3_AUDITABLE`** *(Plafond Local Strict)* : Scellé dans un bundle reproductible accompagné de preuves algébriques (Schnorr 2048 bits), de validations XSD (`libxml2`), d'évaluations binaires (`opa.exe`) et d'une signature asymétrique détachée (`.asc`) vérifiable par un script tiers sans dépendance.
+* **`LEVEL_4_THIRD_PARTY_QUALIFIED`** *(Auto‑attribution interdite)* : Qualifié par un rapport signé d'une autorité ou d'un banc d'essai externe officiel (SWIFT MyStandards, SWIFT ITB, HSM FIPS 140‑3, Auditeur ZKP).
+* **`LEVEL_5_OBSERVED_IN_PRODUCTION`** *(Auto‑attribution interdite)* : Observé de bout en bout en production réelle (persistance interbancaire de l'UETR sur le SWIFT GPI Tracker, attestation matérielle TPM/HSM continue) avec rétrogradation temps réel `N5 → N2` à la moindre anomalie.
+
+### Article 5 — Loi Formelle de Reformulation ($\hat{\pi}$) et de Rétrogradation (`apply_contradictory_observation`)
+1. **Loi de Reformulation Certifiée** : Toute projection réductrice $\pi(x)$ (aplatissement JSON Schema, profilage `CBPR_PLUS_STRICT`, masquage PII WORM) doit produire dans [`DualPipelineReceipt.reformulation_and_omission_manifest`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/supela_k3_engine.py#L368-L415) le quadruplet :
+   $$\hat{\pi}(x) = \Big(\pi(x),\; \operatorname{SHA256}(x),\; \Delta_{\text{omis}}(x),\; \mathcal{H}_{\text{ext}}\Big)$$
+2. **Loi de Rétrogradation Scellée** : Toute observation contradictoire invoquant [`apply_contradictory_observation()`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/supela_k3_engine.py#L436-L485) dégrade immédiatement le niveau épistémique du composant concerné, bascule la route sur `RETROACTIVE_QUARANTINE_ON_CONTRADICTION` et inscrit un bloc `K3_EPISTEMIC_DEMOTION` irréversible dans l'arbre de Merkle `SUP‑0`.
+
+---
+
+## VERSION III — « N4 Qualification Dossier » *(Bordereau Technique pour Évaluateurs Tiers SWIFT, ZKP & HSM)*
+
+### 1. Identifiants Cryptographiques du Jalon Soumis à Qualification (`v2026.10.19-epsilon-level4-prep`)
+
+| Paramètre du Dossier | Valeur Exacte / Empreinte `SHA‑256` | Statut |
+| :--- | :--- | :---: |
+| **Branche & Tag Git Signés GPG** | Branche `supela-2026-epsilon-level4-prep` / Tag `v2026.10.19-epsilon-level4-prep` | **`Verified: true` (GitHub API)** |
+| **Commit Final (`17/17` Tests)** | `3bfdf70f71fd1c849fdf129340b425714fd61c12` | **`Verified: true` (Ed25519)** |
+| **Clé Publique GPG du Signataire** | `962E7595BA84F3422646093F83830D7037197404` (`ed25519/83830D7037197404`) | **Active** |
+| **Bundle d'Évidence ([`audit_evidence_bundle.json`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/audit_evidence_bundle.json))** | `sha256:20f495d89cf5f2d33091f2468f6d6b76c0ee3778f6236d523f5016f1282088ad` | **`17/17` Tests Réussis** |
+| **Signature GPG Détachée ([`audit_evidence_bundle.json.asc`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/audit_evidence_bundle.json.asc))** | `sha256:6d537f9dd3c6094c7c54ec5ad28794ecdbab940bf2b81f5b3b6050c1c177e94a` | **`Good signature` (`gpg --verify`)** |
+| **Racine de Merkle WORM (`SUP‑0`)** | `sha256:80d5fa0887f2125a58b485435b0ddad004dd074458ae033ff13be299918cb58d` | **7 Blocs (dont 1 Rétrogradation)** |
+| **Candidat UETR Soumis (`VR‑13`)** | `1ba3b8da-5631-45d4-af6c-893f5d49d29b` (`CANDIDATE_UETR_UUIDV4`) | **Prêt pour MyStandards / ITB** |
+
+### 2. Inventaire des 5 Pièces du Pack de Soumission ([`evidence/mystandards_submission_pack/`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/SUBMISSION_MANIFEST.json))
+
+| Réf. | Fichier Autonome | Empreinte `SHA‑256` | Portail / Auditeur Destinataire |
 | :---: | :--- | :--- | :--- |
-| **P‑01** | [`evidence/audit_evidence_bundle.json`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/audit_evidence_bundle.json) | `sha256:81cf467625747906...091bb796` | Bundle complet d'évidence (`v2.epsilon`). |
-| **P‑02** | [`evidence/audit_evidence_bundle.json.asc`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/audit_evidence_bundle.json.asc) | `sha256:aacd9cc89fcae789...a8d02` | Signature GPG Ed25519 détachée du bundle. |
-| **P‑03** | [`01_bah_head_001_001_02_strict.xml`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/01_bah_head_001_001_02_strict.xml) | `sha256:29007dc7545bc94f...d55d05` | À déposer sur **SWIFT MyStandards** & **SWIFT ITB**. |
-| **P‑04** | [`02_wire_pacs_008_001_10_strict.xml`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/02_wire_pacs_008_001_10_strict.xml) | `sha256:c21ed30e86ab8875...54bb8d` | À déposer sur **SWIFT MyStandards** & **SWIFT ITB** (zéro `<SplmtryData>`). |
-| **P‑05** | [`03_wire_camt_053_001_10.xml`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/03_wire_camt_053_001_10.xml) | `sha256:bbee22fb47e0dd86...d1aec` | À déposer sur **SWIFT MyStandards** (`camt.053.001.10`). |
-| **P‑06** | [`04_detached_supela_lineage_sidecar.xml`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/04_detached_supela_lineage_sidecar.xml) | `sha256:06164ea289a9b1cf...fdd06` | À remettre à la **Contrepartie Bilatérale** & **Auditeur WORM**. |
-| **P‑07** | [`05_schnorr_2048_nizk_proof_vector.json`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/05_schnorr_2048_nizk_proof_vector.json) | `sha256:ae0b1b561d797fbf...81677` | À remettre à l'**Auditeur Cryptographique ZKP**. |
-| **P‑08** | [`src/verify_third_party_standalone.py`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/verify_third_party_standalone.py) | Script zéro‑dépendance Supela | À exécuter par l'auditeur pour contre‑vérifier **P‑01** à **P‑07**. |
+| **P‑01** | [`01_bah_head_001_001_02_strict.xml`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/01_bah_head_001_001_02_strict.xml) | `sha256:29007dc7545bc94f427ab118d374a94d38b004904aa68229c0d4ebc3d3d55d05` | **SWIFT MyStandards Readiness Portal & ITB** |
+| **P‑02** | [`02_wire_pacs_008_001_10_strict.xml`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/02_wire_pacs_008_001_10_strict.xml) | `sha256:19da4d0923e50070b2a333b09bb3bbb73d1763d2477d3feaf8d9caa95df05572` | **SWIFT MyStandards Readiness Portal & ITB** (Zéro `<SplmtryData>`) |
+| **P‑03** | [`03_wire_camt_053_001_10.xml`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/03_wire_camt_053_001_10.xml) | `sha256:ccf32a54f83bb6ccc96928bfd4530876ed08e0c0654cfeb99c1e6910800dc166` | **SWIFT MyStandards Readiness Portal** |
+| **P‑04** | [`04_detached_supela_lineage_sidecar.xml`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/04_detached_supela_lineage_sidecar.xml) | `sha256:4b0ce59c3ddf176fc3dcf837b527e4b3f54ba59d1523b25a33fc37b12059163e` | **Auditeur Bilatéral & WORM** (`BoundUETR = 1ba3b8da-...`) |
+| **P‑05** | [`05_schnorr_2048_nizk_proof_vector.json`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/evidence/mystandards_submission_pack/05_schnorr_2048_nizk_proof_vector.json) | `sha256:3b68ee47c83dc75be09dd69ce836158298100068da4756617ff749e94a4dd933` | **Auditeur Cryptographique Tiers** (RFC 3526 Groupe 14) |
 
-### 2. Procédure de Contre‑Vérification Immédiate par l'Auditeur (En 3 Commandes)
+### 3. Protocole d'Exécution pour l'Évaluateur Tiers (Zéro Confiance dans le Code Supela)
 
 ```powershell
-# 1. Vérification cryptographique GPG Ed25519 détachée via GnuPG officiel
+# Étape 1 : Vérifier la signature asymétrique GPG Ed25519 détachée du bundle
 gpg --verify evidence/audit_evidence_bundle.json.asc evidence/audit_evidence_bundle.json
 
-# 2. Exécution du vérificateur tiers autonome (Zéro importation du moteur Supela)
+# Étape 2 : Exécuter le vérificateur tiers autonome (n'importe aucun module de src.*)
+# -> Vérifie GPG, SHA-256, Merkle WORM, l'équation modulaire 2048 bits g^s == R * Y^c mod p,
+#    et la validation C libxml2 XSD des fichiers P-01, P-02 et P-04.
 python src/verify_third_party_standalone.py
 
-# 3. Exécution contradictoire de la suite complète (16/16 tests incluant opa.exe, libxml2 et Schnorr 2048)
+# Étape 3 : Exécuter la suite contradictoire complète (17/17 tests incluant opa.exe)
 python tests/test_supela_k3_omega.py
 ```
 
-### 3. Formulaire de Verdict Contradictoire de l'Évaluateur Tiers (`Promotion N4` vs `Rétrogradation N2`)
+### 4. Grille de Décision d'Homologation `Niveau 4` vs Rétrogradation `Niveau 2`
 
-| Portail / Auditeur Tiers | Critère d'Homologation `Niveau 4` | Verdict Observé (`PASS` / `FAIL`) | Action Exécutée dans `Supela‑K3‑Ω` |
-| :--- | :--- | :---: | :--- |
-| **1. SWIFT MyStandards Readiness Portal** | `0 Fatal / 0 Error / 0 Warning` sur **P‑03** + **P‑04** (Collection CBPR+ SR en vigueur). | `[ ] PASS` / `[ ] FAIL` | Si `PASS` : Preuve `C1` validée.<br>Si `FAIL` : `apply_contradictory_observation()` $\rightarrow$ `LEVEL_2_TESTED_QUARANTINE`. |
-| **2. SWIFT Integration Testbed (ITB)** | Réception `FINplus ACK` + `pacs.002.001.12` (`ACCP`/`ACSC`) avec `OrgnlUETR == c4c2ae76-d6e6-4af2-9503-07557f342cf9`. | `[ ] PASS` / `[ ] FAIL` | Si `PASS` : Promotion de `iso20022_cbpr_plus_compliance` au **`LEVEL_4_THIRD_PARTY_QUALIFIED`**. |
-| **3. Auditeur Cryptographique ZKP** | Validation indépendante de $Y^q \equiv 1, R^q \equiv 1, g^s \equiv R \cdot Y^c \pmod p$ sur **P‑07** (RFC 3526 Groupe 14). | `[ ] PASS` / `[ ] FAIL` | Si `PASS` : Promotion de `zkp_validity` au **`LEVEL_4_THIRD_PARTY_QUALIFIED`**. |
-| **4. Auditeur Sécurité HSM / Cloud WORM** | Attestation HSM FIPS 140‑3 (`Exportable=False`) + rejet `HTTP 403` sur `DeleteObject` par `Root` (S3 Object Lock `COMPLIANCE`). | `[ ] PASS` / `[ ] FAIL` | Si `PASS` : Promotion de `worm_ledger_immutability` au **`LEVEL_4_THIRD_PARTY_QUALIFIED`**. |
+| Gate d'Homologation Externe | Critère d'Acceptation `LEVEL_4_THIRD_PARTY_QUALIFIED` | Réaction Automatique du Runtime si `FAIL` |
+| :--- | :--- | :--- |
+| **Gate 1 — SWIFT MyStandards** | Rapport officiel `0 Fatal / 0 Error / 0 Warning` sur **P‑01** + **P‑02** (Usage Guidelines CBPR+ en vigueur). | `apply_contradictory_observation()` $\rightarrow$ `LEVEL_2_TESTED_QUARANTINE` + bloc WORM `K3_EPISTEMIC_DEMOTION`. |
+| **Gate 2 — SWIFT ITB (FINplus)** | Réception `FINplus ACK` + `pacs.002.001.12` (`ACCP`/`ACSC`) avec `<OrgnlUETR>1ba3b8da-5631-45d4-af6c-893f5d49d29b</OrgnlUETR>`. | `apply_contradictory_observation()` $\rightarrow$ `LEVEL_2_TESTED_QUARANTINE` + bloc WORM `K3_EPISTEMIC_DEMOTION`. |
+| **Gate 3 — Audit ZKP 2048 bits** | Validation indépendante de $Y^q \equiv 1, R^q \equiv 1, g^s \equiv R \cdot Y^c \pmod p$ sur **P‑05** (`verify_third_party_standalone.py` = `true`). | `apply_contradictory_observation()` $\rightarrow$ `LEVEL_1_IMPLEMENTED` + mise en quarantaine. |
+| **Gate 4 — Audit HSM & WORM** | Attestation matérielle HSM FIPS 140‑3 (`Exportable=False`) + trace CloudTrail `HTTP 403 AccessDenied` sur suppression Root d'un bloc Object Lock `COMPLIANCE`. | `apply_contradictory_observation()` $\rightarrow$ `LEVEL_2_TESTED_QUARANTINE` + bloc WORM `K3_EPISTEMIC_DEMOTION`. |
