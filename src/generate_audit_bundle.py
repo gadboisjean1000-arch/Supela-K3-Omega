@@ -183,6 +183,11 @@ def collect_detailed_test_results() -> List[Dict[str, Any]]:
             "synthetic_input": "Contradictory observation (SWIFT_ITB_NACK_H001) applied to a LEVEL_3_AUDITABLE receipt",
             "expected_outcome": "Demoted to LEVEL_2_TESTED_QUARANTINE, retroactive quarantine, K3_EPISTEMIC_DEMOTION sealed in WORM",
         },
+        "test_17_reformulation_omission_visibility_invariant": {
+            "category": "POSITIVE_OMISSION_VISIBILITY_INVARIANT",
+            "synthetic_input": "Lossy reformulation (recursive schema flattening + CBPR+ Max35Text truncation + wire SplmtryData omission)",
+            "expected_outcome": "Unreformulated input SHA-256 preserved + all 4 projection omissions explicitly inventoried in receipt",
+        },
     }
 
     results: List[Dict[str, Any]] = []
@@ -319,6 +324,7 @@ def generate_audit_evidence_bundle(
         "epistemic_governance_architecture": {
             "defensible_singularity_statement": SINGULARITY_STATEMENT_DEFENSIBLE,
             "dense_axiom": SINGULARITY_AXIOM_DENSE,
+            "reformulation_and_omission_visibility": r_vr13.reformulation_and_omission_manifest,
             "five_governed_dimensions": {
                 "1_execution": "Une action doit respecter les politiques formelles (OPA Rego + moteur K3).",
                 "2_proof": "Le résultat doit laisser un artefact cryptographiquement vérifiable.",
@@ -332,7 +338,7 @@ def generate_audit_evidence_bundle(
                 "3. Exécution bornée (Confinement sandbox + Circuit-Breaker souverain)",
                 "4. Artefact (Miroirs ISO 20022 CBPR+ Strict + Sidecar détaché + IVMS101)",
                 "5. Preuve (Schnorr NIZK 2048 bits RFC 3526 + Merkle WORM + validation C libxml2 XSD)",
-                "6. Contre-vérification (16 tests unitaires et négatifs contradictoires)",
+                "6. Contre-vérification (17 tests unitaires et négatifs contradictoires)",
                 "7. Statut épistémique (Plafond local LEVEL_3_AUDITABLE, interdiction d'auto-attribution Niveaux 4/5)",
                 "8. Publication vérifiable (Bundle JSON + signature GPG Ed25519 détachée .asc)",
                 "9. Révision possible (Rétrogradation épistémique scellée sur observation contradictoire)",

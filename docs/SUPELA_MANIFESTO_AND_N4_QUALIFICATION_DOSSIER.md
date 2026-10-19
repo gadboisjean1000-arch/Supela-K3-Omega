@@ -75,6 +75,32 @@ $$\underbrace{\text{1. Proposition} \rightarrow \text{2. Politique} \rightarrow 
 * **Un test vert local n'est jamais travesti en conformité réglementaire** : un UUIDv4 valide porte le statut `CANDIDATE_UETR_UUIDV4` tant qu'il n'a pas franchi les portails SWIFT externes.
 * **L'absence d'une preuve matérielle (TPM, HSM, WORM cloud) reste visible** et bloque toute promotion indue.
 
+### 5. Le Théorème de la Reformulation & l'Invariant de Visibilité de l'Omission (Les 3 Registres)
+
+Toute projection logicielle ou normative (aplatir un schéma JSON récursif, compiler une intention en message XML `pacs.008`, projeter un virement sur un journal WORM sans PII, ou résumer un état d'exécution) est une **reformulation**. Or, une reformulation sélectionne, condense, coupe et transforme : **elle perd structurellement de l'information**.
+
+`Supela‑K3‑Ω` inscrit cette réalité sous trois formulations complémentaires et l'exécute dans chaque reçu [`DualPipelineReceipt.reformulation_and_omission_manifest`](file:///C:/Users/Group/.gemini/antigravity/scratch/supela-k3-omega/src/supela_k3_engine.py#L368-L415) (vérifié par `test_17`) :
+
+#### A. Formulation Canonique (*Master Governance Document*)
+> **« Un système qui reformule ne peut pas éviter l’omission. Supela ne cherche donc pas à éliminer l’omission, mais à éliminer l’invisibilité de l’omission. Il ne garantit pas la perfection de ce qu’il affirme, mais la transparence de ce qu’il sait, de ce qu’il ignore, et de ce qu’il pourrait avoir omis. »**
+>
+> *Formules denses :*
+> * **« Supela ne supprime pas l’omission ; il supprime l’illusion de ne pas omettre. »**
+> * **« L’honnêteté parfaite est impossible. La visibilité parfaite de l’imperfection ne l’est pas. »**
+
+#### B. Formulation Académique (*Théorie de l'Information & Sémantique Formelle*)
+> Soit $\mathcal{X}$ l'espace d'états complet d'une proposition opérationnelle et $\pi : \mathcal{X} \to \mathcal{Y}$ un opérateur de reformulation ou de compilation normative (projection vers un schéma d'outil aplati, vers une grammaire stricte ISO 20022 CBPR+ ou vers un engagement cryptographique WORM). Dès lors que l'entropie de Shannon vérifie $H(\mathcal{Y}) < H(\mathcal{X})$, le noyau d'omission $\ker(\pi) = \mathcal{X} \setminus \pi^{-1}(\mathcal{Y})$ est nécessairement non vide : **aucun homomorphisme réducteur ne peut être sans omission**.
+> L'invariant épistémique de `Supela‑K3‑Ω` consiste à remplacer toute projection implicite $\pi(x)$ par un **couple explicite certifié** :
+> $$\hat{\pi}(x) = \Big(\pi(x),\; \operatorname{SHA256}(x),\; \Delta_{\text{omis}}(x),\; \mathcal{H}_{\text{ext}}\Big)$$
+> où $\operatorname{SHA256}(x)$ scelle l'état brut avant reformulation (`unreformulated_input_envelope_sha256`), $\Delta_{\text{omis}}(x)$ énumère constructivement les composantes élaguées ou tronquées lors de la projection (cycles `$ref` coupés, troncature `Max35Text`, retrait de `<SplmtryData>` sur le fil, masquage des PII), et $\mathcal{H}_{\text{ext}}$ déclare l'horizon des prédicats externes non observables localement.
+
+#### C. Formulation Institutionnelle (*Comité d'Architecture, d'Audit & de Conformité*)
+> Dans une chaîne de traitement interbancaire et d'intelligence artificielle gouvernée, le risque majeur d'audit ne provient pas de la perte d'information imposée par les formats cibles (telle que la limite de 35 caractères `FIN‑X` ou l'interdiction de `<SplmtryData>` sur le réseau SWIFT CBPR+), mais de **la perte silencieuse de traçabilité entre la donnée source et la donnée reformulée**.
+> `Supela‑K3‑Ω` impose contractuellement qu'aucune transformation de schéma ou de message ne soit émise sans un **Manifeste d'Omission et de Projection** attaché au reçu d'exécution :
+> 1. **Empreinte source immuable** : Conservation du condensat `SHA‑256` de l'enveloppe originale avant toute sanitisation ou compilation.
+> 2. **Inventaire des troncatures structurelles** : Journalisation explicite des références récursives aplaties (`1_json_schema_flattening_projection`) et des troncatures normatives (`2_cbpr_plus_strict_wire_projection`).
+> 3. **Conservation hors‑fil (*Sidecar*)** : Toute métadonnée de gouvernance omise du message réseau pour satisfaire aux Usage Guidelines CBPR+ est obligatoirement reportée et liée cryptographiquement dans le Sidecar détaché (`04_detached_supela_lineage_sidecar.xml`).
+
 ---
 
 ## PARTIE III — Dossier Opérationnel de Qualification `Niveau 4` (Bordereau de Remise aux Tiers)

@@ -619,7 +619,61 @@ class TestSupelaK3Omega(unittest.TestCase):
         self.assertEqual(len(self.ledger.entries), blocks_before + 1)
         self.assertEqual(self.ledger.entries[-1].event_type, "K3_EPISTEMIC_DEMOTION")
 
+    def test_17_reformulation_omission_visibility_invariant(self) -> None:
+        """
+        Vérifie l'invariant de visibilité de l'omission lors d'une reformulation :
+        "Supela ne supprime pas l’omission ; il supprime l’illusion de ne pas omettre."
+        Chaque reçu `DualPipelineReceipt` doit sceller l'empreinte SHA-256 de l'enveloppe brute
+        non reformulée et inventorier explicitement toutes les omissions induites par :
+        1. La projection d'aplatissement de schéma récursif (`was_lossy_projection`),
+        2. La projection CBPR+ Strict (`supplementary_data_omitted_from_wire`, `max35text_id_truncation_applied`),
+        3. La projection de confidentialité WORM (`cleartext_pii_omitted_from_worm_ledger`),
+        4. L'horizon d'ignorance externe (`4_epistemic_horizon_omissions_declared`).
+        """
+        env = make_valid_envelope(
+            self.ledger.head_hash,
+            module_id="VR-13",
+            proposal_suffix="VERY-LONG-PROPOSAL-ID-EXCEEDING-35-CHARS-MAX35TEXT",
+        )
+        env["tool_schema"] = {
+            "type": "object",
+            "properties": {"recursive_field": {"$ref": "#/$defs/Loop"}},
+            "$defs": {"Loop": {"type": "object", "properties": {"next": {"$ref": "#/$defs/Loop"}}}},
+        }
+        receipt = self.engine.evaluate_and_dispatch(env)
+        self.assertTrue(receipt.allowed)
+
+        om_manifest = receipt.reformulation_and_omission_manifest
+        self.assertIn(
+            "Supela ne cherche donc pas à éliminer l’omission, mais à éliminer l’invisibilité de l’omission",
+            om_manifest["canonical_governance_principle"],
+        )
+        self.assertTrue(om_manifest["unreformulated_input_envelope_sha256"].startswith("sha256:"))
+
+        projections = om_manifest["explicit_reformulations_and_omissions"]
+        self.assertTrue(projections["1_json_schema_flattening_projection"]["was_lossy_projection"])
+        self.assertGreater(
+            len(projections["1_json_schema_flattening_projection"]["omitted_or_truncated_elements"]),
+            0,
+        )
+        self.assertTrue(
+            projections["2_cbpr_plus_strict_wire_projection"]["supplementary_data_omitted_from_wire"]
+        )
+        self.assertTrue(
+            projections["2_cbpr_plus_strict_wire_projection"]["max35text_id_truncation_applied"]
+        )
+        self.assertTrue(
+            projections["2_cbpr_plus_strict_wire_projection"][
+                "omitted_lineage_preserved_in_detached_sidecar"
+            ]
+        )
+        self.assertTrue(
+            projections["3_worm_ledger_privacy_projection"]["cleartext_pii_omitted_from_worm_ledger"]
+        )
+        self.assertEqual(len(projections["4_epistemic_horizon_omissions_declared"]), 3)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
 

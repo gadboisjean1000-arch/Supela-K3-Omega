@@ -13,7 +13,9 @@ locale et une qualification normative ou cryptographique externe.
 """
 
 from __future__ import annotations
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+import hashlib
+import json
 from typing import Any, Dict, List, Optional, Set
 
 from src.iso_fatf_mirrors import (
@@ -80,7 +82,7 @@ ALLOWED_SANDBOXES: Set[str] = {"k3s-isolated-sandbox", "nomad-sealed-cell"}
 
 @dataclass
 class DualPipelineReceipt:
-    """Reçu d'exécution du double pipeline avec matrice d'assurance épistémique intégrée."""
+    """Reçu d'exécution du double pipeline avec matrice d'assurance épistémique et manifeste d'omission de reformulation."""
 
     proposal_id: str
     allowed: bool
@@ -95,6 +97,7 @@ class DualPipelineReceipt:
     worm_entry_hash: str
     merkle_root: str
     epistemic_assurance_matrix: Dict[str, Dict[str, str]]
+    reformulation_and_omission_manifest: Dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -117,6 +120,7 @@ class DualPipelineReceipt:
                 "merkle_root": self.merkle_root,
             },
             "epistemic_assurance_matrix": self.epistemic_assurance_matrix,
+            "reformulation_and_omission_manifest": self.reformulation_and_omission_manifest,
         }
 
 
@@ -361,6 +365,55 @@ class SupelaK3OmegaEngine:
             },
         }
 
+        # Étape 7 : Manifeste Explicite de Reformulation et de Visibilité de l'Omission
+        # "Un système qui reformule ne peut pas éviter l’omission. Supela ne cherche donc pas à éliminer
+        # l’omission, mais à éliminer l’invisibilité de l’omission."
+        raw_env_bytes = json.dumps(envelope, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        unreformulated_input_sha256 = f"sha256:{hashlib.sha256(raw_env_bytes).hexdigest()}"
+
+        san_dict = sanitization_report.to_dict()
+        omission_manifest: Dict[str, Any] = {
+            "canonical_governance_principle": (
+                "Un système qui reformule ne peut pas éviter l’omission. "
+                "Supela ne cherche donc pas à éliminer l’omission, mais à éliminer l’invisibilité de l’omission. "
+                "Il ne garantit pas la perfection de ce qu’il affirme, mais la transparence de ce qu’il sait, "
+                "de ce qu’il ignore, et de ce qu’il pourrait avoir omis."
+            ),
+            "dense_axioms": [
+                "Supela ne supprime pas l’omission ; il supprime l’illusion de ne pas omettre.",
+                "L’honnêteté parfaite est impossible. La visibilité parfaite de l’imperfection ne l’est pas.",
+            ],
+            "unreformulated_input_envelope_sha256": unreformulated_input_sha256,
+            "explicit_reformulations_and_omissions": {
+                "1_json_schema_flattening_projection": {
+                    "is_reformulation": True,
+                    "was_lossy_projection": bool(sanitization_report.was_modified),
+                    "original_schema_sha256": san_dict.get("original_hash"),
+                    "reformulated_schema_sha256": san_dict.get("sanitized_hash"),
+                    "omitted_or_truncated_elements": san_dict.get("resolved_refs", [])
+                    + san_dict.get("removed_defs", []),
+                },
+                "2_cbpr_plus_strict_wire_projection": {
+                    "is_reformulation": module_id == "VR-13",
+                    "supplementary_data_omitted_from_wire": module_id == "VR-13",
+                    "max35text_id_truncation_applied": len(proposal_id) > 35
+                    or len(f"E2E-{proposal_id}") > 35,
+                    "omitted_lineage_preserved_in_detached_sidecar": bool(
+                        slow_lane_envelope and module_id == "VR-13"
+                    ),
+                },
+                "3_worm_ledger_privacy_projection": {
+                    "is_reformulation": True,
+                    "cleartext_pii_omitted_from_worm_ledger": True,
+                },
+                "4_epistemic_horizon_omissions_declared": [
+                    "EXTERNAL_SWIFT_MYSTANDARDS_PORTAL_VERDICT_OMITTED_LOCALLY",
+                    "EXTERNAL_SWIFT_ITB_AND_GPI_TRACKER_PERSISTENCE_OMITTED_LOCALLY",
+                    "PHYSICAL_HARDWARE_TPM2_QUOTE_AND_HSM_ATTESTATION_OMITTED_LOCALLY",
+                ],
+            },
+        }
+
         return DualPipelineReceipt(
             proposal_id=proposal_id,
             allowed=allowed,
@@ -371,10 +424,11 @@ class SupelaK3OmegaEngine:
             routing_mode=routing_mode,
             fast_lane_status=fast_lane_status,
             slow_lane_mirror_envelope=slow_lane_envelope,
-            schema_sanitization_report=sanitization_report.to_dict(),
+            schema_sanitization_report=san_dict,
             worm_entry_hash=worm_entry.entry_hash,
             merkle_root=self.ledger.compute_merkle_root(),
             epistemic_assurance_matrix=epistemic_matrix,
+            reformulation_and_omission_manifest=omission_manifest,
         )
 
     def apply_contradictory_observation(
