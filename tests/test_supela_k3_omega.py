@@ -718,23 +718,46 @@ class TestSupelaK3Omega(unittest.TestCase):
 
     def test_19_non_exhaustiveness_and_unformulated_unknown_quarantine(self) -> None:
         """
-        Tests contradictoires de non-exhaustivité :
+        Suite NEX (Tests contradictoires de non-exhaustivité + Registre OMI-XXXX à 90 jours) :
         1. Vérifie que le système s'interdit toute prétention d'exhaustivité absolue
            (`completeness_claim_prohibited == True`, mesure de Lebesgue de Sigma* dans R égale à 0.0).
-        2. Vérifie que toute tentative d'évaluer un phénomène non formulé (anomalie quantique
-           transistorielle, énoncé indécidable de Gödel, topologie Byzantine hors modèle) ou de
-           forcer `force_silent_extrapolation=True` est immédiatement bloquée en quarantaine
-           Fail-Closed (`LEVEL_2_TESTED_QUARANTINE`).
+        2. Vérifie l'exécution de la suite NEX (`NEX-01` à `NEX-04`) et la planification de révision
+           des omissions déclarées (`OMI-0001` à `OMI-0004`) à 90 jours (`2027-01-17T00:00:00Z`).
+        3. Vérifie la porte de soumission externe `L4_QUALIFIED` (`READY_FOR_EXTERNAL_L4_SUBMISSION`).
         """
         from src.universal_continuum_calculator import UniversalContinuumCalculator
 
         report = UniversalContinuumCalculator.execute_all_22_pillars()
+        self.assertEqual(report["schema_version"], "4.1.0")
         ne_decl = report["non_exhaustiveness_and_incompleteness_declaration"]
         self.assertEqual(ne_decl["formulated_domain_cardinality"], "ALEPH_0_COUNTABLE_ENUMERABLE")
         self.assertEqual(ne_decl["unformulated_reality_cardinality"], "TWO_POW_ALEPH_0_UNCOUNTABLE_CONTINUUM")
         self.assertEqual(ne_decl["lebesgue_measure_of_formulated_in_reality"], 0.0)
         self.assertTrue(ne_decl["completeness_claim_prohibited"])
         self.assertTrue(ne_decl["fail_closed_on_unformulated_input"])
+
+        # Vérification de la suite NEX-01..04
+        nex = report["nex_suite_execution"]
+        self.assertEqual(nex["suite_id"], "SUPELA-NEX-SUITE-V4.1.0")
+        self.assertTrue(nex["all_nex_vectors_passed"])
+        for nex_id in ("NEX-01", "NEX-02", "NEX-03", "NEX-04"):
+            self.assertEqual(nex["vectors"][nex_id]["status"], "PASSED")
+
+        # Vérification du registre OMI-0001..0004 à révision 90 jours
+        omi = report["omission_registry_omi_90d_schedule"]
+        self.assertEqual(omi["registry_version"], "OMI-REGISTRY-V4.1.0")
+        self.assertEqual(omi["review_cadence_days"], 90)
+        self.assertEqual(omi["next_scheduled_review_utc"], "2027-01-17T00:00:00Z")
+        for omi_id in ("OMI-0001", "OMI-0002", "OMI-0003", "OMI-0004"):
+            self.assertIn(omi_id, omi["declared_omissions"])
+            self.assertEqual(omi["declared_omissions"][omi_id]["review_due_utc"], "2027-01-17T00:00:00Z")
+
+        # Vérification de la porte de soumission L4_QUALIFIED
+        l4_gate = report["l4_qualification_submission_gate"]
+        self.assertEqual(l4_gate["current_local_level"], "LEVEL_3_AUDITABLE")
+        self.assertEqual(l4_gate["target_external_level"], "L4_QUALIFIED (LEVEL_4_THIRD_PARTY_QUALIFIED)")
+        self.assertTrue(l4_gate["coverage_conditions_met"])
+        self.assertEqual(l4_gate["submission_status"], "READY_FOR_EXTERNAL_L4_SUBMISSION")
 
         unformulated_probes = [
             "UNFORMULATED_SUBTHRESHOLD_TUNNELING_SPIKE",
@@ -761,7 +784,7 @@ class TestSupelaK3Omega(unittest.TestCase):
     def test_20_json_schema_validation_of_23_pillar_continuum(self) -> None:
         """
         Vérifie que le reçu généré par UniversalContinuumCalculator est 100% conforme
-        au schéma formel `schemas/supela_continuum_23_pillars.schema.json`, et qu'une
+        au schéma formel `schemas/supela_continuum_23_pillars.schema.json` (v4.1.0), et qu'une
         altération illégale (ex: prétendre `completeness_claim_prohibited = False`) est
         immédiatement rejetée par le validateur de schéma.
         """

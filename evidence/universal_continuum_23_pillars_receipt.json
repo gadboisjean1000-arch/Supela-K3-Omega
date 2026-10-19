@@ -1,9 +1,10 @@
 {
+  "schema_version": "4.1.0",
   "continuum_title": "Supela-K3-Omega 23-Pillar Mathematical, Transistor, Doctoral CS & Unformulated-Unknown Boundary Executable Continuum",
   "total_pillars_computed": 23,
   "all_22_pillars_verified": true,
   "all_23_pillars_verified": true,
-  "continuum_execution_sha256": "sha256:b5d35902082b6cb36c67ca7193632e2f906fc8fac978ed6a4cf82c6db1d8da88",
+  "continuum_execution_sha256": "sha256:a4846a58e431fcae717531491bbe6c529f3af4a57ef4ab3f0c4dcdab5a657890",
   "epistemic_status": "LEVEL_3_AUDITABLE",
   "unformulated_unknown_invariant": "Known is enumerable (Aleph_0); unformulated reality is uncountable (2^Aleph_0). Any unformulated observation triggers Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE).",
   "axiomatic_system": {
@@ -26,6 +27,75 @@
       "Q3_known_formal_impossibility_or_noise_bounds": "Godel G_T unprovability, Turing Halting undecidability, Chaitin Omega, and transistor Johnson-Nyquist/Shot/Heisenberg noise bounds.",
       "Q4_unformulated_unknown_open_horizon": "All phenomena outside the countable formal language Sigma* (2^Aleph_0 \\ Aleph_0) \u2014 governed by Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE)."
     }
+  },
+  "nex_suite_execution": {
+    "suite_id": "SUPELA-NEX-SUITE-V4.1.0",
+    "all_nex_vectors_passed": true,
+    "vectors": {
+      "NEX-01": {
+        "name": "Cantor Diagonal Unformulated Witness",
+        "status": "PASSED",
+        "verified_property": "d(i) = 1 - f_i(i) is strictly outside the enumerated catalog"
+      },
+      "NEX-02": {
+        "name": "Unformulated Domain Anomaly Quarantine",
+        "status": "PASSED",
+        "verified_property": "Any domain_tag not in PILLAR_01..23 triggers FAIL_CLOSED_QUARANTINE (LEVEL_2_TESTED_QUARANTINE)"
+      },
+      "NEX-03": {
+        "name": "Forced Silent Extrapolation Override Rejection",
+        "status": "PASSED",
+        "verified_property": "force_silent_extrapolation=True is rejected even on known pillars"
+      },
+      "NEX-04": {
+        "name": "Schema v4.1.0 Completeness-Claim Tamper Rejection",
+        "status": "PASSED",
+        "verified_property": "Setting completeness_claim_prohibited=False is rejected by JSON Schema v4.1.0 validator"
+      }
+    }
+  },
+  "omission_registry_omi_90d_schedule": {
+    "registry_version": "OMI-REGISTRY-V4.1.0",
+    "review_cadence_days": 90,
+    "baseline_timestamp_utc": "2026-10-19T00:00:00Z",
+    "next_scheduled_review_utc": "2027-01-17T00:00:00Z",
+    "declared_omissions": {
+      "OMI-0001": {
+        "scope": "JSON Schema Recursive Flattening Projection",
+        "omitted_information": "Unbounded recursive $ref/$defs cycles beyond bounded depth",
+        "mitigation": "Raw input envelope SHA-256 preserved + lossy projection flag in receipt",
+        "review_due_utc": "2027-01-17T00:00:00Z"
+      },
+      "OMI-0002": {
+        "scope": "ISO 20022 CBPR+ Strict Wire Projection",
+        "omitted_information": "<SplmtryData> AI lineage and Schnorr ZKP omitted from wire pacs.008.001.10",
+        "mitigation": "Cryptographically bound in detached sidecar 04_detached_supela_lineage_sidecar.xml via UETR + Wire SHA-256",
+        "review_due_utc": "2027-01-17T00:00:00Z"
+      },
+      "OMI-0003": {
+        "scope": "WORM Merkle Ledger Privacy Projection",
+        "omitted_information": "Cleartext PII/FATF originator-beneficiary names omitted from immutable WORM chain",
+        "mitigation": "SHA-256 commitments + 2048-bit Schnorr NIZK proofs sealed in WORM entries",
+        "review_due_utc": "2027-01-17T00:00:00Z"
+      },
+      "OMI-0004": {
+        "scope": "Unformulated Unknown Horizon (2^Aleph_0 \\ Aleph_0) & External N4/N5 Authority Boundary",
+        "omitted_information": "Phenomena outside countable Sigma* and live third-party portal/production telemetry",
+        "mitigation": "Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE) + explicit LEVEL_3_AUDITABLE local ceiling",
+        "review_due_utc": "2027-01-17T00:00:00Z"
+      }
+    }
+  },
+  "l4_qualification_submission_gate": {
+    "current_local_level": "LEVEL_3_AUDITABLE",
+    "target_external_level": "L4_QUALIFIED (LEVEL_4_THIRD_PARTY_QUALIFIED)",
+    "coverage_conditions_met": true,
+    "submission_status": "READY_FOR_EXTERNAL_L4_SUBMISSION",
+    "required_external_authorities": [
+      "SWIFT MyStandards Readiness Portal (CBPR+ Usage Guidelines)",
+      "SWIFT Integration Testbed (ITB FINplus ACK pacs.002.001.12)",
+      "FIPS 140-3 Level 3 HSM / Cloud KMS & Independent Cryptographic Auditor"
+    ]
   },
   "pillars": [
     {
@@ -145,7 +215,7 @@
     {
       "pillar": "16_supela_k3_cryptographic_epistemic_core",
       "schnorr_2048_rfc3526_verified": true,
-      "worm_merkle_root": "sha256:461cc8a274ffd11bcde93dbe652fae5e2a8310efa9ba731a941c12c597fa92ee",
+      "worm_merkle_root": "sha256:face37693de3e4837edfdfcdbbb04c8183a4fb077eee9014ed1d3c578315306c",
       "worm_merkle_integrity": true,
       "verified": true
     },

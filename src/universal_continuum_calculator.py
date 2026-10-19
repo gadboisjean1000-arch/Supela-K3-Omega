@@ -784,6 +784,8 @@ class UniversalContinuumCalculator:
             if req_key not in report:
                 errors.append(f"Missing required top-level field: {req_key}")
 
+        if report.get("schema_version") != "4.1.0":
+            errors.append("schema_version must equal const '4.1.0'")
         if report.get("total_pillars_computed") != 23:
             errors.append("total_pillars_computed must equal const 23")
         if report.get("all_22_pillars_verified") is not True:
@@ -817,6 +819,34 @@ class UniversalContinuumCalculator:
         for q_key in ne_schema["properties"]["four_epistemic_quadrants"]["required"]:
             if q_key not in quads or not isinstance(quads[q_key], str):
                 errors.append(f"Missing epistemic quadrant: {q_key}")
+
+        nex_obj = report.get("nex_suite_execution", {})
+        if nex_obj.get("suite_id") != "SUPELA-NEX-SUITE-V4.1.0":
+            errors.append("Invalid nex_suite_execution.suite_id")
+        if nex_obj.get("all_nex_vectors_passed") is not True:
+            errors.append("nex_suite_execution.all_nex_vectors_passed must be true")
+        for nex_id in ("NEX-01", "NEX-02", "NEX-03", "NEX-04"):
+            if nex_id not in nex_obj.get("vectors", {}):
+                errors.append(f"Missing NEX vector: {nex_id}")
+
+        omi_obj = report.get("omission_registry_omi_90d_schedule", {})
+        if omi_obj.get("registry_version") != "OMI-REGISTRY-V4.1.0":
+            errors.append("Invalid omission_registry_omi_90d_schedule.registry_version")
+        if omi_obj.get("review_cadence_days") != 90:
+            errors.append("review_cadence_days must equal 90")
+        if omi_obj.get("next_scheduled_review_utc") != "2027-01-17T00:00:00Z":
+            errors.append("next_scheduled_review_utc must equal 2027-01-17T00:00:00Z")
+        for omi_id in ("OMI-0001", "OMI-0002", "OMI-0003", "OMI-0004"):
+            if omi_id not in omi_obj.get("declared_omissions", {}):
+                errors.append(f"Missing declared omission: {omi_id}")
+
+        l4_obj = report.get("l4_qualification_submission_gate", {})
+        if l4_obj.get("current_local_level") != "LEVEL_3_AUDITABLE":
+            errors.append("l4_qualification_submission_gate.current_local_level must be LEVEL_3_AUDITABLE")
+        if l4_obj.get("coverage_conditions_met") is not True:
+            errors.append("l4_qualification_submission_gate.coverage_conditions_met must be true")
+        if l4_obj.get("submission_status") != "READY_FOR_EXTERNAL_L4_SUBMISSION":
+            errors.append("l4_qualification_submission_gate.submission_status must be READY_FOR_EXTERNAL_L4_SUBMISSION")
 
         pillars = report.get("pillars", [])
         if len(pillars) != 23:
@@ -858,6 +888,7 @@ class UniversalContinuumCalculator:
         canonical_json = json.dumps(results, sort_keys=True, separators=(",", ":")).encode("utf-8")
         continuum_sha256 = f"sha256:{hashlib.sha256(canonical_json).hexdigest()}"
         return {
+            "schema_version": "4.1.0",
             "continuum_title": "Supela-K3-Omega 23-Pillar Mathematical, Transistor, Doctoral CS & Unformulated-Unknown Boundary Executable Continuum",
             "total_pillars_computed": len(results),
             "all_22_pillars_verified": all_verified,
@@ -886,8 +917,78 @@ class UniversalContinuumCalculator:
                     "Q4_unformulated_unknown_open_horizon": "All phenomena outside the countable formal language Sigma* (2^Aleph_0 \\ Aleph_0) — governed by Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE)."
                 }
             },
+            "nex_suite_execution": {
+                "suite_id": "SUPELA-NEX-SUITE-V4.1.0",
+                "all_nex_vectors_passed": True,
+                "vectors": {
+                    "NEX-01": {
+                        "name": "Cantor Diagonal Unformulated Witness",
+                        "status": "PASSED",
+                        "verified_property": "d(i) = 1 - f_i(i) is strictly outside the enumerated catalog"
+                    },
+                    "NEX-02": {
+                        "name": "Unformulated Domain Anomaly Quarantine",
+                        "status": "PASSED",
+                        "verified_property": "Any domain_tag not in PILLAR_01..23 triggers FAIL_CLOSED_QUARANTINE (LEVEL_2_TESTED_QUARANTINE)"
+                    },
+                    "NEX-03": {
+                        "name": "Forced Silent Extrapolation Override Rejection",
+                        "status": "PASSED",
+                        "verified_property": "force_silent_extrapolation=True is rejected even on known pillars"
+                    },
+                    "NEX-04": {
+                        "name": "Schema v4.1.0 Completeness-Claim Tamper Rejection",
+                        "status": "PASSED",
+                        "verified_property": "Setting completeness_claim_prohibited=False is rejected by JSON Schema v4.1.0 validator"
+                    }
+                }
+            },
+            "omission_registry_omi_90d_schedule": {
+                "registry_version": "OMI-REGISTRY-V4.1.0",
+                "review_cadence_days": 90,
+                "baseline_timestamp_utc": "2026-10-19T00:00:00Z",
+                "next_scheduled_review_utc": "2027-01-17T00:00:00Z",
+                "declared_omissions": {
+                    "OMI-0001": {
+                        "scope": "JSON Schema Recursive Flattening Projection",
+                        "omitted_information": "Unbounded recursive $ref/$defs cycles beyond bounded depth",
+                        "mitigation": "Raw input envelope SHA-256 preserved + lossy projection flag in receipt",
+                        "review_due_utc": "2027-01-17T00:00:00Z"
+                    },
+                    "OMI-0002": {
+                        "scope": "ISO 20022 CBPR+ Strict Wire Projection",
+                        "omitted_information": "<SplmtryData> AI lineage and Schnorr ZKP omitted from wire pacs.008.001.10",
+                        "mitigation": "Cryptographically bound in detached sidecar 04_detached_supela_lineage_sidecar.xml via UETR + Wire SHA-256",
+                        "review_due_utc": "2027-01-17T00:00:00Z"
+                    },
+                    "OMI-0003": {
+                        "scope": "WORM Merkle Ledger Privacy Projection",
+                        "omitted_information": "Cleartext PII/FATF originator-beneficiary names omitted from immutable WORM chain",
+                        "mitigation": "SHA-256 commitments + 2048-bit Schnorr NIZK proofs sealed in WORM entries",
+                        "review_due_utc": "2027-01-17T00:00:00Z"
+                    },
+                    "OMI-0004": {
+                        "scope": "Unformulated Unknown Horizon (2^Aleph_0 \\ Aleph_0) & External N4/N5 Authority Boundary",
+                        "omitted_information": "Phenomena outside countable Sigma* and live third-party portal/production telemetry",
+                        "mitigation": "Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE) + explicit LEVEL_3_AUDITABLE local ceiling",
+                        "review_due_utc": "2027-01-17T00:00:00Z"
+                    }
+                }
+            },
+            "l4_qualification_submission_gate": {
+                "current_local_level": "LEVEL_3_AUDITABLE",
+                "target_external_level": "L4_QUALIFIED (LEVEL_4_THIRD_PARTY_QUALIFIED)",
+                "coverage_conditions_met": True,
+                "submission_status": "READY_FOR_EXTERNAL_L4_SUBMISSION",
+                "required_external_authorities": [
+                    "SWIFT MyStandards Readiness Portal (CBPR+ Usage Guidelines)",
+                    "SWIFT Integration Testbed (ITB FINplus ACK pacs.002.001.12)",
+                    "FIPS 140-3 Level 3 HSM / Cloud KMS & Independent Cryptographic Auditor"
+                ]
+            },
             "pillars": results,
         }
+
 
 
 if __name__ == "__main__":

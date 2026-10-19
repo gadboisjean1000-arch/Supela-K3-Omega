@@ -1,10 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/gadboisjean1000-arch/Supela-K3-Omega/schemas/supela_continuum_23_pillars.schema.json",
-  "title": "Supela-K3-Omega Executable Continuum Receipt Schema (23 Pillars + 6 Axioms + Non-Exhaustiveness Declaration)",
-  "description": "Formal JSON Schema governing the deterministic calculation receipt across all 22 formulated mathematical, transistor (BJT/JFET/MOSFET), hardware ALU, CS, and cryptographic pillars, plus Pillar 23 enforcing Fail-Closed quarantine on the Unformulated Unknown and explicit Non-Exhaustiveness.",
+  "title": "Supela-K3-Omega Executable Continuum Receipt Schema v4.1.0 (23 Pillars + NEX Suite + OMI-XXXX 90-Day Review + L4 Readiness Gate)",
+  "version": "4.1.0",
+  "description": "Formal JSON Schema v4.1.0 governing the deterministic calculation receipt across all 22 formulated mathematical, transistor (BJT/JFET/MOSFET), hardware ALU, CS, and cryptographic pillars, plus Pillar 23 (Unformulated-Unknown Fail-Closed), the NEX Non-Exhaustiveness test suite, the 90-day OMI-XXXX omission review schedule, and the L4_QUALIFIED external submission readiness gate.",
   "type": "object",
   "required": [
+    "schema_version",
     "continuum_title",
     "total_pillars_computed",
     "all_22_pillars_verified",
@@ -14,9 +16,16 @@
     "unformulated_unknown_invariant",
     "axiomatic_system",
     "non_exhaustiveness_and_incompleteness_declaration",
+    "nex_suite_execution",
+    "omission_registry_omi_90d_schedule",
+    "l4_qualification_submission_gate",
     "pillars"
   ],
   "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "4.1.0"
+    },
     "continuum_title": {
       "type": "string"
     },
@@ -115,6 +124,85 @@
             "Q4_unformulated_unknown_open_horizon": { "type": "string" }
           },
           "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "nex_suite_execution": {
+      "type": "object",
+      "required": [
+        "suite_id",
+        "all_nex_vectors_passed",
+        "vectors"
+      ],
+      "properties": {
+        "suite_id": {
+          "type": "string",
+          "const": "SUPELA-NEX-SUITE-V4.1.0"
+        },
+        "all_nex_vectors_passed": {
+          "type": "boolean",
+          "const": true
+        },
+        "vectors": {
+          "type": "object",
+          "required": ["NEX-01", "NEX-02", "NEX-03", "NEX-04"],
+          "properties": {
+            "NEX-01": { "type": "object" },
+            "NEX-02": { "type": "object" },
+            "NEX-03": { "type": "object" },
+            "NEX-04": { "type": "object" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "omission_registry_omi_90d_schedule": {
+      "type": "object",
+      "required": [
+        "registry_version",
+        "review_cadence_days",
+        "baseline_timestamp_utc",
+        "next_scheduled_review_utc",
+        "declared_omissions"
+      ],
+      "properties": {
+        "registry_version": { "type": "string", "const": "OMI-REGISTRY-V4.1.0" },
+        "review_cadence_days": { "type": "integer", "const": 90 },
+        "baseline_timestamp_utc": { "type": "string", "const": "2026-10-19T00:00:00Z" },
+        "next_scheduled_review_utc": { "type": "string", "const": "2027-01-17T00:00:00Z" },
+        "declared_omissions": {
+          "type": "object",
+          "required": ["OMI-0001", "OMI-0002", "OMI-0003", "OMI-0004"],
+          "properties": {
+            "OMI-0001": { "type": "object" },
+            "OMI-0002": { "type": "object" },
+            "OMI-0003": { "type": "object" },
+            "OMI-0004": { "type": "object" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "l4_qualification_submission_gate": {
+      "type": "object",
+      "required": [
+        "current_local_level",
+        "target_external_level",
+        "coverage_conditions_met",
+        "submission_status",
+        "required_external_authorities"
+      ],
+      "properties": {
+        "current_local_level": { "type": "string", "const": "LEVEL_3_AUDITABLE" },
+        "target_external_level": { "type": "string", "const": "L4_QUALIFIED (LEVEL_4_THIRD_PARTY_QUALIFIED)" },
+        "coverage_conditions_met": { "type": "boolean", "const": true },
+        "submission_status": { "type": "string", "const": "READY_FOR_EXTERNAL_L4_SUBMISSION" },
+        "required_external_authorities": {
+          "type": "array",
+          "minItems": 3
         }
       },
       "additionalProperties": false
