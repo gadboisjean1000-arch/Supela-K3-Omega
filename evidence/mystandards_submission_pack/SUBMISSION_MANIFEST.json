@@ -1,0 +1,60 @@
+{
+  "pack_version": "supela.k3.omega.level4.submission.pack.v1",
+  "source_bundle_sha256": "sha256:81cf467625747906c9cd9c0ff49e9218a3d80892da9b592a469708f2091bb796",
+  "candidate_uetr": "c4c2ae76-d6e6-4af2-9503-07557f342cf9",
+  "epistemic_status_before_external_portal": "LEVEL_3_AUDITABLE (CANDIDATE_UETR_UUIDV4)",
+  "target_qualification_level": "LEVEL_4_THIRD_PARTY_QUALIFIED",
+  "exported_artifacts": {
+    "01_bah_head_001_001_02_strict.xml": {
+      "sha256": "sha256:29007dc7545bc94f427ab118d374a94d38b004904aa68229c0d4ebc3d3d55d05",
+      "size_bytes": 383
+    },
+    "02_wire_pacs_008_001_10_strict.xml": {
+      "sha256": "sha256:c21ed30e86ab8875e47181947de079ccd0ec3db08abc18c0692ff63f1254bb8d",
+      "size_bytes": 984
+    },
+    "03_wire_camt_053_001_10.xml": {
+      "sha256": "sha256:bbee22fb47e0dd865397d48779a7bee2d32046b20149d108900bb480a33d1aec",
+      "size_bytes": 1727
+    },
+    "04_detached_supela_lineage_sidecar.xml": {
+      "sha256": "sha256:06164ea289a9b1cf552ed732cea7c7e8967d13e1b0a4bd0ce8b97397747fdd06",
+      "size_bytes": 1340
+    },
+    "05_schnorr_2048_nizk_proof_vector.json": {
+      "sha256": "sha256:ae0b1b561d797fbfd0d69c95abbac9249ac2ffa6ad0706f69d716738d6181677",
+      "size_bytes": 1623
+    }
+  },
+  "local_pre_flight_checks": {
+    "libxml2_bah_head001_strict_valid": true,
+    "libxml2_pacs008_cbpr_strict_valid": true,
+    "zero_splmtry_data_in_wire_pacs008": true,
+    "libxml2_detached_sidecar_valid": true,
+    "schnorr_2048_nizk_vector_verified": true
+  },
+  "external_qualification_gates": {
+    "gate_1_mystandards_readiness_portal": {
+      "input_files": [
+        "01_bah_head_001_001_02_strict.xml",
+        "02_wire_pacs_008_001_10_strict.xml"
+      ],
+      "collection": "CBPR+ Usage Guidelines (current Standard Release)",
+      "pass_criteria": "0 Fatal, 0 Error, 0 Warning on XSD + Formal Rules (Cross-Element, FIN-X, SettlementMethod)"
+    },
+    "gate_2_swift_integration_testbed_itb": {
+      "input_files": [
+        "01_bah_head_001_001_02_strict.xml",
+        "02_wire_pacs_008_001_10_strict.xml"
+      ],
+      "pass_criteria": "Receipt of FINplus ACK (pacs.002.001.12 ACCP/ACSC) with identical UETR preserved"
+    },
+    "gate_3_cryptographic_hsm_and_zkp_audit": {
+      "input_files": [
+        "04_detached_supela_lineage_sidecar.xml",
+        "05_schnorr_2048_nizk_proof_vector.json"
+      ],
+      "pass_criteria": "Independent verification of RFC 3526 Group 14 Schnorr NIZK equation + PKCS#11 / Cloud KMS FIPS 140-3 key attestation"
+    }
+  }
+}
