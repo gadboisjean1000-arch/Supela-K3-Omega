@@ -3,7 +3,7 @@
   "total_pillars_computed": 23,
   "all_22_pillars_verified": true,
   "all_23_pillars_verified": true,
-  "continuum_execution_sha256": "sha256:7a0f896de29de52e8d66bfcf1db19535c9dad34fc8773c543e9064da0ca5b62b",
+  "continuum_execution_sha256": "sha256:b5d35902082b6cb36c67ca7193632e2f906fc8fac978ed6a4cf82c6db1d8da88",
   "epistemic_status": "LEVEL_3_AUDITABLE",
   "unformulated_unknown_invariant": "Known is enumerable (Aleph_0); unformulated reality is uncountable (2^Aleph_0). Any unformulated observation triggers Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE).",
   "axiomatic_system": {
@@ -13,6 +13,19 @@
     "axiom_4_monotonic_contradiction_demotion": "Any contradictory observation O_{not c} on a LEVEL_3_AUDITABLE claim immediately demotes it to LEVEL_2_TESTED_QUARANTINE and seals a K3_EPISTEMIC_DEMOTION block in the WORM Merkle chain.",
     "axiom_5_omission_visibility_entropy": "For any reformulation Y = R(X) with |Y| < |X|, Shannon conditional entropy H(X|Y) > 0; Y is valid iff bound to SHA256(X) with an explicit non-empty omission manifest and Substitutable(Y, X) == False.",
     "axiom_6_unformulated_unknown_fail_closed": "The set of all formulated equations Sigma* is countable (Aleph_0) whereas physical/mathematical reality is uncountable (2^Aleph_0); any unformulated observation outside the enumerated domain triggers Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE)."
+  },
+  "non_exhaustiveness_and_incompleteness_declaration": {
+    "formulated_domain_cardinality": "ALEPH_0_COUNTABLE_ENUMERABLE",
+    "unformulated_reality_cardinality": "TWO_POW_ALEPH_0_UNCOUNTABLE_CONTINUUM",
+    "lebesgue_measure_of_formulated_in_reality": 0.0,
+    "completeness_claim_prohibited": true,
+    "fail_closed_on_unformulated_input": true,
+    "four_epistemic_quadrants": {
+      "Q1_known_formulated_verified": "Pillars 01..22: Equations explicitly formulated, executed, and verified at LEVEL_3_AUDITABLE.",
+      "Q2_known_external_authority_bound": "Level 4 (SWIFT MyStandards/ITB, FIPS 140-3 HSM) & Level 5 (Production Telemetry) requiring third-party attestation.",
+      "Q3_known_formal_impossibility_or_noise_bounds": "Godel G_T unprovability, Turing Halting undecidability, Chaitin Omega, and transistor Johnson-Nyquist/Shot/Heisenberg noise bounds.",
+      "Q4_unformulated_unknown_open_horizon": "All phenomena outside the countable formal language Sigma* (2^Aleph_0 \\ Aleph_0) \u2014 governed by Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE)."
+    }
   },
   "pillars": [
     {
@@ -132,7 +145,7 @@
     {
       "pillar": "16_supela_k3_cryptographic_epistemic_core",
       "schnorr_2048_rfc3526_verified": true,
-      "worm_merkle_root": "sha256:9719c4ff62cd3a56fecef294ab7eb686b046e6bc12f7db6c5a8e1822dd6669e2",
+      "worm_merkle_root": "sha256:461cc8a274ffd11bcde93dbe652fae5e2a8310efa9ba731a941c12c597fa92ee",
       "worm_merkle_integrity": true,
       "verified": true
     },
@@ -215,10 +228,12 @@
       "transistor_shot_noise_na_rms": 566.0701,
       "heisenberg_lower_bound_js": 5.272859085e-35,
       "unformulated_unknown_gate": {
+        "domain_tag": "UNFORMULATED_TRANSISTOR_QUANTUM_ANOMALY_X99",
         "domain_status": "UNFORMULATED_UNKNOWN_DETECTED",
         "action": "FAIL_CLOSED_QUARANTINE",
         "epistemic_level": "LEVEL_2_TESTED_QUARANTINE",
         "silent_extrapolation_permitted": false,
+        "extrapolation_override_rejected": false,
         "reason": "Known is finite/enumerable (Aleph_0); unformulated reality is uncountable (2^Aleph_0). Silent extrapolation is forbidden."
       },
       "verified": true

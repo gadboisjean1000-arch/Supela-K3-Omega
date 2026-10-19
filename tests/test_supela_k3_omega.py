@@ -716,6 +716,76 @@ class TestSupelaK3Omega(unittest.TestCase):
         )
         self.assertFalse(p23["unformulated_unknown_gate"]["silent_extrapolation_permitted"])
 
+    def test_19_non_exhaustiveness_and_unformulated_unknown_quarantine(self) -> None:
+        """
+        Tests contradictoires de non-exhaustivité :
+        1. Vérifie que le système s'interdit toute prétention d'exhaustivité absolue
+           (`completeness_claim_prohibited == True`, mesure de Lebesgue de Sigma* dans R égale à 0.0).
+        2. Vérifie que toute tentative d'évaluer un phénomène non formulé (anomalie quantique
+           transistorielle, énoncé indécidable de Gödel, topologie Byzantine hors modèle) ou de
+           forcer `force_silent_extrapolation=True` est immédiatement bloquée en quarantaine
+           Fail-Closed (`LEVEL_2_TESTED_QUARANTINE`).
+        """
+        from src.universal_continuum_calculator import UniversalContinuumCalculator
+
+        report = UniversalContinuumCalculator.execute_all_22_pillars()
+        ne_decl = report["non_exhaustiveness_and_incompleteness_declaration"]
+        self.assertEqual(ne_decl["formulated_domain_cardinality"], "ALEPH_0_COUNTABLE_ENUMERABLE")
+        self.assertEqual(ne_decl["unformulated_reality_cardinality"], "TWO_POW_ALEPH_0_UNCOUNTABLE_CONTINUUM")
+        self.assertEqual(ne_decl["lebesgue_measure_of_formulated_in_reality"], 0.0)
+        self.assertTrue(ne_decl["completeness_claim_prohibited"])
+        self.assertTrue(ne_decl["fail_closed_on_unformulated_input"])
+
+        unformulated_probes = [
+            "UNFORMULATED_SUBTHRESHOLD_TUNNELING_SPIKE",
+            "UNFORMULATED_GÖDEL_SENTENCE_G_T",
+            "UNFORMULATED_CHAITIN_OMEGA_BIT_9999",
+            "UNFORMULATED_SINGLE_EVENT_UPSET_COSMIC_RAY",
+        ]
+        for probe in unformulated_probes:
+            gate = UniversalContinuumCalculator.evaluate_unformulated_observation(probe)
+            self.assertEqual(gate["domain_status"], "UNFORMULATED_UNKNOWN_DETECTED")
+            self.assertEqual(gate["action"], "FAIL_CLOSED_QUARANTINE")
+            self.assertEqual(gate["epistemic_level"], "LEVEL_2_TESTED_QUARANTINE")
+            self.assertFalse(gate["silent_extrapolation_permitted"])
+
+        # Même sur un pilier connu, tenter de forcer une extrapolation silencieuse est rejeté
+        forced_gate = UniversalContinuumCalculator.evaluate_unformulated_observation(
+            "PILLAR_17", force_silent_extrapolation=True
+        )
+        self.assertEqual(forced_gate["action"], "FAIL_CLOSED_QUARANTINE")
+        self.assertEqual(forced_gate["epistemic_level"], "LEVEL_2_TESTED_QUARANTINE")
+        self.assertTrue(forced_gate["extrapolation_override_rejected"])
+        self.assertFalse(forced_gate["silent_extrapolation_permitted"])
+
+    def test_20_json_schema_validation_of_23_pillar_continuum(self) -> None:
+        """
+        Vérifie que le reçu généré par UniversalContinuumCalculator est 100% conforme
+        au schéma formel `schemas/supela_continuum_23_pillars.schema.json`, et qu'une
+        altération illégale (ex: prétendre `completeness_claim_prohibited = False`) est
+        immédiatement rejetée par le validateur de schéma.
+        """
+        from src.universal_continuum_calculator import UniversalContinuumCalculator
+
+        schema_path = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), "..", "schemas", "supela_continuum_23_pillars.schema.json")
+        )
+        report = UniversalContinuumCalculator.execute_all_22_pillars()
+        valid, errors = UniversalContinuumCalculator.validate_against_json_schema(report, schema_path)
+        self.assertTrue(valid, f"Erreurs de schéma inattendues : {errors}")
+        self.assertEqual(len(errors), 0)
+
+        # Test négatif : tenter de violer l'interdiction de prétention d'exhaustivité
+        corrupted_report = json.loads(json.dumps(report))
+        corrupted_report["non_exhaustiveness_and_incompleteness_declaration"][
+            "completeness_claim_prohibited"
+        ] = False
+        valid_corrupted, errs_corrupted = UniversalContinuumCalculator.validate_against_json_schema(
+            corrupted_report, schema_path
+        )
+        self.assertFalse(valid_corrupted)
+        self.assertIn("completeness_claim_prohibited must be true", errs_corrupted)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

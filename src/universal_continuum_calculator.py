@@ -715,31 +715,20 @@ class UniversalContinuumCalculator:
         heisenberg_min_action_js = 0.5 * hbar
 
         # 3. Fail-Closed gate on unformulated unknown observations
-        formulated_domain = {f"PILLAR_{idx:02d}" for idx in range(1, 24)}
-
-        def evaluate_observation(domain_tag: str) -> Dict[str, Any]:
-            if domain_tag in formulated_domain:
-                return {
-                    "domain_status": "FORMULATED_KNOWN",
-                    "epistemic_level": "LEVEL_3_AUDITABLE",
-                    "silent_extrapolation_permitted": False,
-                }
-            return {
-                "domain_status": "UNFORMULATED_UNKNOWN_DETECTED",
-                "action": "FAIL_CLOSED_QUARANTINE",
-                "epistemic_level": "LEVEL_2_TESTED_QUARANTINE",
-                "silent_extrapolation_permitted": False,
-                "reason": "Known is finite/enumerable (Aleph_0); unformulated reality is uncountable (2^Aleph_0). Silent extrapolation is forbidden.",
-            }
-
-        known_check = evaluate_observation("PILLAR_17")
-        unknown_check = evaluate_observation("UNFORMULATED_TRANSISTOR_QUANTUM_ANOMALY_X99")
+        known_check = cls.evaluate_unformulated_observation("PILLAR_17")
+        unknown_check = cls.evaluate_unformulated_observation("UNFORMULATED_TRANSISTOR_QUANTUM_ANOMALY_X99")
+        forced_extrapolation_check = cls.evaluate_unformulated_observation(
+            "UNFORMULATED_GÖDEL_SENTENCE_G_T", force_silent_extrapolation=True
+        )
         fail_closed_valid = (
             known_check["domain_status"] == "FORMULATED_KNOWN"
             and unknown_check["domain_status"] == "UNFORMULATED_UNKNOWN_DETECTED"
             and unknown_check["action"] == "FAIL_CLOSED_QUARANTINE"
             and unknown_check["epistemic_level"] == "LEVEL_2_TESTED_QUARANTINE"
             and not unknown_check["silent_extrapolation_permitted"]
+            and forced_extrapolation_check["action"] == "FAIL_CLOSED_QUARANTINE"
+            and not forced_extrapolation_check["silent_extrapolation_permitted"]
+            and forced_extrapolation_check["extrapolation_override_rejected"]
         )
 
         return {
@@ -752,6 +741,91 @@ class UniversalContinuumCalculator:
             "unformulated_unknown_gate": unknown_check,
             "verified": strictly_outside_catalog and (johnson_nyquist_v_rms > 0) and (shot_noise_i_rms > 0) and fail_closed_valid,
         }
+
+    @classmethod
+    def evaluate_unformulated_observation(
+        cls, domain_tag: str, force_silent_extrapolation: bool = False
+    ) -> Dict[str, Any]:
+        """
+        Évalue une observation par rapport au catalogue dénombrable des 23 piliers formulés.
+        Même si `force_silent_extrapolation=True` est demandé par l'appelant, toute entrée
+        hors du domaine formulé est bloquée en quarantaine Fail-Closed (LEVEL_2_TESTED_QUARANTINE).
+        """
+        formulated_domain = {f"PILLAR_{idx:02d}" for idx in range(1, 24)}
+        if domain_tag in formulated_domain and not force_silent_extrapolation:
+            return {
+                "domain_tag": domain_tag,
+                "domain_status": "FORMULATED_KNOWN",
+                "action": "DETERMINISTIC_EVALUATION",
+                "epistemic_level": "LEVEL_3_AUDITABLE",
+                "silent_extrapolation_permitted": False,
+                "extrapolation_override_rejected": False,
+            }
+        return {
+            "domain_tag": domain_tag,
+            "domain_status": "UNFORMULATED_UNKNOWN_DETECTED",
+            "action": "FAIL_CLOSED_QUARANTINE",
+            "epistemic_level": "LEVEL_2_TESTED_QUARANTINE",
+            "silent_extrapolation_permitted": False,
+            "extrapolation_override_rejected": bool(force_silent_extrapolation),
+            "reason": "Known is finite/enumerable (Aleph_0); unformulated reality is uncountable (2^Aleph_0). Silent extrapolation is forbidden.",
+        }
+
+    @classmethod
+    def validate_against_json_schema(
+        cls, report: Dict[str, Any], schema_path: str
+    ) -> Tuple[bool, List[str]]:
+        """Valide formellement le reçu des 23 piliers contre schemas/supela_continuum_23_pillars.schema.json."""
+        with open(schema_path, "r", encoding="utf-8") as fh:
+            schema = json.load(fh)
+
+        errors: List[str] = []
+        for req_key in schema.get("required", []):
+            if req_key not in report:
+                errors.append(f"Missing required top-level field: {req_key}")
+
+        if report.get("total_pillars_computed") != 23:
+            errors.append("total_pillars_computed must equal const 23")
+        if report.get("all_22_pillars_verified") is not True:
+            errors.append("all_22_pillars_verified must equal const true")
+        if report.get("all_23_pillars_verified") is not True:
+            errors.append("all_23_pillars_verified must equal const true")
+
+        ax_schema = schema["properties"]["axiomatic_system"]
+        ax_obj = report.get("axiomatic_system", {})
+        for req_ax in ax_schema.get("required", []):
+            if req_ax not in ax_obj or not isinstance(ax_obj[req_ax], str):
+                errors.append(f"Invalid or missing axiom: {req_ax}")
+
+        ne_schema = schema["properties"]["non_exhaustiveness_and_incompleteness_declaration"]
+        ne_obj = report.get("non_exhaustiveness_and_incompleteness_declaration", {})
+        for req_ne in ne_schema.get("required", []):
+            if req_ne not in ne_obj:
+                errors.append(f"Missing non_exhaustiveness field: {req_ne}")
+        if ne_obj.get("formulated_domain_cardinality") != "ALEPH_0_COUNTABLE_ENUMERABLE":
+            errors.append("Invalid formulated_domain_cardinality")
+        if ne_obj.get("unformulated_reality_cardinality") != "TWO_POW_ALEPH_0_UNCOUNTABLE_CONTINUUM":
+            errors.append("Invalid unformulated_reality_cardinality")
+        if ne_obj.get("lebesgue_measure_of_formulated_in_reality") != 0.0:
+            errors.append("lebesgue_measure_of_formulated_in_reality must be 0.0")
+        if ne_obj.get("completeness_claim_prohibited") is not True:
+            errors.append("completeness_claim_prohibited must be true")
+        if ne_obj.get("fail_closed_on_unformulated_input") is not True:
+            errors.append("fail_closed_on_unformulated_input must be true")
+
+        quads = ne_obj.get("four_epistemic_quadrants", {})
+        for q_key in ne_schema["properties"]["four_epistemic_quadrants"]["required"]:
+            if q_key not in quads or not isinstance(quads[q_key], str):
+                errors.append(f"Missing epistemic quadrant: {q_key}")
+
+        pillars = report.get("pillars", [])
+        if len(pillars) != 23:
+            errors.append(f"Expected 23 pillars, got {len(pillars)}")
+        for idx, p in enumerate(pillars):
+            if p.get("verified") is not True:
+                errors.append(f"Pillar at index {idx} is not verified")
+
+        return (len(errors) == 0), errors
 
     @classmethod
     def execute_all_22_pillars(cls) -> Dict[str, Any]:
@@ -799,12 +873,31 @@ class UniversalContinuumCalculator:
                 "axiom_5_omission_visibility_entropy": "For any reformulation Y = R(X) with |Y| < |X|, Shannon conditional entropy H(X|Y) > 0; Y is valid iff bound to SHA256(X) with an explicit non-empty omission manifest and Substitutable(Y, X) == False.",
                 "axiom_6_unformulated_unknown_fail_closed": "The set of all formulated equations Sigma* is countable (Aleph_0) whereas physical/mathematical reality is uncountable (2^Aleph_0); any unformulated observation outside the enumerated domain triggers Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE)."
             },
+            "non_exhaustiveness_and_incompleteness_declaration": {
+                "formulated_domain_cardinality": "ALEPH_0_COUNTABLE_ENUMERABLE",
+                "unformulated_reality_cardinality": "TWO_POW_ALEPH_0_UNCOUNTABLE_CONTINUUM",
+                "lebesgue_measure_of_formulated_in_reality": 0.0,
+                "completeness_claim_prohibited": True,
+                "fail_closed_on_unformulated_input": True,
+                "four_epistemic_quadrants": {
+                    "Q1_known_formulated_verified": "Pillars 01..22: Equations explicitly formulated, executed, and verified at LEVEL_3_AUDITABLE.",
+                    "Q2_known_external_authority_bound": "Level 4 (SWIFT MyStandards/ITB, FIPS 140-3 HSM) & Level 5 (Production Telemetry) requiring third-party attestation.",
+                    "Q3_known_formal_impossibility_or_noise_bounds": "Godel G_T unprovability, Turing Halting undecidability, Chaitin Omega, and transistor Johnson-Nyquist/Shot/Heisenberg noise bounds.",
+                    "Q4_unformulated_unknown_open_horizon": "All phenomena outside the countable formal language Sigma* (2^Aleph_0 \\ Aleph_0) — governed by Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE)."
+                }
+            },
             "pillars": results,
         }
 
 
 if __name__ == "__main__":
     report = UniversalContinuumCalculator.execute_all_22_pillars()
+    schema_file = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "schemas", "supela_continuum_23_pillars.schema.json")
+    )
+    schema_ok, schema_errs = UniversalContinuumCalculator.validate_against_json_schema(report, schema_file)
+    if not schema_ok:
+        raise RuntimeError(f"Schema validation failed: {schema_errs}")
     out_path = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "..", "evidence", "universal_continuum_23_pillars_receipt.json")
     )
@@ -813,4 +906,5 @@ if __name__ == "__main__":
     print(json.dumps(report, indent=2))
     if not report["all_23_pillars_verified"]:
         sys.exit(1)
+
 

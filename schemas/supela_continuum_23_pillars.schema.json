@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/gadboisjean1000-arch/Supela-K3-Omega/schemas/supela_continuum_23_pillars.schema.json",
-  "title": "Supela-K3-Omega Executable Continuum Receipt Schema (22 Formulated Pillars + Pillar 23 Unformulated-Unknown Boundary)",
-  "description": "Formal JSON Schema governing the deterministic calculation receipt across all 22 formulated mathematical, transistor (BJT/JFET/MOSFET), hardware ALU, CS, and cryptographic pillars, plus Pillar 23 enforcing Fail-Closed quarantine on the Unformulated Unknown.",
+  "title": "Supela-K3-Omega Executable Continuum Receipt Schema (23 Pillars + 6 Axioms + Non-Exhaustiveness Declaration)",
+  "description": "Formal JSON Schema governing the deterministic calculation receipt across all 22 formulated mathematical, transistor (BJT/JFET/MOSFET), hardware ALU, CS, and cryptographic pillars, plus Pillar 23 enforcing Fail-Closed quarantine on the Unformulated Unknown and explicit Non-Exhaustiveness.",
   "type": "object",
   "required": [
     "continuum_title",
@@ -13,6 +13,7 @@
     "epistemic_status",
     "unformulated_unknown_invariant",
     "axiomatic_system",
+    "non_exhaustiveness_and_incompleteness_declaration",
     "pillars"
   ],
   "properties": {
@@ -65,6 +66,56 @@
         "axiom_4_monotonic_contradiction_demotion": { "type": "string" },
         "axiom_5_omission_visibility_entropy": { "type": "string" },
         "axiom_6_unformulated_unknown_fail_closed": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "non_exhaustiveness_and_incompleteness_declaration": {
+      "type": "object",
+      "required": [
+        "formulated_domain_cardinality",
+        "unformulated_reality_cardinality",
+        "lebesgue_measure_of_formulated_in_reality",
+        "completeness_claim_prohibited",
+        "fail_closed_on_unformulated_input",
+        "four_epistemic_quadrants"
+      ],
+      "properties": {
+        "formulated_domain_cardinality": {
+          "type": "string",
+          "const": "ALEPH_0_COUNTABLE_ENUMERABLE"
+        },
+        "unformulated_reality_cardinality": {
+          "type": "string",
+          "const": "TWO_POW_ALEPH_0_UNCOUNTABLE_CONTINUUM"
+        },
+        "lebesgue_measure_of_formulated_in_reality": {
+          "type": "number",
+          "const": 0.0
+        },
+        "completeness_claim_prohibited": {
+          "type": "boolean",
+          "const": true
+        },
+        "fail_closed_on_unformulated_input": {
+          "type": "boolean",
+          "const": true
+        },
+        "four_epistemic_quadrants": {
+          "type": "object",
+          "required": [
+            "Q1_known_formulated_verified",
+            "Q2_known_external_authority_bound",
+            "Q3_known_formal_impossibility_or_noise_bounds",
+            "Q4_unformulated_unknown_open_horizon"
+          ],
+          "properties": {
+            "Q1_known_formulated_verified": { "type": "string" },
+            "Q2_known_external_authority_bound": { "type": "string" },
+            "Q3_known_formal_impossibility_or_noise_bounds": { "type": "string" },
+            "Q4_unformulated_unknown_open_horizon": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
       },
       "additionalProperties": false
     },
