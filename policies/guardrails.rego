@@ -65,6 +65,10 @@ zkp_satisfied(true) if {
 	startswith(input.validation.zkp_proof, "zkp-snark:")
 }
 
+zkp_satisfied(true) if {
+	startswith(input.validation.zkp_proof, "zkp-schnorr-2048:")
+}
+
 valid_blast_radius if {
 	input.proposal.target_environment in allowed_sandboxes
 	input.proposal.modifies_worm_ledger == false

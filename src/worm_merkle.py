@@ -1,17 +1,12 @@
 """
 Journal Immuable WORM (Write-Once-Read-Many) & Arbre de Merkle avec Sceau ISV.
-Implémente :
-- Le chaînage ontologique vers SUP-0 (SHA-256 + HMAC-ISV).
-- La vérification cryptographique négative (détection de clé ISV erronée, mutation de payload,
-  rupture de chaîne parent_hash, altération d'ancrage).
-- La vérification d'engagement cryptographique (Commitment-Witness SHA-256) pour remplacer
-  les simples préfixes déclaratifs par une vérification mathématique reproductible localement.
 
-Note de lucidité architecturale :
-L'immuabilité garantie par cette classe est logique et cryptographique (détection déterministe
-de toute altération en mémoire ou lors de la relecture). L'immuabilité physique (protection contre
-la suppression du support par un administrateur root) requiert un backend matériel ou cloud WORM
-(ex. AWS S3 Object Lock Compliance Mode, GCS Bucket Lock, ou bande physique WORM).
+Amélioration majeure (Branche supela-2026-epsilon-level4-prep) :
+- ZÉRO CLÉ SECRÈTE EN DUR DANS LE CODE SOURCE.
+  Si aucune clé n'est injectée via le constructeur ou la variable d'environnement
+  `SUPELA_ISV_SECRET_KEY`, le registre génère une clé CSPRNG éphémère de 256 bits
+  (`secrets.token_bytes(32)`) en mémoire vive et expose uniquement son empreinte publique
+  irréversible `key_fingerprint_sha256`.
 """
 
 from __future__ import annotations
@@ -20,6 +15,8 @@ from datetime import datetime, timezone
 import hashlib
 import hmac
 import json
+import os
+import secrets
 from typing import Any, Dict, List, Optional, Tuple
 
 
@@ -55,10 +52,8 @@ def compute_cryptographic_commitment(
     witness_secret: str, proposal_id: str, parent_hash: str
 ) -> Tuple[str, str]:
     """
-    Génère un couple (public_commitment, verification_proof) vérifiable mathématiquement
-    sans nécessiter de bibliothèque externe hors bibliothèque standard.
-    - public_commitment = SHA256("COMMIT|" + proposal_id + "|" + parent_hash + "|" + SHA256(witness))
-    - verification_proof = "zkp-snark:sha256-commit:" + SHA256(witness)
+    Génère un couple (public_commitment, verification_proof) par hachage SHA-256
+    (conservé pour rétrocompatibilité, complété par `src/schnorr_zkp.py` pour le vrai NIZK 2048 bits).
     """
     witness_hash = hashlib.sha256(witness_secret.encode("utf-8")).hexdigest()
     commitment_raw = f"COMMIT|{proposal_id}|{parent_hash}|{witness_hash}".encode("utf-8")
@@ -73,10 +68,6 @@ def verify_cryptographic_commitment(
     proposal_id: str,
     parent_hash: str,
 ) -> bool:
-    """
-    Vérifie mathématiquement que le jeton de preuve correspond exactement à l'engagement
-    public pour le couple (proposal_id, parent_hash). Rejette tout préfixe arbitraire.
-    """
     prefix = "zkp-snark:sha256-commit:"
     if not isinstance(proof_token, str) or not proof_token.startswith(prefix):
         return False
@@ -90,20 +81,42 @@ def verify_cryptographic_commitment(
 
 class SupelaWormLedger:
     """
-    Journal append-only scellé par chaîne de hachage SHA-256 et sceau HMAC-ISV.
-    Toute tentative d'altération rétroactive ou d'utilisation d'une clé ISV incorrecte
-    invalide la vérification d'intégrité.
+    Journal append-only scellé par chaîne de hachage SHA-256 et sceau HMAC-ISV
+    sans aucune clé secrète codée en dur dans le dépôt.
     """
 
     GENESIS_ANCHOR = "SUP-0"
     GENESIS_SEED = b"SUPELA-K3-OMEGA-GENESIS-ROOT-SUP-0"
 
-    def __init__(self, isv_secret_key: bytes = b"SUPELA-2026-DELTA-ISV-SOVEREIGN-KEY") -> None:
-        if not isinstance(isv_secret_key, (bytes, bytearray)) or len(isv_secret_key) < 16:
+    def __init__(self, isv_secret_key: Optional[bytes] = None) -> None:
+        if isv_secret_key is not None:
+            resolved_key = bytes(isv_secret_key)
+            self._key_origin = "EXPLICIT_INJECTED_KEY"
+        elif os.environ.get("SUPELA_ISV_SECRET_KEY"):
+            resolved_key = os.environ["SUPELA_ISV_SECRET_KEY"].encode("utf-8")
+            self._key_origin = "ENV_SUPELA_ISV_SECRET_KEY"
+        else:
+            resolved_key = secrets.token_bytes(32)
+            self._key_origin = "CSPRNG_EPHEMERAL_256BIT_KEY"
+
+        if len(resolved_key) < 16:
             raise ValueError("La clé secrète HMAC-ISV doit faire au moins 16 octets.")
-        self._isv_secret = bytes(isv_secret_key)
+
+        self._isv_secret = resolved_key
+        self._key_fingerprint = (
+            f"sha256:{hashlib.sha256(b'SUPELA-KEY-FP|' + self._isv_secret).hexdigest()}"
+        )
         self._entries: List[WormEntry] = []
         self._initialize_genesis()
+
+    @property
+    def key_fingerprint_sha256(self) -> str:
+        """Empreinte publique irréversible de la clé HMAC active (n'expose jamais la clé)."""
+        return self._key_fingerprint
+
+    @property
+    def key_origin(self) -> str:
+        return self._key_origin
 
     def _initialize_genesis(self) -> None:
         genesis_hash = f"sha256:{hashlib.sha256(self.GENESIS_SEED).hexdigest()}"
@@ -111,6 +124,7 @@ class SupelaWormLedger:
             "axiom": "We know certain things. We ignore certain things. We know which ones.",
             "mode": "CONTRACTIVE_NORMATIVE_EAAS",
             "status": "SEALED",
+            "key_fingerprint": self._key_fingerprint,
         }
         seal = self._compute_isv_seal(
             0, genesis_hash, "GENESIS_SEAL", genesis_payload, self._isv_secret
@@ -187,7 +201,6 @@ class SupelaWormLedger:
     def append_sealed_event(
         self, module_id: str, event_type: str, payload: Dict[str, Any]
     ) -> WormEntry:
-        """Scelle et ajoute un événement au journal WORM en le chaînant au parent."""
         idx = len(self._entries)
         parent_hash = self.head_hash
         payload_copy = json.loads(json.dumps(payload))
@@ -210,7 +223,6 @@ class SupelaWormLedger:
         return entry
 
     def compute_merkle_root(self) -> str:
-        """Calcule la racine de l'arbre de Merkle sur l'ensemble des entrées WORM."""
         level = [e.entry_hash.encode("utf-8") for e in self._entries]
         if not level:
             return "sha256:" + ("0" * 64)
@@ -227,13 +239,6 @@ class SupelaWormLedger:
     def verify_integrity(
         self, verification_key: Optional[bytes] = None
     ) -> Tuple[bool, Optional[str]]:
-        """
-        Vérifie l'intégrité cryptographique complète du chaînage vers SUP-0 :
-        1. Ancrage SUP-0 sur chaque bloc
-        2. Continuité stricte du parent_hash (bloc 0 -> Genesis Seed, bloc i -> bloc i-1)
-        3. Recomputation et comparaison en temps constant du sceau HMAC-ISV avec la clé fournie
-        4. Recomputation du SHA-256 de l'entrée complète (détecte toute mutation de payload ou de sceau)
-        """
         key_to_use = verification_key if verification_key is not None else self._isv_secret
         expected_genesis_parent = f"sha256:{hashlib.sha256(self.GENESIS_SEED).hexdigest()}"
 

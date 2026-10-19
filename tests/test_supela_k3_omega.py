@@ -1,16 +1,22 @@
 """
 Suite de tests unitaires, d'intégration et de tests négatifs cryptographiques/normatifs
-pour Supela-K3-Omega (`Supela-2026-Delta`).
+pour Supela-K3-Omega (`Supela-2026-Epsilon` — Préparation Technique Niveau 4).
 
-Couvre 12 tests vérifiables localement :
+Couvre 15 tests vérifiables localement :
 - Tests 1 à 8 : Fonctionnement nominal, aplatissement de schémas récursifs, fallback 429,
   quarantaine sur dérive émergente, compilation ISO 20022 / FATF / SWIFT et proxy HTTP local.
 - Tests 9 à 12 (Tests Négatifs d'Audit) :
-  * Test 9 : Détection d'altération d'un bloc WORM en mémoire ET rejet d'une clé HMAC-ISV erronée.
-  * Test 10 : Rejet d'une preuve d'engagement cryptographique (ZKP witness) falsifiée.
+  * Test 9 : Détection d'altération d'un bloc WORM en mémoire ET rejet d'une clé HMAC-ISV erronée (sans clé codée en dur).
+  * Test 10 : Rejet d'une preuve ZKP Schnorr 2048 bits falsifiée.
   * Test 11 : Blocage anti-rejeu d'un UETR (`UetrReplayViolationError` sur réutilisation de couple proposal_id/parent_hash).
-  * Test 12 : Rejet par le validateur structurel ISO 20022 (`Iso20022StructuralValidator`) d'un BIC invalide,
-    d'un UETR non-UUIDv4, d'une séquence de balises inversée ou d'un `<SplmtryData>` sans espace de noms dédié.
+  * Test 12 : Rejet par le validateur XSD `libxml2` (`Iso20022StructuralValidator`) d'un BIC invalide
+    ou d'un `<SplmtryData>` sans espace de noms dédié.
+- Tests 13 à 15 (Nouvelles preuves matérielles Niveau 4 Prep) :
+  * Test 13 : Preuve algébrique à divulgation nulle de connaissance Schnorr NIZK 2048 bits (RFC 3526 Group 14)
+    $g^s \\equiv R \\cdot Y^c \\pmod p$ et rejet de falsifications algébriques ($s+1$, $R$ altéré, contexte modifié).
+  * Test 14 : Mode `CBPR_PLUS_STRICT` (*Detached Lineage Sidecar*) : absence stricte de `<SplmtryData>` sur le fil
+    SWIFT FINplus, rejet par `libxml2` XSD de tout `<SplmtryData>` injecté sur le fil, et validation XSD du sidecar détaché.
+  * Test 15 : Exécution réelle du binaire CNCF `opa.exe` (`opa test` 5/5 + `opa eval` sur enveloppe K3) et parité déterministe.
 """
 
 from __future__ import annotations
@@ -25,23 +31,33 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from src.iso_fatf_mirrors import Iso20022StructuralValidator
+from src.iso_fatf_mirrors import Iso20022StructuralValidator, NormativeMirrorCompiler
 from src.k3_http_mcp_gateway import SupelaGatewayServer
+from src.opa_binary_bridge import evaluate_envelope_with_opa_binary, run_opa_policy_tests
 from src.schema_flattener import (
     detect_recursive_or_unbounded_patterns,
     flatten_tool_schema,
+)
+from src.schnorr_zkp import (
+    G_GENERATOR,
+    P_MODULUS,
+    Q_SUBGROUP,
+    SchnorrNizkProof,
+    generate_schnorr_nizk_proof,
+    verify_schnorr_nizk_proof,
 )
 from src.supela_k3_engine import SupelaK3OmegaEngine
 from src.worm_merkle import (
     SupelaWormLedger,
     WormEntry,
-    compute_cryptographic_commitment,
 )
 
 
-def make_valid_envelope(parent_hash: str, module_id: str = "VR-14", proposal_suffix: str = "001") -> dict:
-    proposal_id = f"PROP-2026-DELTA-{module_id}-{proposal_suffix}"
-    public_commit, proof_token = compute_cryptographic_commitment(
+def make_valid_envelope(
+    parent_hash: str, module_id: str = "VR-14", proposal_suffix: str = "001"
+) -> dict:
+    proposal_id = f"PROP-2026-EPSILON-{module_id}-{proposal_suffix}"
+    schnorr_proof = generate_schnorr_nizk_proof(
         witness_secret=f"SECRET-WITNESS-{proposal_id}",
         proposal_id=proposal_id,
         parent_hash=parent_hash,
@@ -63,18 +79,21 @@ def make_valid_envelope(parent_hash: str, module_id: str = "VR-14", proposal_suf
                 "currency": "EUR",
                 "debtor_bic": "SUPELACAXXX",
                 "creditor_bic": "BNPAFRPPXXX",
+                "settlement_date": "2026-10-19",
+                "settlement_method": "INDA",
             },
             "lineage": {
                 "root_anchor": "SUP-0",
                 "merkle_parent_hash": parent_hash,
-                "isv_seal": "ISV-2026-DELTA-SEALED",
+                "isv_seal": "ISV-2026-EPSILON-SEALED",
             },
         },
         "validation": {
             "gf_verdict": "SEALED_APPROVED",
             "engine_signatures": ["sig-engine-alpha", "sig-engine-beta"],
-            "public_commitment": public_commit,
-            "zkp_proof": proof_token,
+            "schnorr_public_key_y": schnorr_proof.public_key_y_hex,
+            "schnorr_proof": schnorr_proof.to_dict(),
+            "zkp_proof": schnorr_proof.to_compact_token(),
         },
         "tool_schema": {
             "type": "object",
@@ -101,13 +120,14 @@ class TestSupelaK3Omega(unittest.TestCase):
         )
 
     def test_01_worm_ledger_genesis_and_integrity(self) -> None:
-        """Vérifie que le bloc Genesis SUP-0 est scellé et que la chaîne initiale est valide."""
+        """Vérifie que le bloc Genesis SUP-0 est scellé avec une clé CSPRNG éphémère et que la chaîne est valide."""
         ok, err = self.ledger.verify_integrity()
         self.assertTrue(ok, f"Le journal Genesis devrait être intègre: {err}")
         self.assertEqual(self.ledger.entries[0].root_anchor, "SUP-0")
+        self.assertTrue(self.ledger.key_fingerprint_sha256.startswith("sha256:"))
 
     def test_02_nominal_proposal_dual_pipeline(self) -> None:
-        """Une proposition IA conforme est exécutée sur la Fast Lane et génère un miroir ISO 20022 camt.053."""
+        """Une proposition IA conforme avec preuve Schnorr NIZK 2048 bits est exécutée et génère camt.053."""
         env = make_valid_envelope(self.ledger.head_hash, module_id="VR-14")
         receipt = self.engine.evaluate_and_dispatch(env)
 
@@ -116,7 +136,7 @@ class TestSupelaK3Omega(unittest.TestCase):
         self.assertEqual(receipt.execution_route, "DUAL_PIPELINE_DISPATCH")
         self.assertEqual(
             receipt.epistemic_assurance_matrix["zkp_validity"]["status"],
-            "SHA256_COMMITMENT_WITNESS_VERIFIED",
+            "SCHNORR_2048_MODP_NIZK_VERIFIED",
         )
         self.assertEqual(
             receipt.epistemic_assurance_matrix["zkp_validity"]["level"],
@@ -197,13 +217,18 @@ class TestSupelaK3Omega(unittest.TestCase):
         self.assertEqual(len(receipt.violations), 2)
 
     def test_07_iso20022_pacs008_fatf_ivms101_and_swift_cbpr_mirrors(self) -> None:
-        """Vérifie la génération et la validation structurelle locale de VR-13, VR-15 et VR-16."""
+        """Vérifie la génération et la validation XSD `libxml2` en mode CBPR_PLUS_STRICT de VR-13, VR-15 et VR-16."""
         r_pacs = self.engine.evaluate_and_dispatch(
             make_valid_envelope(self.ledger.head_hash, module_id="VR-13", proposal_suffix="PACS")
         )
         self.assertTrue(r_pacs.allowed)
-        xml_pacs = r_pacs.slow_lane_mirror_envelope["artifact"]["xml_payload"]
-        self.assertIn("urn:supela:std:k3:omega:xsd:splmtry.001.001.01", xml_pacs)
+        art_pacs = r_pacs.slow_lane_mirror_envelope["artifact"]
+        self.assertEqual(art_pacs["profile_mode"], "CBPR_PLUS_STRICT_DETACHED_SIDECAR")
+        self.assertNotIn("<SplmtryData>", art_pacs["xml_payload"])
+        self.assertIn(
+            "urn:supela:std:k3:omega:xsd:splmtry.001.001.01",
+            art_pacs["detached_supela_sidecar"]["sidecar_xml"],
+        )
 
         r_fatf = self.engine.evaluate_and_dispatch(
             make_valid_envelope(self.ledger.head_hash, module_id="VR-15", proposal_suffix="FATF")
@@ -330,17 +355,18 @@ class TestSupelaK3Omega(unittest.TestCase):
     def test_10_negative_crypto_forged_zkp_witness_rejected(self) -> None:
         """
         Test négatif cryptographique #2 :
-        Vérifie qu'un jeton ZKP ayant le bon préfixe syntaxique (`zkp-snark:sha256-commit:...`)
-        mais calculé avec un mauvais secret témoin (witness) est mathématiquement rejeté.
+        Vérifie qu'une preuve Schnorr NIZK 2048 bits générée avec un mauvais secret témoin
+        (ne correspondant pas à la clé publique `schnorr_public_key_y`) est algébriquement rejetée.
         """
         env = make_valid_envelope(self.ledger.head_hash, module_id="VR-13", proposal_suffix="FORGED")
-        # Injection d'une preuve forgée qui ne correspond pas à `public_commitment`
-        _, forged_proof = compute_cryptographic_commitment(
+        forged_schnorr = generate_schnorr_nizk_proof(
             witness_secret="WRONG-ATTACKER-WITNESS",
             proposal_id=env["proposal_id"],
             parent_hash=self.ledger.head_hash,
         )
-        env["validation"]["zkp_proof"] = forged_proof
+        # L'attaquant tente de soumettre sa preuve sous la clé publique légitime attendue
+        env["validation"]["schnorr_proof"] = forged_schnorr.to_dict()
+        env["validation"]["zkp_proof"] = forged_schnorr.to_compact_token()
 
         receipt = self.engine.evaluate_and_dispatch(env)
         self.assertFalse(receipt.allowed)
@@ -373,11 +399,10 @@ class TestSupelaK3Omega(unittest.TestCase):
 
     def test_12_negative_iso20022_structural_validator_rejects_non_compliant_xml(self) -> None:
         """
-        Test négatif normatif #4 (Validation XSD ISO 20022 & <SplmtryData>) :
+        Test négatif normatif #4 (Validation XSD `libxml2` ISO 20022 & <SplmtryData>) :
         Vérifie que `Iso20022StructuralValidator` rejette :
-        - Un code BICFI mal formé (ex. "BADBIC")
-        - Une extension `<SplmtryData>` dépourvue d'espace de noms dédié
-        - Un ordre de balises XSD invalide (`CdtTrfTxInf` avant `GrpHdr`)
+        - Un code BICFI mal formé (ex. "INVALID_BIC_123")
+        - Une extension `<SplmtryData>` dépourvue d'espace de noms dédié en mode bilatéral
         """
         env = make_valid_envelope(self.ledger.head_hash, module_id="VR-13", proposal_suffix="BADBIC")
         env["proposal"]["parameters"]["debtor_bic"] = "INVALID_BIC_123"
@@ -388,7 +413,7 @@ class TestSupelaK3Omega(unittest.TestCase):
             any("INVALID_BICFI_DbtrAgt" in v for v in receipt_bad_bic.violations)
         )
 
-        # Test direct d'un XML avec extension <SplmtryData> sans namespace qualifié
+        # Test direct d'un XML avec extension <SplmtryData> sans namespace qualifié en mode bilatéral
         unqualified_xml = (
             '<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10">'
             "<FIToFICstmrCdtTrf>"
@@ -401,14 +426,200 @@ class TestSupelaK3Omega(unittest.TestCase):
             "<DbtrAgt><FinInstnId><BICFI>SUPELACAXXX</BICFI></FinInstnId></DbtrAgt>"
             "<CdtrAgt><FinInstnId><BICFI>BNPAFRPPXXX</BICFI></FinInstnId></CdtrAgt>"
             "<Cdtr><Nm>B</Nm></Cdtr>"
-            "<SplmtryData><Envlp><SupelaLineage xmlns=\"\"/></Envlp></SplmtryData>"
+            '<SplmtryData><Envlp><SupelaLineage xmlns=""/></Envlp></SplmtryData>'
             "</CdtTrfTxInf>"
             "</FIToFICstmrCdtTrf></Document>"
         )
-        valid_ns, errs_ns = Iso20022StructuralValidator.validate_pacs008_xml(unqualified_xml)
+        valid_ns, errs_ns = Iso20022StructuralValidator.validate_pacs008_xml(
+            unqualified_xml
+        )
         self.assertFalse(valid_ns)
         self.assertTrue(any("UNQUALIFIED_SPLMTRY_EXTENSION_NS" in e for e in errs_ns))
+
+    # =========================================================================
+    # TESTS NIVEAU 4 PREP (SCHNORR 2048 NIZK, LIBXML2 CBPR+ STRICT, OPA.EXE)
+    # =========================================================================
+
+    def test_13_real_schnorr_2048_nizk_algebraic_verification_and_forgery_rejection(self) -> None:
+        """
+        Vérifie directement l'équation algébrique de Schnorr sur le groupe MODP 2048 bits (RFC 3526 Group 14) :
+        $g^s \\equiv R \\cdot Y^c \\pmod p$ et teste le rejet de toute altération de $s$, $R$ ou du contexte.
+        """
+        proposal_id = "PROP-SCHNORR-ALGEBRAIC-013"
+        parent_hash = self.ledger.head_hash
+        proof = generate_schnorr_nizk_proof(
+            witness_secret="SOVEREIGN-2048-WITNESS-KEY",
+            proposal_id=proposal_id,
+            parent_hash=parent_hash,
+        )
+
+        # 1. Vérification algébrique directe
+        ok = verify_schnorr_nizk_proof(
+            proof_data=proof,
+            expected_public_key_y_hex=proof.public_key_y_hex,
+            proposal_id=proposal_id,
+            parent_hash=parent_hash,
+        )
+        self.assertTrue(ok, "La preuve Schnorr 2048 bits devrait être valide")
+
+        # Vérification explicite de l'identité modulaire g^s == R * Y^c mod p
+        y_int = int(proof.public_key_y_hex, 16)
+        r_int = int(proof.commitment_r_hex, 16)
+        c_int = int(proof.challenge_c_hex, 16)
+        s_int = int(proof.response_s_hex, 16)
+        lhs = pow(G_GENERATOR, s_int, P_MODULUS)
+        rhs = (r_int * pow(y_int, c_int, P_MODULUS)) % P_MODULUS
+        self.assertEqual(lhs, rhs)
+
+        # 2. Altération algébrique de la réponse s -> (s + 1) mod q
+        forged_s_proof = SchnorrNizkProof(
+            scheme=proof.scheme,
+            public_key_y_hex=proof.public_key_y_hex,
+            commitment_r_hex=proof.commitment_r_hex,
+            challenge_c_hex=proof.challenge_c_hex,
+            response_s_hex=format((s_int + 1) % Q_SUBGROUP, "x"),
+            context_binding=proof.context_binding,
+        )
+        ok_bad_s = verify_schnorr_nizk_proof(
+            proof_data=forged_s_proof,
+            expected_public_key_y_hex=proof.public_key_y_hex,
+            proposal_id=proposal_id,
+            parent_hash=parent_hash,
+        )
+        self.assertFalse(ok_bad_s)
+
+        # 3. Tentative de rejeu de la preuve sur un autre proposal_id
+        ok_wrong_ctx = verify_schnorr_nizk_proof(
+            proof_data=proof,
+            expected_public_key_y_hex=proof.public_key_y_hex,
+            proposal_id="PROP-HIJACKED-999",
+            parent_hash=parent_hash,
+        )
+        self.assertFalse(ok_wrong_ctx)
+
+    def test_14_cbpr_plus_strict_libxml2_xsd_and_detached_sidecar_validation(self) -> None:
+        """
+        Vérifie le mode `CBPR_PLUS_STRICT` :
+        1. Le XML `pacs.008.001.10` réseau est validé par `lxml.etree.XMLSchema` (`libxml2`)
+           contre `schemas/cbpr_plus_pacs_008_001_10_strict.xsd` et ne contient AUCUN `<SplmtryData>`.
+        2. Le sidecar détaché `<SupelaLineage>` est validé contre `schemas/supela_splmtry_001_001_01.xsd`
+           et lié cryptographiquement au message réseau via `<BoundUETR>` et `<BoundWirePackageSha256>`.
+        3. Si on injecte `<SplmtryData>` dans un message `pacs.008` soumis au validateur `CBPR_PLUS_STRICT`,
+           `libxml2` (`XMLSchema`) le rejette immédiatement.
+        """
+        env = make_valid_envelope(self.ledger.head_hash, module_id="VR-13", proposal_suffix="STRICT14")
+        receipt = self.engine.evaluate_and_dispatch(env)
+        self.assertTrue(receipt.allowed)
+
+        mirror = receipt.slow_lane_mirror_envelope
+        artifact = mirror["artifact"]
+        wire_xml = artifact["xml_payload"]
+        sidecar_xml = artifact["detached_supela_sidecar"]["sidecar_xml"]
+        wire_sha256 = artifact["wire_package_for_swift_network"]["wire_package_sha256"]
+
+        # 1. Absence totale de <SplmtryData> dans le payload réseau SWIFT CBPR+ Strict
+        self.assertNotIn("SplmtryData", wire_xml)
+        self.assertIn("<SttlmMtd>INDA</SttlmMtd>", wire_xml)
+        self.assertIn("<InstgAgt>", wire_xml)
+        self.assertIn("<InstdAgt>", wire_xml)
+
+        # 2. Validation XSD libxml2 du sidecar détaché et liaison cryptographique au fil
+        ok_sc, errs_sc = Iso20022StructuralValidator.validate_supela_sidecar_xml(sidecar_xml)
+        self.assertTrue(ok_sc, f"Sidecar XSD invalide: {errs_sc}")
+        self.assertIn(f"<BoundUETR>{mirror['uetr']}</BoundUETR>", sidecar_xml)
+        self.assertIn(
+            f"<BoundWirePackageSha256>{wire_sha256}</BoundWirePackageSha256>",
+            sidecar_xml,
+        )
+
+        # 3. Injection illégale de <SplmtryData> dans le XML réseau en mode CBPR_PLUS_STRICT -> Rejet XSD libxml2
+        polluted_wire_xml = wire_xml.replace(
+            "</Cdtr></CdtTrfTxInf>",
+            '</Cdtr><SplmtryData><Envlp><SupelaLineage xmlns="urn:supela:std:k3:omega:xsd:splmtry.001.001.01"/></Envlp></SplmtryData></CdtTrfTxInf>',
+        )
+        ok_polluted, errs_polluted = Iso20022StructuralValidator.validate_pacs008_cbpr_strict_xml(
+            polluted_wire_xml
+        )
+        self.assertFalse(ok_polluted)
+        self.assertTrue(
+            any("CBPR_PLUS_PROHIBITED_ELEMENT_SPLMTRYDATA" in e or "LIBXML2_XSD_ERROR" in e for e in errs_polluted),
+            f"Attendu rejet XSD strict sur <SplmtryData>, obtenu: {errs_polluted}",
+        )
+
+    def test_15_real_opa_binary_execution_and_parity(self) -> None:
+        """
+        Exécute le vrai binaire CNCF `opa.exe` sur `policies/guardrails.rego` :
+        1. `opa test policies/ -v` doit passer 5/5 tests Rego natifs.
+        2. `opa eval` sur une enveloppe nominale et sur une enveloppe hostile doit produire
+           exactement le même verdict (`allowed`, `quarantine`, `execution_route`) que `SupelaK3OmegaEngine`.
+        """
+        opa_tests = run_opa_policy_tests()
+        self.assertTrue(opa_tests["executed"], "Le binaire opa.exe doit être présent")
+        self.assertTrue(opa_tests["passed"], f"Échec opa test: {opa_tests}")
+        self.assertIn("PASS: 5/5", opa_tests["stdout"])
+
+        # Parité sur enveloppe nominale
+        valid_env = make_valid_envelope(self.ledger.head_hash, module_id="VR-14", proposal_suffix="OPA15")
+        py_receipt = self.engine.evaluate_and_dispatch(valid_env)
+        opa_ok, opa_manifest = evaluate_envelope_with_opa_binary(valid_env, max_drift_delta=0.05)
+
+        self.assertTrue(opa_ok)
+        self.assertEqual(opa_manifest["allowed"], py_receipt.allowed)
+        self.assertEqual(opa_manifest["quarantine"], py_receipt.quarantine)
+        self.assertEqual(opa_manifest["execution_route"], py_receipt.execution_route)
+
+        # Parité sur enveloppe hostile (dérive émergente > 0.05 + privilège direct)
+        rogue_env = make_valid_envelope(self.ledger.head_hash, module_id="VR-14", proposal_suffix="OPAROGUE")
+        rogue_env["actor"]["direct_execution_privilege"] = True
+        rogue_env["proposal"]["emergent_drift_delta"] = 0.22
+        py_rogue = self.engine.evaluate_and_dispatch(rogue_env)
+        opa_rogue_ok, opa_rogue_manifest = evaluate_envelope_with_opa_binary(
+            rogue_env, max_drift_delta=0.05
+        )
+
+        self.assertTrue(opa_rogue_ok)
+        self.assertEqual(opa_rogue_manifest["allowed"], py_rogue.allowed)
+        self.assertEqual(opa_rogue_manifest["quarantine"], py_rogue.quarantine)
+        self.assertEqual(len(opa_rogue_manifest["violations"]), len(py_rogue.violations))
+
+    def test_16_epistemic_revision_and_demotion_on_contradictory_observation(self) -> None:
+        """
+        Vérifie le 5e pilier de gouvernance Supela-K3-Ω (La Révision par Contradiction) :
+        "Un état prétendument valide peut être rétrogradé si une observation contradictoire apparaît."
+        Lorsqu'un reçu initialement `LEVEL_3_AUDITABLE` reçoit une observation contradictoire
+        (ex. rejet NACK sur SWIFT ITB ou absence d'attestation matérielle TPM), le moteur :
+        1. Rétrograde explicitement le niveau épistémique du composant (`LEVEL_3_AUDITABLE` -> `LEVEL_2_TESTED_QUARANTINE`).
+        2. Bascule le reçu en quarantaine rétroactive (`RETROACTIVE_QUARANTINE_ON_CONTRADICTION`).
+        3. Scelle un bloc `K3_EPISTEMIC_DEMOTION` immuable dans le journal WORM.
+        """
+        env = make_valid_envelope(self.ledger.head_hash, module_id="VR-13", proposal_suffix="DEMOTE16")
+        receipt = self.engine.evaluate_and_dispatch(env)
+        self.assertTrue(receipt.allowed)
+        self.assertEqual(
+            receipt.epistemic_assurance_matrix["iso20022_cbpr_plus_compliance"]["level"],
+            "LEVEL_3_AUDITABLE",
+        )
+        blocks_before = len(self.ledger.entries)
+
+        # Injection d'une observation contradictoire (ex: NACK SWIFT ITB / TPM manquant)
+        revised_receipt = self.engine.apply_contradictory_observation(
+            receipt=receipt,
+            component="iso20022_cbpr_plus_compliance",
+            contradiction_evidence="SWIFT_ITB_NACK_H001_BIC_UNREGISTERED_IN_DIRECTORY",
+            demoted_level="LEVEL_2_TESTED_QUARANTINE",
+        )
+
+        self.assertFalse(revised_receipt.allowed)
+        self.assertTrue(revised_receipt.quarantine)
+        self.assertEqual(revised_receipt.execution_route, "RETROACTIVE_QUARANTINE_ON_CONTRADICTION")
+        comp_state = revised_receipt.epistemic_assurance_matrix["iso20022_cbpr_plus_compliance"]
+        self.assertEqual(comp_state["level"], "LEVEL_2_TESTED_QUARANTINE")
+        self.assertEqual(comp_state["demoted_from"], "LEVEL_3_AUDITABLE")
+        self.assertEqual(comp_state["status"], "DEMOTED_BY_CONTRADICTORY_OBSERVATION")
+        self.assertEqual(len(self.ledger.entries), blocks_before + 1)
+        self.assertEqual(self.ledger.entries[-1].event_type, "K3_EPISTEMIC_DEMOTION")
 
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+

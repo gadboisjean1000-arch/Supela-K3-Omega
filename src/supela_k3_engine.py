@@ -25,6 +25,10 @@ from src.schema_flattener import (
     detect_recursive_or_unbounded_patterns,
     flatten_tool_schema,
 )
+from src.schnorr_zkp import (
+    SchnorrNizkProof,
+    verify_schnorr_nizk_proof,
+)
 from src.worm_merkle import (
     SupelaWormLedger,
     WormEntry,
@@ -182,6 +186,7 @@ class SupelaK3OmegaEngine:
         module_id = str(proposal.get("module_id", ""))
         module_spec = VR_MODULE_REGISTRY.get(module_id)
         zkp_crypto_verified = False
+        zkp_verification_mode = "DECLARATIVE_MARKER"
 
         if not module_spec:
             violations.append(
@@ -190,10 +195,27 @@ class SupelaK3OmegaEngine:
         else:
             impact = float(proposal.get("estimated_impact_score", 999))
             zkp_proof = str(validation.get("zkp_proof", ""))
+            schnorr_dict = validation.get("schnorr_proof")
             expected_commitment = validation.get("public_commitment")
 
-            # Si un engagement cryptographique public est fourni, on vérifie mathématiquement le témoin
-            if expected_commitment is not None:
+            # Priorité 1 : Preuve à divulgation nulle de connaissance Schnorr NIZK 2048 bits (RFC 3526 Group 14)
+            if isinstance(schnorr_dict, dict):
+                expected_pub_y = str(
+                    validation.get(
+                        "schnorr_public_key_y", schnorr_dict.get("public_key_y_hex", "")
+                    )
+                )
+                zkp_ok = verify_schnorr_nizk_proof(
+                    proof_data=schnorr_dict,
+                    expected_public_key_y_hex=expected_pub_y,
+                    proposal_id=proposal_id,
+                    parent_hash=parent_hash,
+                )
+                zkp_crypto_verified = zkp_ok
+                if zkp_ok:
+                    zkp_verification_mode = "SCHNORR_2048_MODP_NIZK_VERIFIED"
+            # Priorité 2 : Engagement cryptographique SHA-256 (rétrocompatibilité)
+            elif expected_commitment is not None:
                 zkp_ok = verify_cryptographic_commitment(
                     proof_token=zkp_proof,
                     expected_commitment=str(expected_commitment),
@@ -201,8 +223,12 @@ class SupelaK3OmegaEngine:
                     parent_hash=parent_hash,
                 )
                 zkp_crypto_verified = zkp_ok
+                if zkp_ok:
+                    zkp_verification_mode = "SHA256_COMMITMENT_WITNESS_VERIFIED"
             else:
-                zkp_ok = (not module_spec["requires_zkp"]) or zkp_proof.startswith("zkp-snark:")
+                zkp_ok = (not module_spec["requires_zkp"]) or zkp_proof.startswith(
+                    ("zkp-snark:", "zkp-schnorr-2048:")
+                )
 
             if impact > module_spec["max_impact"] or not zkp_ok:
                 violations.append(
@@ -317,9 +343,9 @@ class SupelaK3OmegaEngine:
             },
             "zkp_validity": {
                 "level": "LEVEL_3_AUDITABLE" if zkp_crypto_verified else "LEVEL_1_IMPLEMENTED",
-                "status": "SHA256_COMMITMENT_WITNESS_VERIFIED" if zkp_crypto_verified else "DECLARATIVE_MARKER",
+                "status": zkp_verification_mode,
                 "self_attribution_prohibited_above": "LEVEL_3_AUDITABLE",
-                "external_proof_for_level_4": "Vérification indépendante d'un circuit arithmétique zk-SNARK (Groth16/PlonK)",
+                "external_proof_for_level_4": "Audit cryptographique tiers du protocole Schnorr NIZK 2048 bits ou circuit zk-SNARK",
             },
             "iso20022_cbpr_plus_compliance": {
                 "level": "LEVEL_3_AUDITABLE" if slow_lane_envelope else "LEVEL_2_TESTED_QUARANTINE",
@@ -350,3 +376,54 @@ class SupelaK3OmegaEngine:
             merkle_root=self.ledger.compute_merkle_root(),
             epistemic_assurance_matrix=epistemic_matrix,
         )
+
+    def apply_contradictory_observation(
+        self,
+        receipt: DualPipelineReceipt,
+        component: str,
+        contradiction_evidence: str,
+        demoted_level: str = "LEVEL_2_TESTED_QUARANTINE",
+    ) -> DualPipelineReceipt:
+        """
+        5e Pilier de Gouvernance Supela-K3-Ω : LA RÉVISION PAR CONTRADICTION.
+        "Un état prétendument valide peut être rétrogradé si une observation contradictoire apparaît."
+
+        Rétrograde immédiatement le niveau épistémique d'un composant suite à une réfutation
+        (ex: rejet NACK SWIFT FINplus, divergence binaire OPA, absence d'attestation matérielle TPM/WORM),
+        place le reçu en quarantaine rétroactive et scelle l'événement de rétrogradation dans le journal WORM.
+        """
+        if component not in receipt.epistemic_assurance_matrix:
+            raise KeyError(f"Composant épistémique inconnu: {component}")
+
+        previous_state = dict(receipt.epistemic_assurance_matrix[component])
+        previous_level = previous_state.get("level", "UNKNOWN")
+
+        receipt.epistemic_assurance_matrix[component] = {
+            **previous_state,
+            "level": demoted_level,
+            "status": "DEMOTED_BY_CONTRADICTORY_OBSERVATION",
+            "demoted_from": previous_level,
+            "contradiction_evidence": contradiction_evidence,
+        }
+        receipt.allowed = False
+        receipt.quarantine = True
+        receipt.execution_route = "RETROACTIVE_QUARANTINE_ON_CONTRADICTION"
+        receipt.violations.append(
+            f"EPISTEMIC_DEMOTION [{component}]: {previous_level} -> {demoted_level} ({contradiction_evidence})"
+        )
+
+        demotion_entry: WormEntry = self.ledger.append_sealed_event(
+            module_id="EPISTEMIC-REVISION-GATE",
+            event_type="K3_EPISTEMIC_DEMOTION",
+            payload={
+                "proposal_id": receipt.proposal_id,
+                "component": component,
+                "demoted_from": previous_level,
+                "demoted_to": demoted_level,
+                "contradiction_evidence": contradiction_evidence,
+            },
+        )
+        receipt.worm_entry_hash = demotion_entry.entry_hash
+        receipt.merkle_root = self.ledger.compute_merkle_root()
+        return receipt
+

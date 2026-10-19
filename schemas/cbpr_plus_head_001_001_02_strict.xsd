@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:head="urn:iso:std:iso:20022:tech:xsd:head.001.001.02"
+    targetNamespace="urn:iso:std:iso:20022:tech:xsd:head.001.001.02"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+
+    <xs:simpleType name="BICFIDec2014Identifier">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3})?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CBPRPlusRestrictedFINXMax35Text">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="35"/>
+            <xs:pattern value="[A-Za-z0-9\-?:\(\)\.,'\+ ]([A-Za-z0-9/\-?:\(\)\.,'\+ ]*[A-Za-z0-9\-?:\(\)\.,'\+ ])?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CBPRPlusBusinessServiceCode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="swift.cbprplus.02"/>
+            <xs:enumeration value="swift.cbprplus.stp.02"/>
+            <xs:enumeration value="swift.cbprplus.cov.02"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Party44Choice">
+        <xs:sequence>
+            <xs:element name="FIId">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="FinInstnId">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="BICFI" type="head:BICFIDec2014Identifier"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="BusinessApplicationHeaderV02">
+        <xs:sequence>
+            <xs:element name="Fr" type="head:Party44Choice"/>
+            <xs:element name="To" type="head:Party44Choice"/>
+            <xs:element name="BizMsgIdr" type="head:CBPRPlusRestrictedFINXMax35Text"/>
+            <xs:element name="MsgDefIdr" type="xs:string"/>
+            <xs:element name="BizSvc" type="head:CBPRPlusBusinessServiceCode"/>
+            <xs:element name="CreDt" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="AppHdr" type="head:BusinessApplicationHeaderV02"/>
+
+</xs:schema>

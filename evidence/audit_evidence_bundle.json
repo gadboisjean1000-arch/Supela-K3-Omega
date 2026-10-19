@@ -1,78 +1,131 @@
 {
-  "schema_version": "supela.k3.omega.audit.bundle.v1",
-  "legal_and_epistemic_disclaimer": "Ce bundle constitue une trace d’exécution locale signée, utilisable pour inspection externe. Il ne remplace pas une validation normative officielle ni une preuve WORM physique.",
+  "schema_version": "supela.k3.omega.audit.bundle.v2.epsilon",
+  "legal_and_epistemic_disclaimer": "Ce bundle constitue une trace d’exécution locale signée cryptographiquement (GPG Ed25519 détaché), utilisable pour inspection externe. Il ne remplace pas une validation normative officielle (SWIFT MyStandards / FINplus) ni une preuve WORM matérielle/cloud physique.",
+  "epistemic_governance_architecture": {
+    "defensible_singularity_statement": "La singularité de Supela-K3-Ω réside dans l’intégration explicite de l’exécution, de la preuve, de la réfutation et du statut de connaissance au sein d’une même chaîne de gouvernance, avec interdiction de promouvoir une affirmation au-delà du niveau réellement démontré.",
+    "dense_axiom": "Les autres systèmes cherchent à prouver qu’ils fonctionnent. Supela cherche aussi à prouver qu’ils ont le droit de le prétendre.",
+    "five_governed_dimensions": {
+      "1_execution": "Une action doit respecter les politiques formelles (OPA Rego + moteur K3).",
+      "2_proof": "Le résultat doit laisser un artefact cryptographiquement vérifiable.",
+      "3_proof_qualification": "Le système distingue strictement ce qui est déclaré, implémenté, testé, auditable, qualifié ou observé.",
+      "4_contradiction": "Les tests tentent activement de réfuter le système (falsification Schnorr, altération WORM, injection XSD, rejeu UETR).",
+      "5_revision": "Un état prétendument valide est automatiquement rétrogradé si une observation contradictoire apparaît."
+    },
+    "nine_step_governance_chain": [
+      "1. Proposition (AI_PROPOSAL_GENERATOR sans privilège direct)",
+      "2. Politique (Validation déterministe OPA binaire + moteur K3)",
+      "3. Exécution bornée (Confinement sandbox + Circuit-Breaker souverain)",
+      "4. Artefact (Miroirs ISO 20022 CBPR+ Strict + Sidecar détaché + IVMS101)",
+      "5. Preuve (Schnorr NIZK 2048 bits RFC 3526 + Merkle WORM + validation C libxml2 XSD)",
+      "6. Contre-vérification (16 tests unitaires et négatifs contradictoires)",
+      "7. Statut épistémique (Plafond local LEVEL_3_AUDITABLE, interdiction d'auto-attribution Niveaux 4/5)",
+      "8. Publication vérifiable (Bundle JSON + signature GPG Ed25519 détachée .asc)",
+      "9. Révision possible (Rétrogradation épistémique scellée sur observation contradictoire)"
+    ]
+  },
   "meta": {
-    "engine_version": "Supela-2026-Delta (K3-Omega)",
-    "generated_at_utc": "2026-10-19T11:04:05Z",
+    "engine_version": "Supela-2026-Epsilon (K3-Omega Level-4 Technical Prep)",
+    "generated_at_utc": "2026-10-19T11:39:25Z",
     "environment": {
       "os": "Windows",
       "python_version": "3.11.15",
       "architecture": "AMD64"
     },
-    "codebase_tree_sha256": "sha256:b5d941409f265235bf1ac8669a6965acab30b32e7f32ff3b19547cd3ab939eaa",
+    "codebase_tree_sha256": "sha256:c79ef6441024d0905405e9ea5d5b9ff565fde50aff2d970d906a62b91eb3327b",
     "tracked_files_sha256": {
-      "policies/guardrails.rego": "sha256:0a2eb0dfc055ffde1143e775fc7bba66490a2eddffe46b85bc8446f231ccdb9c",
+      "policies/guardrails.rego": "sha256:8f71d82b7430ddf3d9f1213d8beaf8a391f1c52d3479f62fba182d260876f2d3",
       "policies/guardrails_test.rego": "sha256:8b979b430ab18e5ba07211c551dfb116b1ea83811b8ea4f617a01ccd2226df7b",
-      "schemas/supela_splmtry_001_001_01.xsd": "sha256:c4c8c5c6ec2c5cb0dcd37250bfa781ede5335cd5186a29bee6215491a3396b97",
-      "src/worm_merkle.py": "sha256:de14809bd1db4d9a408365078eb30d45bdddd4b7fe54630ec056348992325348",
+      "schemas/supela_splmtry_001_001_01.xsd": "sha256:c0bf7b7348ec9fc3de52a165ef08ce335f6fc657d9ad816932a8b149b6de064d",
+      "schemas/cbpr_plus_pacs_008_001_10_strict.xsd": "sha256:cec5899e17c58e4a9fa6badccbd265409340c0f9e803d844e4b6d3e392ac6579",
+      "schemas/cbpr_plus_head_001_001_02_strict.xsd": "sha256:788c8d2da0a55f3ce7bb6abd6b2421de896d403d9d02bbde368d89629c32ae67",
+      "src/worm_merkle.py": "sha256:f1b4f267f7b19ad084daa509ac0eec6129ac78b52006e73e5c8e1df6317e3810",
+      "src/schnorr_zkp.py": "sha256:72933b83f860ad758bb2d3a7813953ccab1c7d41e6f0e5d437459ae71ae2d9ad",
+      "src/opa_binary_bridge.py": "sha256:067b20d5db782bbbb8ce65aac8485c20d0387d2dfdfb81f27c8ea63d88b33e57",
       "src/schema_flattener.py": "sha256:25c710d8c57ed0df7e033048113426a83f8d5685cd8dfc250bc8d44517b49739",
-      "src/iso_fatf_mirrors.py": "sha256:3c5692a9ae013a4e86a6a5225654385ee95c066368d70f33c4b8b9ee69fd3212",
-      "src/supela_k3_engine.py": "sha256:909316584ebb0c609cbb12636ab1703429e68101099e0e86bc012d270378ff3c",
-      "src/k3_http_mcp_gateway.py": "sha256:86cbe0af37778ba9bd9bc3c6a0e09b3012f6356feb77ff2c150995d34b87f530",
-      "src/generate_audit_bundle.py": "sha256:b9658732c1d30193a69703f6c1554586c6bbc43dbe3776554ee32b77fae029ca",
-      "tests/test_supela_k3_omega.py": "sha256:ed6da0a27b17908e50bc00edce70f34c1cdb26766ba2b72ca689a11c4b0be889"
+      "src/iso_fatf_mirrors.py": "sha256:6382e138ca8d6c1d6042ea35399fffa549bdf95e4bdfd2987fb603a63e2e62bf",
+      "src/supela_k3_engine.py": "sha256:51cf0d5e5b8d3a6d36d21c9f015bebaf46aaaa15731f7ace6821810c4e71060f",
+      "src/k3_http_mcp_gateway.py": "sha256:a29edbdd94bc6700f03ae94da344a55847338e1b48ac72c802dc52ee750a971c",
+      "src/generate_audit_bundle.py": "sha256:117c5b6c5e15390f8395bdc43404ee512cdb71befc5dd6bc4d33283463223f6f",
+      "tests/test_supela_k3_omega.py": "sha256:a1029d43b852952c3691ee16035ecc3e448a4dec2e046ea33bfae5a1466d926a"
     }
   },
-  "proprietary_extension_schema": {
-    "xsd_file": "schemas/supela_splmtry_001_001_01.xsd",
-    "target_namespace": "urn:supela:std:k3:omega:xsd:splmtry.001.001.01",
-    "xsd_sha256": "sha256:c4c8c5c6ec2c5cb0dcd37250bfa781ede5335cd5186a29bee6215491a3396b97",
-    "legal_notice": "L’extension SupelaLineage est définie dans un schéma XSD propriétaire, destinée à un usage bilatéral contrôlé. Sa qualification ISO 20022/CBPR+ dépend d’un processus d’acceptation formel par les contreparties et, le cas échéant, par les instances de standardisation."
+  "formal_xsd_schemas_validated_by_libxml2": {
+    "cbpr_plus_pacs_008_strict_xsd": {
+      "xsd_file": "schemas/cbpr_plus_pacs_008_001_10_strict.xsd",
+      "target_namespace": "urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10",
+      "xsd_sha256": "sha256:cec5899e17c58e4a9fa6badccbd265409340c0f9e803d844e4b6d3e392ac6579",
+      "splmtry_data_prohibited_on_wire": true
+    },
+    "cbpr_plus_head_001_strict_xsd": {
+      "xsd_file": "schemas/cbpr_plus_head_001_001_02_strict.xsd",
+      "target_namespace": "urn:iso:std:iso:20022:tech:xsd:head.001.001.02",
+      "xsd_sha256": "sha256:788c8d2da0a55f3ce7bb6abd6b2421de896d403d9d02bbde368d89629c32ae67"
+    },
+    "detached_supela_sidecar_xsd": {
+      "xsd_file": "schemas/supela_splmtry_001_001_01.xsd",
+      "target_namespace": "urn:supela:std:k3:omega:xsd:splmtry.001.001.01",
+      "xsd_sha256": "sha256:c0bf7b7348ec9fc3de52a165ef08ce335f6fc657d9ad816932a8b149b6de064d",
+      "legal_notice": "En mode CBPR_PLUS_STRICT, l'élément <SplmtryData> est intégralement retiré du message réseau pacs.008.001.10 et déporté dans un Sidecar XML détaché (<SupelaLineage>), validé par libxml2 XSD et lié cryptographiquement via BoundUETR et BoundWirePackageSha256."
+    }
+  },
+  "real_opa_binary_verification": {
+    "executed": true,
+    "binary_path": "C:\\Users\\Group\\Desktop\\Supela-Monolithe\\opa.exe",
+    "version_output": "Version: 1.21.1\nBuild Commit: 2a109e54103370d2ef288782ef3cb4c8a37902b2-dirty\nBuild Timestamp: 2026-09-29T19:10:43Z\nBuild Hostname: \nGo Version: go1.27.1\nPlatform: windows/amd64\nRego Version: v1\nWebAssembly: available",
+    "exit_code": 0,
+    "passed": true,
+    "stdout": "C:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:65:\ndata.supela.k3.omega.guardrails_test.test_reject_recursive_json_schema: PASS (4.2333ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:102:\ndata.supela.k3.omega.guardrails_test.test_emergent_drift_quarantined: PASS (5.8038ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:55:\ndata.supela.k3.omega.guardrails_test.test_reject_ai_direct_execution_privilege: PASS (5.8038ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:87:\ndata.supela.k3.omega.guardrails_test.test_quota_exceeded_triggers_sovereign_fallback: PASS (5.273ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:45:\ndata.supela.k3.omega.guardrails_test.test_nominal_proposal_allowed: PASS (5.7966ms)\n--------------------------------------------------------------------------------\nPASS: 5/5"
   },
   "messages": {
-    "pacs_008_001_10": {
+    "pacs_008_001_10_cbpr_strict": {
       "module_id": "VR-13",
-      "uetr": "44e4e118-92d9-4b8c-873d-6b809b1735c7",
-      "xml_sha256": "sha256:960b8b9de4020dbea9505ad570a709656ac4f26af0ba2f517b4d7188bbf45a95",
-      "raw_xml": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10\"><FIToFICstmrCdtTrf><GrpHdr><MsgId>PROP-2026-DELTA-VR-13-BUNDLE-PACS008</MsgId><CreDtTm>2026-10-19T06:00:00Z</CreDtTm><NbOfTxs>1</NbOfTxs><SttlmInf><SttlmMtd>CLRG</SttlmMtd></SttlmInf></GrpHdr><CdtTrfTxInf><PmtId><InstrId>PROP-2026-DELTA-VR-13-BUNDLE-PACS008</InstrId><EndToEndId>E2E-PROP-2026-DELTA-VR-13-BUNDLE-PACS008</EndToEndId><UETR>44e4e118-92d9-4b8c-873d-6b809b1735c7</UETR></PmtId><IntrBkSttlmAmt Ccy=\"EUR\">15000.00</IntrBkSttlmAmt><ChrgBr>SHAR</ChrgBr><Dbtr><Nm>SUPELA SOVEREIGN TREASURY</Nm></Dbtr><DbtrAgt><FinInstnId><BICFI>SUPELACAXXX</BICFI></FinInstnId></DbtrAgt><CdtrAgt><FinInstnId><BICFI>BNPAFRPPXXX</BICFI></FinInstnId></CdtrAgt><Cdtr><Nm>INSTITUTIONAL COUNTERPARTY</Nm></Cdtr><SplmtryData><PlcAndNm>/Document/FIToFICstmrCdtTrf/CdtTrfTxInf</PlcAndNm><Envlp><SupelaLineage xmlns=\"urn:supela:std:k3:omega:xsd:splmtry.001.001.01\"><RootAnchor>SUP-0</RootAnchor><MerkleParentHash>sha256:626ba636fac52dcfde76c83d4456f83ea22a98bf5d9119555f1c3841aeebf9ac</MerkleParentHash><IsvSeal>ISV-2026-DELTA-SEALED</IsvSeal><ZkpProof>zkp-snark:sha256-commit:d1432349999fcb925fb712ee191b7a785e6d702d18081eb151d9a032fcd7c8f2</ZkpProof><CompensationContract>COMP-ROLLBACK-PROP-2026-DELTA-VR-13-BUNDLE-PACS008</CompensationContract></SupelaLineage></Envlp></SplmtryData></CdtTrfTxInf></FIToFICstmrCdtTrf></Document>",
+      "profile_mode": "CBPR_PLUS_STRICT_DETACHED_SIDECAR",
+      "uetr": "c4c2ae76-d6e6-4af2-9503-07557f342cf9",
+      "uetr_epistemic_label": "CANDIDATE_UETR_UUIDV4",
+      "contains_supplementary_data_on_wire": false,
+      "wire_xml_sha256": "sha256:c21ed30e86ab8875e47181947de079ccd0ec3db08abc18c0692ff63f1254bb8d",
+      "wire_raw_xml": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10\"><FIToFICstmrCdtTrf><GrpHdr><MsgId>PROP-2026-EPSILON-VR-13-BUNDLE-PACS</MsgId><CreDtTm>2026-10-19T06:00:00Z</CreDtTm><NbOfTxs>1</NbOfTxs><SttlmInf><SttlmMtd>INDA</SttlmMtd></SttlmInf></GrpHdr><CdtTrfTxInf><PmtId><InstrId>PROP-2026-EPSILON-VR-13-BUNDLE-PACS</InstrId><EndToEndId>E2E-PROP-2026-EPSILON-VR-13-BUNDLE-</EndToEndId><UETR>c4c2ae76-d6e6-4af2-9503-07557f342cf9</UETR></PmtId><IntrBkSttlmAmt Ccy=\"EUR\">15000.00</IntrBkSttlmAmt><IntrBkSttlmDt>2026-10-19</IntrBkSttlmDt><ChrgBr>SHAR</ChrgBr><InstgAgt><FinInstnId><BICFI>SUPELACAXXX</BICFI></FinInstnId></InstgAgt><InstdAgt><FinInstnId><BICFI>BNPAFRPPXXX</BICFI></FinInstnId></InstdAgt><Dbtr><Nm>SUPELA SOVEREIGN TREASURY</Nm></Dbtr><DbtrAgt><FinInstnId><BICFI>SUPELACAXXX</BICFI></FinInstnId></DbtrAgt><CdtrAgt><FinInstnId><BICFI>BNPAFRPPXXX</BICFI></FinInstnId></CdtrAgt><Cdtr><Nm>INSTITUTIONAL COUNTERPARTY</Nm></Cdtr></CdtTrfTxInf></FIToFICstmrCdtTrf></Document>",
+      "detached_sidecar_sha256": "sha256:06164ea289a9b1cf552ed732cea7c7e8967d13e1b0a4bd0ce8b97397747fdd06",
+      "detached_sidecar_xml": "<SupelaLineage xmlns=\"urn:supela:std:k3:omega:xsd:splmtry.001.001.01\"><RootAnchor>SUP-0</RootAnchor><MerkleParentHash>sha256:ae33045ced47b6b0437ac4328ddfa9dff390df1a28d19ab3eb23a3e2debbd476</MerkleParentHash><IsvSeal>ISV-2026-EPSILON-SEALED</IsvSeal><ZkpProof>zkp-schnorr-2048:bc124acb60d64602d552265791503b81f3da2d5df9626cc26d48e21db8acee900bd66923f95ac29cb9442f2b6ca018efa3bac13a05b0298d34f828bd9ac114993c4ff0959224555d0c8e1f2b8cb62f26d08ba626e5a5af46686c6569a611413672922aea026a45350a014bf15b17651fe57b6f51cd867d14414c7396b9c74a3d0a6391a6741547c82da843a2b003653334344602736eeec1f5f6254f5aa5aa80b70abb8b4af92ad2a38f5d0acfe0564ec338ef569996dcd54e6fb9e8bbe798cd3e4349623c8475fa7f2eb2deff3da96cabeac7759114935ce946e16f031bbcce7e757c487f10132cba2f5d334f05e805651249d0838bc90a5eebe7d35ff89adb:bc80d20beb05f9250fc21902203e5093fafac94677f0de16eccf460430770244:1b8d0f4f97efa7d4c1481b88f0c07cb8459c8bc5f2112c4afe2e069b9946c06350c535fb0b8fa14eaaa4783f957d7b46ecb7334f89874d1435e58e365e096ef41142d6390e529b1b53b71d8ff89439010713b2ebbb96c0c97c26d06f682cc03e</ZkpProof><CompensationContract>COMP-ROLLBACK-PROP-2026-EPSILON-VR-13-BUND</CompensationContract><BoundUETR>c4c2ae76-d6e6-4af2-9503-07557f342cf9</BoundUETR><BoundWirePackageSha256>sha256:8cd58867fec67cba89fb358d17c7abf68eea607f22aa3a0a2eb432d80ce9fcf1</BoundWirePackageSha256></SupelaLineage>",
       "qualification_boundaries": {
-        "local_structural_validation": "PASSED_PACS008_BASE_SEQUENCE_AND_PATTERNS",
-        "supplementary_data_status": "UNREGISTERED_PRIVATE_EXTENSION_REQUIRES_BILATERAL_AGREEMENT",
-        "cbpr_plus_network_validation": "NOT_VALIDATED_BY_SWIFT_MYSTANDARDS_PORTAL"
+        "local_structural_validation": "PASSED_LIBXML2_XSD_CBPR_PLUS_STRICT_AND_SIDECAR",
+        "profile_mode": "CBPR_PLUS_STRICT",
+        "supplementary_data_on_wire": "STRIPPED_DETACHED_IN_CRYPTOGRAPHIC_SIDECAR",
+        "cbpr_plus_network_validation": "READY_FOR_SWIFT_MYSTANDARDS_PORTAL_SUBMISSION"
       }
     },
     "camt_053_001_10": {
       "module_id": "VR-14",
-      "uetr": "15e73356-6109-4f60-a557-2fac5d9c1586",
-      "xml_sha256": "sha256:10442117943b2ff3a32f68113c57b045a8db48cf4e0129982cdada2024ece8eb",
-      "raw_xml": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:camt.053.001.10\"><BkToCstmrStmt><GrpHdr><MsgId>STMT-PROP-2026-DELTA-VR-14-BUNDLE-CAMT053</MsgId><CreDtTm>2026-10-19T06:00:00Z</CreDtTm></GrpHdr><Stmt><Id>PROP-2026-DELTA-VR-14-BUNDLE-CAMT053</Id><Acct><Id><Othr>SUPELA-K3-LEDGER-MAIN</Othr></Id></Acct><Ntry><Amt Ccy=\"EUR\">15000.00</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts>BOOK</Sts><AcctSvcrRef>15e73356-6109-4f60-a557-2fac5d9c1586</AcctSvcrRef></Ntry><SplmtryData><PlcAndNm>/Document/BkToCstmrStmt/Stmt</PlcAndNm><Envlp><SupelaAuditSeal xmlns=\"urn:supela:std:k3:omega:xsd:splmtry.001.001.01\"><RootAnchor>SUP-0</RootAnchor><MerkleParentHash>sha256:c573549e3513b451a9b255469bd517dd405f3c4746a4a56261baffbf29571e39</MerkleParentHash><IsvSeal>ISV-2026-DELTA-SEALED</IsvSeal><ZkpProof>zkp-snark:sha256-commit:1977d5daeb73aaf0dfd918a79e5d8dd1495057f08efdb3400d165b316d61af24</ZkpProof><CompensationContract>COMP-ROLLBACK-PROP-2026-DELTA-VR-14-BUNDLE-CAMT053</CompensationContract></SupelaAuditSeal></Envlp></SplmtryData></Stmt></BkToCstmrStmt></Document>",
+      "uetr": "1fdb7418-f66c-48ee-a4fe-c027808f2ec3",
+      "xml_sha256": "sha256:bbee22fb47e0dd865397d48779a7bee2d32046b20149d108900bb480a33d1aec",
+      "raw_xml": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:camt.053.001.10\"><BkToCstmrStmt><GrpHdr><MsgId>STMT-PROP-2026-EPSILON-VR-14-BUNDLE</MsgId><CreDtTm>2026-10-19T06:00:00Z</CreDtTm></GrpHdr><Stmt><Id>PROP-2026-EPSILON-VR-14-BUNDLE-CAMT</Id><Acct><Id><Othr>SUPELA-K3-LEDGER-MAIN</Othr></Id></Acct><Ntry><Amt Ccy=\"EUR\">15000.00</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts>BOOK</Sts><AcctSvcrRef>1fdb7418-f66c-48ee-a4fe-c027808f2ec3</AcctSvcrRef></Ntry><SplmtryData><PlcAndNm>/Document/BkToCstmrStmt/Stmt</PlcAndNm><Envlp><SupelaAuditSeal xmlns=\"urn:supela:std:k3:omega:xsd:splmtry.001.001.01\"><RootAnchor>SUP-0</RootAnchor><MerkleParentHash>sha256:f8420f17c428400ef31df7ac5388af4f5a4431dd24e83f397bff1f21ce645298</MerkleParentHash><IsvSeal>ISV-2026-EPSILON-SEALED</IsvSeal><ZkpProof>zkp-schnorr-2048:dfd76bdf708e9f3b92bc4c951118951cb51ba1e370f04395085c44fcc853568450c4890a01867d4da7649e3d2bf26b0353c3490820faf4c10410869d0f3ae13915c5de6f6ed03ba77ae741694c0a1a1a63a8ce2bc37cd4698c67869324e0ebe336318300adb67e20c9a4fe04ae8b5323c9102008bfb21ea9935fefbbd37875dde4ce8ca1fee7c671b3b1b228199e12c8fa1ad7b63785969976f91a8e74c335437a5b48eeab0f79152ccaab07f141e2c9cba0e4faf23570a39bad40f5c6ed43b790ed7bfe3f8d009831580a4cc82eb5fe8876466f625de84b8029e88090ec934a8009297eeb99b5c8524ce45e3c0f7298a4d8672a8f97e53aa57c47725ac7c4f2:a6308fc4455bc6f92f5719af626b99f2e64dc505d42cd8a4e9ca96a5bddfbd1:2ec7f57dac94b171adc077092c17922c7eeaa75d5e2bcdcd8c185ecc912d599ebc758325932674757e8b5f9d3102607847831255f5f6245110fe358e67574a2f596fbfa31a4fc3414f16f89540c168f714ec242ae236076e7be291cbc0d7978</ZkpProof><CompensationContract>COMP-ROLLBACK-PROP-2026-EPSILON-VR-14-BUND</CompensationContract></SupelaAuditSeal></Envlp></SplmtryData></Stmt></BkToCstmrStmt></Document>",
       "qualification_boundaries": {
-        "local_structural_validation": "PASSED_CAMT053_BASE_SEQUENCE_AND_PATTERNS",
-        "supplementary_data_status": "UNREGISTERED_PRIVATE_EXTENSION_REQUIRES_BILATERAL_AGREEMENT",
+        "local_structural_validation": "PASSED_CAMT053_BASE_SEQUENCE_AND_SIDE_XSD",
+        "supplementary_data_status": "BILATERAL_AUDIT_STATEMENT_EXTENSION",
         "cbpr_plus_network_validation": "NOT_VALIDATED_BY_SWIFT_MYSTANDARDS_PORTAL"
       }
     },
     "head_001_001_02_bah": {
       "module_id": "VR-16",
-      "uetr": "fa141348-bccd-4063-b553-3f6c16e2d773",
-      "xml_sha256": "sha256:f9659d2a26b15de86c92c3fde0f563baa98d45ac6220b301e6b87110d34ad12c",
-      "raw_xml": "<AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\"><Fr><FIId><FinInstnId>SUPELACAXXX</FinInstnId></FIId></Fr><To><FIId><FinInstnId>CHASUS33XXX</FinInstnId></FIId></To><BizMsgIdr>PROP-2026-DELTA-VR-16-BUNDLE-CBPR</BizMsgIdr><MsgDefIdr>pacs.008.001.10</MsgDefIdr><BizSvc>swift.cbprplus.02</BizSvc><CreDt>2026-10-19T06:00:00Z</CreDt></AppHdr>",
+      "uetr": "515a11b8-5a35-4987-904f-a25ec623f458",
+      "xml_sha256": "sha256:29007dc7545bc94f427ab118d374a94d38b004904aa68229c0d4ebc3d3d55d05",
+      "raw_xml": "<AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\"><Fr><FIId><FinInstnId><BICFI>SUPELACAXXX</BICFI></FinInstnId></FIId></Fr><To><FIId><FinInstnId><BICFI>CHASUS33XXX</BICFI></FinInstnId></FIId></To><BizMsgIdr>PROP-2026-EPSILON-VR-16-BUNDLE-CBPR</BizMsgIdr><MsgDefIdr>pacs.008.001.10</MsgDefIdr><BizSvc>swift.cbprplus.02</BizSvc><CreDt>2026-10-19T06:00:00Z</CreDt></AppHdr>",
       "qualification_boundaries": {
-        "local_structural_validation": "PASSED_HEAD001_BAH_STRUCTURE",
+        "local_structural_validation": "PASSED_LIBXML2_XSD_HEAD001_BAH_STRICT",
         "uetr_uniqueness": "ENFORCED_BY_LOCAL_ANTI_REPLAY_REGISTRY",
         "cbpr_plus_usage_guidelines": "REQUIRES_EXTERNAL_SWIFT_RELEASE_QUALIFICATION"
       }
     },
     "ivms101_dual_channel": {
       "module_id": "VR-15",
-      "uetr": "6b73f946-6708-4f53-b0eb-827459090c9a",
+      "uetr": "fc8d72cd-b664-4767-9dd5-042e7145ac83",
       "channel_2_zero_pii_commitment": {
-        "ivms101_payload_commitment": "sha256:56de330c15b8d8c6eea319d016b9ea891f753e43c351a2167d5992f8267ed890",
+        "ivms101_payload_commitment": "sha256:742bbe4d4be61d1587e137e1235b40bc44b9fd1f3730cc6fcaf8e4ed37c7c276",
         "sanctions_screening_passed": true,
-        "zkp_commitment_proof": "zkp-snark:sha256-commit:f7890f5ccbe513ba6612b4987137549217dc567ea0e520bd4dd22cb58a385c3d",
-        "merkle_parent_hash": "sha256:0787d055560867733cd366d8ab06ad7de682ff249ec28baea9c4e505ecb71f14",
-        "isv_seal": "ISV-2026-DELTA-SEALED",
-        "compensation_contract": "COMP-ROLLBACK-PROP-2026-DELTA-VR-15-BUNDLE-IVMS101"
+        "zkp_commitment_proof": "zkp-schnorr-2048:5065afeba6b655dbc32952c1e5761a904b0f430630286dddf6b7270710531a31cf969671138146ef39eab4b6873ec5d651e0694b3f3c2575302cafa1d6248e5ac152b3f1f662c82d41abb6d9343d4b7cd29ac67e1fb3c9c33688014f8e7a3613fb3ae4f1774d0dab4763f9d2b7b94f5c2b929ef39e2ed9a05ce6bafb9dbd7601f0da4289fd61fd6d29c66fd9372851063aee5a26acca25a24fa878bded09c855de99b6f44fe9b037efa728e3dce9bd69fdd68fd4658b3be22a22052b619531012f967fa488769f7569dbee2eb1294dcc4cf16203095419cd878d86c875fcc611050deca4ece433e6cdf8367ba4f47ab1af8049dece7da4629400b5349e93c01:ced56d02ae0b5711213d19ccf2d69c3ff966e45cb145254c45c96a0bd86e9054:c3c6581e4d899fad070f7076afaa62b080e35066e82c5beba3e2520a2824a2363133cc1b3a6fc23f4cccbc9ae355fde703e9df17074ae02308262feff266daed55aee138ebd34dfd9acd1db4b3770b861e2d909763a364b14a0b6d224e37c54e",
+        "merkle_parent_hash": "sha256:49affb878bcc76c33fdf2d99a780231fbc1d3c26dcc19d13cb202ad74db4b445",
+        "isv_seal": "ISV-2026-EPSILON-SEALED",
+        "compensation_contract": "COMP-ROLLBACK-PROP-2026-EPSILON-VR-15-BUND"
       },
       "qualification_boundaries": {
         "local_structural_validation": "PASSED_IVMS101_DUAL_CHANNEL_SCHEMA",
@@ -82,25 +135,25 @@
     }
   },
   "tests": {
-    "total_executed": 12,
-    "total_passed": 12,
+    "total_executed": 16,
+    "total_passed": 16,
     "all_passed": true,
     "execution_details": [
       {
         "test_name": "test_01_worm_ledger_genesis_and_integrity",
         "category": "POSITIVE_CRYPTO_GENESIS",
         "status": "PASSED",
-        "synthetic_input": "Genesis block index=0 with SUP-0 seed and HMAC-ISV key",
-        "observed_outcome": "Integrity verified=True, root_anchor=SUP-0",
-        "execution_log_sha256": "sha256:0447d1b90cdef4aae707a1a4fb6d2f73e138eff5a9586484faf32a24a81e1ab0"
+        "synthetic_input": "Genesis block index=0 with SUP-0 seed and ephemeral CSPRNG 256-bit HMAC-ISV key",
+        "observed_outcome": "Integrity verified=True, root_anchor=SUP-0, public key fingerprint exposed",
+        "execution_log_sha256": "sha256:9450e0260903cf4f9c397b7152d7502c86c30ac9815097587c80e44d711afe45"
       },
       {
         "test_name": "test_02_nominal_proposal_dual_pipeline",
         "category": "POSITIVE_DUAL_GOVERNANCE",
         "status": "PASSED",
-        "synthetic_input": "Valid VR-14 proposal + valid SHA-256 witness commitment",
-        "observed_outcome": "Allowed=True, Fast Lane executed, Slow Lane camt.053 XML generated",
-        "execution_log_sha256": "sha256:f72b3bc1fa20476b79bbe8395c70e96e05989dc50ef5715cff2a951e49cd31bb"
+        "synthetic_input": "Valid VR-14 proposal + 2048-bit Schnorr NIZK discrete-log proof",
+        "observed_outcome": "Allowed=True, status=SCHNORR_2048_MODP_NIZK_VERIFIED, camt.053 generated",
+        "execution_log_sha256": "sha256:f0c554df790d55d8dcc13c75c76744116d00e792cf12e633c3e660427bb2af01"
       },
       {
         "test_name": "test_03_recursive_json_schema_auto_flattened_prevents_meta_400",
@@ -108,7 +161,7 @@
         "status": "PASSED",
         "synthetic_input": "Tool schema with circular $ref/#/$defs/TreeNode and open object Arguments",
         "observed_outcome": "Recursions cut at max_depth=2, open object sealed, 0 remaining issues",
-        "execution_log_sha256": "sha256:a13b9de0b8bd4a4f74b260e825be94a494aa1503a7ffd2d3de37e0f19025d5ac"
+        "execution_log_sha256": "sha256:eae8d7087391d90a9e6887d56bcecce15f7d142a99b4b0e2951dfa988874800e"
       },
       {
         "test_name": "test_04_recursive_schema_quarantined_when_flattener_disabled",
@@ -116,7 +169,7 @@
         "status": "PASSED",
         "synthetic_input": "Circular $ref schema with auto_flatten_schemas=False",
         "observed_outcome": "Allowed=False, Quarantine=True, mode=REQUIRE_SCHEMA_FLATTENING_GATE",
-        "execution_log_sha256": "sha256:21ad61804d978024f2d30a0baa0282b94cb013a0b48a4fde36e69d97f8f18f75"
+        "execution_log_sha256": "sha256:e6f9392b2f5e3ddd611a917eddb271b0e7e45208202790ed246ee9373d5d7a35"
       },
       {
         "test_name": "test_05_quota_exceeded_triggers_sovereign_fallback",
@@ -124,7 +177,7 @@
         "status": "PASSED",
         "synthetic_input": "Telemetry error_code=DAILY_FREE_LIMIT_REACHED on nvidia/nemotron-3.5-super-vl",
         "observed_outcome": "Fallback to supela-local-sovereign-v1 (DEGRADED_FALLBACK_SEALED)",
-        "execution_log_sha256": "sha256:c22cadba8bf166442d140e7e939c960efcb7c7df5795408738878fd9591bf093"
+        "execution_log_sha256": "sha256:487239fac00f25259d1eb643c387bb5fa9b47d9cff4b42d1e0b5232c17d95638"
       },
       {
         "test_name": "test_06_ai_autonomy_and_emergent_drift_quarantined",
@@ -132,15 +185,15 @@
         "status": "PASSED",
         "synthetic_input": "AI actor direct_execution_privilege=True + emergent_drift_delta=0.14 (> 0.05)",
         "observed_outcome": "Allowed=False, Quarantine=True, 2 explicit violations logged in WORM",
-        "execution_log_sha256": "sha256:606235c5a6d1614266150ce8a2f22a12d6c8e9cb2c3e5a22d099109a0e84bfcf"
+        "execution_log_sha256": "sha256:dead4423d0cb9e695a5abb9306a35f4460abd41e2ef8f69f12838eb9cb0405ce"
       },
       {
         "test_name": "test_07_iso20022_pacs008_fatf_ivms101_and_swift_cbpr_mirrors",
         "category": "POSITIVE_NORMATIVE_MIRRORS",
         "status": "PASSED",
-        "synthetic_input": "Valid VR-13 (pacs.008), VR-15 (IVMS101 Dual-Channel), VR-16 (SWIFT BAH)",
-        "observed_outcome": "Local XSD sequence/pattern validation passed for all 3 mirrors",
-        "execution_log_sha256": "sha256:c18909085917f154324b07c2101e5f5d71a404d0a0c3d53dcc17b12a7d6339e9"
+        "synthetic_input": "Valid VR-13 (pacs.008 CBPR_PLUS_STRICT), VR-15 (IVMS101), VR-16 (SWIFT BAH)",
+        "observed_outcome": "libxml2 XSD validation passed for wire pacs.008, BAH head.001, and detached sidecar",
+        "execution_log_sha256": "sha256:3c903cbc0f07d30b2b67c7c2f3d2ab71836bc6bbfebf5c24c10e912c4132a1f2"
       },
       {
         "test_name": "test_08_live_http_mcp_gateway_prevents_meta_400_and_handles_429",
@@ -148,7 +201,7 @@
         "status": "PASSED",
         "synthetic_input": "Live HTTP POST /v1/chat/completions with recursive MCP tool + 429 upstream",
         "observed_outcome": "HTTP 200 sealed completion with flattened schema and sovereign fallback",
-        "execution_log_sha256": "sha256:1487f6b311156f37d238c40914b396b40c6a76bea2adeb183f99eb05a31b21cc"
+        "execution_log_sha256": "sha256:845e1905f29833751d4580cb5378601c4d97aa00357c2c504eb1e49a5ab30ee1"
       },
       {
         "test_name": "test_09_negative_crypto_tampered_worm_payload_and_wrong_isv_key",
@@ -156,15 +209,15 @@
         "status": "PASSED",
         "synthetic_input": "Wrong HMAC-ISV key verification + in-memory payload mutation on Block #1",
         "observed_outcome": "verify_integrity() returns False and pinpoints tampered Block #1",
-        "execution_log_sha256": "sha256:c109141a64d6c8f60096404d086585e812a6607080409d29b169c71d3bdc758a"
+        "execution_log_sha256": "sha256:ee29e48489eaecdb6fc8dd16b3ce57e8bcdc7b86c7724e1c0fd437cd7b981b56"
       },
       {
         "test_name": "test_10_negative_crypto_forged_zkp_witness_rejected",
         "category": "NEGATIVE_ADVERSARIAL_CRYPTO",
         "status": "PASSED",
-        "synthetic_input": "Forged witness secret not matching public_commitment SHA-256",
+        "synthetic_input": "Forged 2048-bit Schnorr NIZK proof with attacker witness secret",
         "observed_outcome": "Allowed=False, Quarantine=True, VR_MODULE_CONSTRAINT_BREACH",
-        "execution_log_sha256": "sha256:373a3c13a835d502433afe74f7a3b10879bfcc9447e03ba655d3749eef240f06"
+        "execution_log_sha256": "sha256:a7dbc12ac0d5081448998dee9bf37b877c90a4f4105fc5d61f3b230125681de2"
       },
       {
         "test_name": "test_11_negative_uetr_replay_collision_blocked",
@@ -172,78 +225,158 @@
         "status": "PASSED",
         "synthetic_input": "Duplicate submission of identical (proposal_id, merkle_parent_hash)",
         "observed_outcome": "Second submission rejected with REPLAY_BLOCKED in quarantine",
-        "execution_log_sha256": "sha256:24af4737d5e87d4418d745106d37f7bd9206496e7dafec2af2dc6caf322b50bf"
+        "execution_log_sha256": "sha256:141c24f1d1dfdeacd8d17a99138a1819e83ced22bf604393d276b96048d041df"
       },
       {
         "test_name": "test_12_negative_iso20022_structural_validator_rejects_non_compliant_xml",
         "category": "NEGATIVE_NORMATIVE_XSD_VALIDATION",
         "status": "PASSED",
         "synthetic_input": "Invalid BICFI ('INVALID_BIC_123') and unqualified <SplmtryData> namespace",
-        "observed_outcome": "Rejected by Iso20022StructuralValidator (INVALID_BICFI & UNQUALIFIED_SPLMTRY_EXTENSION_NS)",
-        "execution_log_sha256": "sha256:fc9b450531801a8fdd0a3a70babd9e992c7db59ca3620d87bd6a61a4ce89c81d"
+        "observed_outcome": "Rejected by libxml2 XSD / Iso20022StructuralValidator",
+        "execution_log_sha256": "sha256:c57c59f3087326ed46b0a5ed82d9305dfdcbaf33398a04419459fe2940fd907c"
+      },
+      {
+        "test_name": "test_13_real_schnorr_2048_nizk_algebraic_verification_and_forgery_rejection",
+        "category": "POSITIVE_AND_NEGATIVE_SCHNORR_2048_NIZK",
+        "status": "PASSED",
+        "synthetic_input": "2048-bit MODP RFC 3526 Group 14 Schnorr NIZK proof + tampered (s+1 mod q) & hijacked context",
+        "observed_outcome": "g^s == R * Y^c mod p verified; tampered s and hijacked context algebraically rejected",
+        "execution_log_sha256": "sha256:acef7502c3bfd557c0f90372ec5cd09629254d56aa58d781e5a790da1e2e2650"
+      },
+      {
+        "test_name": "test_14_cbpr_plus_strict_libxml2_xsd_and_detached_sidecar_validation",
+        "category": "POSITIVE_AND_NEGATIVE_LIBXML2_CBPR_STRICT",
+        "status": "PASSED",
+        "synthetic_input": "CBPR_PLUS_STRICT pacs.008 + detached sidecar + illegal <SplmtryData> injection on wire",
+        "observed_outcome": "Clean wire XML & sidecar pass libxml2 XSD; polluted wire XML rejected",
+        "execution_log_sha256": "sha256:c679ea375d18dcfcad272dc45b048cf07dfc7dedf6fb294b740edd4104962af1"
+      },
+      {
+        "test_name": "test_15_real_opa_binary_execution_and_parity",
+        "category": "POSITIVE_AND_NEGATIVE_OPA_BINARY_EXECUTION",
+        "status": "PASSED",
+        "synthetic_input": "Real CNCF opa.exe test policies/ -v + opa.exe eval on nominal and rogue envelopes",
+        "observed_outcome": "opa test PASS 5/5; 100% decision parity between opa.exe and SupelaK3OmegaEngine",
+        "execution_log_sha256": "sha256:9854db91ccfa668cdb23da4696512c1b3259fa4a63a3c9b762c62c7af5ac0e94"
+      },
+      {
+        "test_name": "test_16_epistemic_revision_and_demotion_on_contradictory_observation",
+        "category": "NEGATIVE_EPISTEMIC_REVISION_DEMOTION",
+        "status": "PASSED",
+        "synthetic_input": "Contradictory observation (SWIFT_ITB_NACK_H001) applied to a LEVEL_3_AUDITABLE receipt",
+        "observed_outcome": "Demoted to LEVEL_2_TESTED_QUARANTINE, retroactive quarantine, K3_EPISTEMIC_DEMOTION sealed in WORM",
+        "execution_log_sha256": "sha256:105b21e19362a07f591c6ace8c48583815945f34e2d1b480bb6053b248c450f7"
       }
     ]
   },
   "crypto": {
-    "isv_key_id": "ISV-KEY-2026-DELTA-SOVEREIGN-01",
-    "hmac_algorithm": "HMAC-SHA256",
-    "hash_algorithm": "SHA-256",
-    "commitment_scheme": "SHA256(COMMIT || proposal_id || parent_hash || SHA256(witness))",
+    "zero_hardcoded_secret_key_in_repo": true,
+    "ephemeral_isv_key_fingerprint_sha256": "sha256:a4cf725a863008914ad03528ea30b1080dbb7958b23e42e3f0ab8761206f83f7",
+    "hmac_algorithm": "HMAC-SHA256 (CSPRNG 256-bit runtime key)",
+    "asymmetric_detached_signature": {
+      "algorithm": "OpenPGP Ed25519",
+      "signing_key_fingerprint": "962E7595BA84F3422646093F83830D7037197404",
+      "detached_signature_path": "evidence/audit_evidence_bundle.json.asc"
+    },
+    "zero_knowledge_proof_scheme": {
+      "protocol": "SCHNORR-NIZK-FIAT-SHAMIR-RFC3526-2048",
+      "group": "IETF RFC 3526 Group 14 (2048-bit MODP Safe Prime p = 2q + 1, generator g = 4)",
+      "verification_equation": "g^s mod p == (R * Y^c) mod p",
+      "sample_verified_proof": {
+        "scheme": "SCHNORR-NIZK-FIAT-SHAMIR-RFC3526-2048",
+        "group": "RFC3526-MODP-2048-PRIME-ORDER-Q",
+        "public_key_y_hex": "fc55ec5ce9e8e5798a8fdfd687127d6f005b9e685b3ef62dc909e474bb2404f962dac187e2646a08d837e2469042a3c08949c2808f2230559e3d40c1de322e640f67eb1904ff8774cd2b26e72ca7e915adfb9a8092045616810cccc84409bfbde4e8d0dcfbb6d73f5e8f01dcd1fb44f269005f9e3e77c3a29d1849111dece4fe3139c2ba664a07a9b482d405cdfc6659d205fa028f766800173be095bab034b837a8b68a1522fcd71bf102eeec118b71d863bb70088174a09564d6d466e865ea28698784d47b472c23fd3e45344d708a0e933205897c042cc2d9fd7fde502f2161a0791bf4e82aa67ceb4bcf323bea7e29f378b1e55e87550645cc647af9c336",
+        "commitment_r_hex": "bc124acb60d64602d552265791503b81f3da2d5df9626cc26d48e21db8acee900bd66923f95ac29cb9442f2b6ca018efa3bac13a05b0298d34f828bd9ac114993c4ff0959224555d0c8e1f2b8cb62f26d08ba626e5a5af46686c6569a611413672922aea026a45350a014bf15b17651fe57b6f51cd867d14414c7396b9c74a3d0a6391a6741547c82da843a2b003653334344602736eeec1f5f6254f5aa5aa80b70abb8b4af92ad2a38f5d0acfe0564ec338ef569996dcd54e6fb9e8bbe798cd3e4349623c8475fa7f2eb2deff3da96cabeac7759114935ce946e16f031bbcce7e757c487f10132cba2f5d334f05e805651249d0838bc90a5eebe7d35ff89adb",
+        "challenge_c_hex": "bc80d20beb05f9250fc21902203e5093fafac94677f0de16eccf460430770244",
+        "response_s_hex": "1b8d0f4f97efa7d4c1481b88f0c07cb8459c8bc5f2112c4afe2e069b9946c06350c535fb0b8fa14eaaa4783f957d7b46ecb7334f89874d1435e58e365e096ef41142d6390e529b1b53b71d8ff89439010713b2ebbb96c0c97c26d06f682cc03e",
+        "context_binding": "SUP-0|PROP-2026-EPSILON-VR-13-BUNDLE-PACS008|sha256:ae33045ced47b6b0437ac4328ddfa9dff390df1a28d19ab3eb23a3e2debbd476"
+      }
+    },
     "worm_ledger": {
       "root_anchor": "SUP-0",
       "in_memory_integrity_verified": true,
       "integrity_error": null,
-      "total_blocks": 5,
-      "merkle_root": "sha256:b5572bea8bcb06db46411d8d959ccf26164f8a43cc01075b760c9666db8071f6",
+      "total_blocks": 7,
+      "merkle_root": "sha256:1699fe97de60956712defb79e249cadfdd12b18908988f7bbdbc4b778bea7820",
       "block_chain_summary": [
         {
           "index": 0,
           "module_id": "SUP-0",
           "event_type": "GENESIS_SEAL",
           "parent_hash": "sha256:62be7c06b6d4aecb5aa320cf9d33c70d28f627d5694450085762654bb07b8639",
-          "entry_hash": "sha256:626ba636fac52dcfde76c83d4456f83ea22a98bf5d9119555f1c3841aeebf9ac",
-          "isv_seal": "isv-hmac-sha256:a2c9f0f8e600db35f8f0b50cc477893c5c9329d6c724f2024edfc51ce9e89af5"
+          "entry_hash": "sha256:ae33045ced47b6b0437ac4328ddfa9dff390df1a28d19ab3eb23a3e2debbd476",
+          "isv_seal": "isv-hmac-sha256:80b0a51c30dffa63981adb1514b2126b705a9425baa8c60d99848d8eeb1d5275"
         },
         {
           "index": 1,
           "module_id": "VR-13",
           "event_type": "K3_PROPOSAL_VERDICT",
-          "parent_hash": "sha256:626ba636fac52dcfde76c83d4456f83ea22a98bf5d9119555f1c3841aeebf9ac",
-          "entry_hash": "sha256:c573549e3513b451a9b255469bd517dd405f3c4746a4a56261baffbf29571e39",
-          "isv_seal": "isv-hmac-sha256:cd25478157321d302e2b050e41ad0cbb5e2ab61688740e10dbb2b62a3b44c129"
+          "parent_hash": "sha256:ae33045ced47b6b0437ac4328ddfa9dff390df1a28d19ab3eb23a3e2debbd476",
+          "entry_hash": "sha256:f8420f17c428400ef31df7ac5388af4f5a4431dd24e83f397bff1f21ce645298",
+          "isv_seal": "isv-hmac-sha256:135e6ba7b983d71ce1f4f8a52e7d5841eccbceb17d8c097dd7e59bc736046b33"
         },
         {
           "index": 2,
           "module_id": "VR-14",
           "event_type": "K3_PROPOSAL_VERDICT",
-          "parent_hash": "sha256:c573549e3513b451a9b255469bd517dd405f3c4746a4a56261baffbf29571e39",
-          "entry_hash": "sha256:0787d055560867733cd366d8ab06ad7de682ff249ec28baea9c4e505ecb71f14",
-          "isv_seal": "isv-hmac-sha256:40b3ebc53bbd25834835e3b2e081d3a9224b8e128a7c1c8ad8d32d7a6dff8ece"
+          "parent_hash": "sha256:f8420f17c428400ef31df7ac5388af4f5a4431dd24e83f397bff1f21ce645298",
+          "entry_hash": "sha256:49affb878bcc76c33fdf2d99a780231fbc1d3c26dcc19d13cb202ad74db4b445",
+          "isv_seal": "isv-hmac-sha256:a18c1e78ceff53e7e73d6cdbb2774616a0ee8e55c0e194847cde00629f98cbcc"
         },
         {
           "index": 3,
           "module_id": "VR-15",
           "event_type": "K3_PROPOSAL_VERDICT",
-          "parent_hash": "sha256:0787d055560867733cd366d8ab06ad7de682ff249ec28baea9c4e505ecb71f14",
-          "entry_hash": "sha256:e789aaf38744a3524fc9fd31fc5fc178e92cca86e07be044b08786264dd984f2",
-          "isv_seal": "isv-hmac-sha256:dcbfad6cb17547d7c293a98a7773f92d3a3be6df2a57f71e399f2b0c3497556b"
+          "parent_hash": "sha256:49affb878bcc76c33fdf2d99a780231fbc1d3c26dcc19d13cb202ad74db4b445",
+          "entry_hash": "sha256:7ad7a4e19342a8c33d88c96f69f6d5e373d9863439fdecce2bfe81aabe486c47",
+          "isv_seal": "isv-hmac-sha256:18afa249ad5cd9fd98bac2b78e5195ab8b0ce88798745fe308661a78de8c61fe"
         },
         {
           "index": 4,
           "module_id": "VR-16",
           "event_type": "K3_PROPOSAL_VERDICT",
-          "parent_hash": "sha256:e789aaf38744a3524fc9fd31fc5fc178e92cca86e07be044b08786264dd984f2",
-          "entry_hash": "sha256:f1ad2480a7958a3f33c953bf1bf452d88375004448aa7ff1bf95c6a42d55c1f5",
-          "isv_seal": "isv-hmac-sha256:6187db1a63a3b74c68ac66699ebeb22ad43090b63b48bd555efab5a196624cbe"
+          "parent_hash": "sha256:7ad7a4e19342a8c33d88c96f69f6d5e373d9863439fdecce2bfe81aabe486c47",
+          "entry_hash": "sha256:57f361d627ef49cf24f44da2526c7c81401a9667c7d90cc6794e856a55117bc3",
+          "isv_seal": "isv-hmac-sha256:9ec21ceddd2c69c06e8bc21c5645cd9210cad1128aa36f83d2965ccc10b6c112"
+        },
+        {
+          "index": 5,
+          "module_id": "VR-16",
+          "event_type": "K3_PROPOSAL_VERDICT",
+          "parent_hash": "sha256:57f361d627ef49cf24f44da2526c7c81401a9667c7d90cc6794e856a55117bc3",
+          "entry_hash": "sha256:ec8bdb8db15520fc5e95440b3becfa960345cbe6935c634bf22ab5ae03fc337a",
+          "isv_seal": "isv-hmac-sha256:cd9a259dd0e93d74031a1ede7df82ee7f63b0cffca608b6cf0924aaa950bf6a5"
+        },
+        {
+          "index": 6,
+          "module_id": "EPISTEMIC-REVISION-GATE",
+          "event_type": "K3_EPISTEMIC_DEMOTION",
+          "parent_hash": "sha256:ec8bdb8db15520fc5e95440b3becfa960345cbe6935c634bf22ab5ae03fc337a",
+          "entry_hash": "sha256:ffb3d6f01259a470b12fd9a6080feed9f31b01473be67897ea056e801183a362",
+          "isv_seal": "isv-hmac-sha256:629f36a15c3ed506adf89666cce85b45242120000191ef6b4a04ea8b74f87987"
         }
       ]
+    },
+    "epistemic_revision_demonstration": {
+      "proposal_id": "PROP-2026-EPSILON-VR-16-BUNDLE-REVISION",
+      "execution_route": "RETROACTIVE_QUARANTINE_ON_CONTRADICTION",
+      "demoted_component": {
+        "level": "LEVEL_2_TESTED_QUARANTINE",
+        "status": "DEMOTED_BY_CONTRADICTORY_OBSERVATION",
+        "self_attribution_prohibited_above": "LEVEL_3_AUDITABLE",
+        "external_proof_for_level_4": "Rapport de qualification SWIFT MyStandards CBPR+ & traces SWIFT GPI Tracker",
+        "demoted_from": "LEVEL_3_AUDITABLE",
+        "contradiction_evidence": "SIMULATED_CONTRADICTION_MISSING_HARDWARE_TPM_QUOTE_AND_FINPLUS_NACK"
+      },
+      "worm_demotion_entry_hash": "sha256:ffb3d6f01259a470b12fd9a6080feed9f31b01473be67897ea056e801183a362"
     },
     "negative_adversarial_checks": {
       "wrong_isv_key_rejected": true,
       "in_memory_payload_mutation_detected": true,
-      "forged_zkp_witness_rejected": true,
+      "forged_schnorr_2048_nizk_rejected": true,
       "uetr_replay_collision_blocked": true,
-      "malformed_bicfi_and_unqualified_splmtry_ns_rejected": true
+      "malformed_bicfi_and_polluted_splmtry_rejected_by_libxml2": true,
+      "epistemic_demotion_on_contradiction_sealed": true
     }
   },
   "k3_omega_assurance_matrix": {
@@ -272,9 +405,9 @@
       },
       "zkp_validity": {
         "level": "LEVEL_3_AUDITABLE",
-        "status": "SHA256_COMMITMENT_WITNESS_VERIFIED",
+        "status": "SCHNORR_2048_MODP_NIZK_VERIFIED",
         "self_attribution_prohibited_above": "LEVEL_3_AUDITABLE",
-        "external_proof_for_level_4": "Vérification indépendante d'un circuit arithmétique zk-SNARK (Groth16/PlonK)"
+        "external_proof_for_level_4": "Audit cryptographique tiers du protocole Schnorr NIZK 2048 bits ou circuit zk-SNARK"
       },
       "iso20022_cbpr_plus_compliance": {
         "level": "LEVEL_3_AUDITABLE",
@@ -291,8 +424,10 @@
     }
   },
   "bundle_seal": {
-    "isv_key_id": "ISV-KEY-2026-DELTA-SOVEREIGN-01",
-    "bundle_payload_sha256": "sha256:c88339702c8a7af4561b6f7894413b9755ecdf22cb2265d28a0fd4cad935d584",
-    "bundle_hmac_isv_signature": "isv-hmac-sha256:855cc890f34a641ed6d4e8c44f4345a8e31667df0813d7766188923824ea484c"
+    "bundle_payload_sha256": "sha256:81cf467625747906c9cd9c0ff49e9218a3d80892da9b592a469708f2091bb796",
+    "ephemeral_worm_key_fingerprint_sha256": "sha256:a4cf725a863008914ad03528ea30b1080dbb7958b23e42e3f0ab8761206f83f7",
+    "gpg_signing_key_fingerprint": "962E7595BA84F3422646093F83830D7037197404",
+    "detached_gpg_signature_file": "evidence/audit_evidence_bundle.json.asc",
+    "offline_verification_command": "gpg --verify evidence/audit_evidence_bundle.json.asc evidence/audit_evidence_bundle.json"
   }
 }

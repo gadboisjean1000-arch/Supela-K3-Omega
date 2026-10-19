@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:pacs="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10"
+    targetNamespace="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+
+    <xs:annotation>
+        <xs:documentation xml:lang="fr">
+            Schéma XSD de validation stricte du profil CBPR+ pour pacs.008.001.10 :
+            - Interdit strictement toute balise &lt;SplmtryData&gt; sur le flux réseau interbancaire.
+            - Impose le jeu de caractères FIN-X et la longueur Max35Text sans '/' initial/final.
+            - Impose &lt;SttlmMtd&gt; dans {INDA, INGA, COVE} (interdit CLRG sans ClrSys).
+            - Impose la présence de &lt;InstgAgt&gt;, &lt;InstdAgt&gt;, &lt;DbtrAgt&gt;, &lt;CdtrAgt&gt; avec BICFI valide.
+            - Impose un &lt;UETR&gt; conforme RFC 4122 UUIDv4.
+        </xs:documentation>
+    </xs:annotation>
+
+    <!-- FIN-X Max35Text sans '/' au début ou à la fin -->
+    <xs:simpleType name="CBPRPlusRestrictedFINXMax35Text">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="35"/>
+            <xs:pattern value="[A-Za-z0-9\-?:\(\)\.,'\+ ]([A-Za-z0-9/\-?:\(\)\.,'\+ ]*[A-Za-z0-9\-?:\(\)\.,'\+ ])?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CBPRPlusMax140Text">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="140"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="BICFIDec2014Identifier">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3})?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="UUIDv4Identifier">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ActiveCurrencyCode">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CBPRPlusSettlementMethodCode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="INDA"/>
+            <xs:enumeration value="INGA"/>
+            <xs:enumeration value="COVE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ChargeBearerType1Code">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="DEBT"/>
+            <xs:enumeration value="CRED"/>
+            <xs:enumeration value="SHAR"/>
+            <xs:enumeration value="SLEV"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ActiveCurrencyAndAmount">
+        <xs:simpleContent>
+            <xs:extension base="xs:decimal">
+                <xs:attribute name="Ccy" type="pacs:ActiveCurrencyCode" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="BranchAndFinancialInstitutionIdentification6">
+        <xs:sequence>
+            <xs:element name="FinInstnId">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="BICFI" type="pacs:BICFIDec2014Identifier"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PartyIdentification135">
+        <xs:sequence>
+            <xs:element name="Nm" type="pacs:CBPRPlusMax140Text"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="GroupHeader93">
+        <xs:sequence>
+            <xs:element name="MsgId" type="pacs:CBPRPlusRestrictedFINXMax35Text"/>
+            <xs:element name="CreDtTm" type="xs:dateTime"/>
+            <xs:element name="NbOfTxs" type="xs:string" fixed="1"/>
+            <xs:element name="SttlmInf">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="SttlmMtd" type="pacs:CBPRPlusSettlementMethodCode"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="CreditTransferTransaction50">
+        <xs:sequence>
+            <xs:element name="PmtId">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="InstrId" type="pacs:CBPRPlusRestrictedFINXMax35Text"/>
+                        <xs:element name="EndToEndId" type="pacs:CBPRPlusRestrictedFINXMax35Text"/>
+                        <xs:element name="UETR" type="pacs:UUIDv4Identifier"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="IntrBkSttlmAmt" type="pacs:ActiveCurrencyAndAmount"/>
+            <xs:element name="IntrBkSttlmDt" type="xs:date"/>
+            <xs:element name="ChrgBr" type="pacs:ChargeBearerType1Code"/>
+            <xs:element name="InstgAgt" type="pacs:BranchAndFinancialInstitutionIdentification6"/>
+            <xs:element name="InstdAgt" type="pacs:BranchAndFinancialInstitutionIdentification6"/>
+            <xs:element name="Dbtr" type="pacs:PartyIdentification135"/>
+            <xs:element name="DbtrAgt" type="pacs:BranchAndFinancialInstitutionIdentification6"/>
+            <xs:element name="CdtrAgt" type="pacs:BranchAndFinancialInstitutionIdentification6"/>
+            <xs:element name="Cdtr" type="pacs:PartyIdentification135"/>
+            <!-- AUCUN élément SplmtryData n'est autorisé dans ce schéma CBPR+ Strict -->
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="FIToFICustomerCreditTransferV10">
+        <xs:sequence>
+            <xs:element name="GrpHdr" type="pacs:GroupHeader93"/>
+            <xs:element name="CdtTrfTxInf" type="pacs:CreditTransferTransaction50"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DocumentType">
+        <xs:sequence>
+            <xs:element name="FIToFICstmrCdtTrf" type="pacs:FIToFICustomerCreditTransferV10"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="Document" type="pacs:DocumentType"/>
+
+</xs:schema>

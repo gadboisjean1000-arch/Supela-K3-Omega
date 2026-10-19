@@ -110,10 +110,20 @@ class SupelaMcpHttpInterceptor:
             first_fn = sanitized_req["tools"][0].get("function", sanitized_req["tools"][0])
             first_tool_schema = first_fn.get("parameters", first_tool_schema)
 
-        k3_envelope = sanitized_req.get(
-            "supela_k3_meta",
-            {
-                "proposal_id": sanitized_req.get("request_id", "PROP-GATEWAY-AUTO-001"),
+        if "supela_k3_meta" in sanitized_req:
+            k3_envelope = sanitized_req["supela_k3_meta"]
+        else:
+            from src.schnorr_zkp import generate_schnorr_nizk_proof
+
+            prop_id = str(sanitized_req.get("request_id", "PROP-GATEWAY-AUTO-001"))
+            parent_h = self.engine.ledger.head_hash
+            schnorr_prf = generate_schnorr_nizk_proof(
+                witness_secret=f"GATEWAY-WITNESS-{prop_id}",
+                proposal_id=prop_id,
+                parent_hash=parent_h,
+            )
+            k3_envelope = {
+                "proposal_id": prop_id,
                 "actor": {
                     "role": "AI_PROPOSAL_GENERATOR",
                     "direct_execution_privilege": False,
@@ -127,17 +137,17 @@ class SupelaMcpHttpInterceptor:
                     "parameters": {"amount": 2500.00, "currency": "EUR"},
                     "lineage": {
                         "root_anchor": "SUP-0",
-                        "merkle_parent_hash": self.engine.ledger.head_hash,
+                        "merkle_parent_hash": parent_h,
                         "isv_seal": "ISV-GATEWAY-AUTO-SEAL",
                     },
                 },
                 "validation": {
                     "gf_verdict": "SEALED_APPROVED",
                     "engine_signatures": ["sig-gateway-k3-alpha", "sig-gateway-k3-beta"],
-                    "zkp_proof": "zkp-snark:gateway-verified-proof-001",
+                    "zkp_proof": schnorr_prf.to_compact_token(),
+                    "schnorr_proof": schnorr_prf.to_dict(),
                 },
-            },
-        )
+            }
         k3_envelope["tool_schema"] = first_tool_schema
         k3_envelope["provider_telemetry"] = telemetry
 

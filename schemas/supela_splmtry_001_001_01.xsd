@@ -5,152 +5,72 @@
     targetNamespace="urn:supela:std:k3:omega:xsd:splmtry.001.001.01"
     elementFormDefault="qualified"
     attributeFormDefault="unqualified"
-    version="1.0.0-2026-DELTA">
+    version="2.0.0-2026-EPSILON">
 
     <xs:annotation>
         <xs:documentation xml:lang="fr">
             ============================================================================
-            AVERTISSEMENT JURIDIQUE ET NORMATIF (PROFIL D'EXTENSION BILATÉRAL SUPELA-K3-Ω)
+            AVERTISSEMENT JURIDIQUE ET NORMATIF (PROFIL BILATÉRAL &amp; DETACHED SIDECAR)
             ============================================================================
             L'extension SupelaLineage (et SupelaAuditSeal) est définie dans un schéma XSD
-            propriétaire (namespace : urn:supela:std:k3:omega:xsd:splmtry.001.001.01),
-            destinée à un usage bilatéral contrôlé au sein du composant ISO 20022
-            SupplementaryData (&lt;SplmtryData&gt;/&lt;Envlp&gt;).
-
-            STATUT DE QUALIFICATION :
-            - Ce schéma NE CONSTITUE PAS une extension ISO 20022 officiellement enregistrée
-              auprès du Registration Management Group (RMG) / Standards Evaluation Group (SEG).
-            - Sa qualification ISO 20022 et son acceptation sur un réseau tel que SWIFT CBPR+
-              dépendent d'un processus d'acceptation formel (accord bilatéral ou Market Practice
-              communautaire sur MyStandards) par les contreparties utilisatrices et, le cas
-              échéant, par les instances de standardisation compétentes.
+            propriétaire (namespace : urn:supela:std:k3:omega:xsd:splmtry.001.001.01).
+            En mode CBPR_PLUS_STRICT, cet élément n'est JAMAIS injecté dans le message
+            pacs.008/camt.053 réseau (afin de respecter l'interdiction CBPR+ des extensions
+            SupplementaryData non enregistrées), mais émis sous forme de Sidecar XML détaché
+            lié cryptographiquement au message SWIFT par BoundUETR et BoundWirePackageSha256.
         </xs:documentation>
     </xs:annotation>
 
-    <!-- =================================================================== -->
-    <!-- TYPES SIMPLES CONTRAINTS (PATTERNS CRYPTOGRAPHIQUES & MÉTIER)       -->
-    <!-- =================================================================== -->
-
     <xs:simpleType name="RootAnchorCode">
-        <xs:annotation>
-            <xs:documentation xml:lang="fr">
-                Ancrage ontologique racine obligatoire de l'architecture Supela.
-                Valeur fixe exigée : SUP-0.
-            </xs:documentation>
-        </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="SUP-0"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="Sha256PrefixedHash">
-        <xs:annotation>
-            <xs:documentation xml:lang="fr">
-                Empreinte cryptographique SHA-256 préfixée ("sha256:" + 64 caractères hexadécimaux).
-                Utilisée pour le chaînage Merkle WORM et les engagements (commitments) zéro-PII IVMS101.
-            </xs:documentation>
-        </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="sha256:[a-f0-9]{64}"/>
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="IsvSealToken">
-        <xs:annotation>
-            <xs:documentation xml:lang="fr">
-                Sceau d'intégrité HMAC-ISV ou identifiant de scellement interne K3-Omega.
-            </xs:documentation>
-        </xs:annotation>
+    <xs:simpleType name="UUIDv4Type">
         <xs:restriction base="xs:string">
-            <xs:minLength value="8"/>
-            <xs:maxLength value="128"/>
+            <xs:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}"/>
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="ZkpCommitmentToken">
-        <xs:annotation>
-            <xs:documentation xml:lang="fr">
-                Jeton d'engagement cryptographique ("zkp-snark:...") permettant de vérifier
-                localement la correspondance avec un témoin (witness) ou une attestation LCB-FT/FATF.
-                Note d'audit : ne constitue une preuve zk-SNARK complète que s'il est vérifié
-                par un vérificateur de circuit arithmétique externe indépendant.
-            </xs:documentation>
-        </xs:annotation>
+    <xs:simpleType name="IsvSealToken">
         <xs:restriction base="xs:string">
-            <xs:pattern value="zkp-snark:[a-zA-Z0-9:\-_]{16,128}"/>
+            <xs:minLength value="8"/>
+            <xs:maxLength value="160"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ZkpProofToken">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="zkp-(snark|schnorr-2048):[a-zA-Z0-9:\-_]{16,2048}"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="CompensationContractId">
-        <xs:annotation>
-            <xs:documentation xml:lang="fr">
-                Référence du contrat de compensation automatique (Slow Lane -> Fast Lane)
-                déclenché si l'autorité ou la contrepartie externe rejette l'opération.
-            </xs:documentation>
-        </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="COMP-ROLLBACK-[A-Za-z0-9\-_]{3,64}"/>
         </xs:restriction>
     </xs:simpleType>
 
-    <!-- =================================================================== -->
-    <!-- TYPE COMPLEXE : SupelaLineageType                                   -->
-    <!-- =================================================================== -->
-
     <xs:complexType name="SupelaLineageType">
-        <xs:annotation>
-            <xs:documentation xml:lang="fr">
-                Structure d'extension bilatérale scellant la lignée ontologique SUP-0,
-                le hash parent du journal WORM, le sceau ISV, le jeton d'engagement ZKP/FATF
-                et l'identifiant du contrat de compensation.
-            </xs:documentation>
-        </xs:annotation>
         <xs:sequence>
-            <xs:element name="RootAnchor" type="sup:RootAnchorCode">
-                <xs:annotation>
-                    <xs:documentation xml:lang="fr">Source unique de vérité (SUP-0).</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="MerkleParentHash" type="sup:Sha256PrefixedHash">
-                <xs:annotation>
-                    <xs:documentation xml:lang="fr">
-                        Empreinte SHA-256 du bloc parent dans le journal WORM Supela.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="IsvSeal" type="sup:IsvSealToken">
-                <xs:annotation>
-                    <xs:documentation xml:lang="fr">
-                        Sceau d'intégrité HMAC-ISV associé à la transaction.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="ZkpProof" type="sup:ZkpCommitmentToken">
-                <xs:annotation>
-                    <xs:documentation xml:lang="fr">
-                        Jeton de preuve d'engagement cryptographique ou d'attestation de criblage FATF.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="CompensationContract" type="sup:CompensationContractId">
-                <xs:annotation>
-                    <xs:documentation xml:lang="fr">
-                        Identifiant du contrat de rollback compensatoire en cas de rejet externe.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="Ivms101ZeroPiiCommitment" type="sup:Sha256PrefixedHash" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation xml:lang="fr">
-                        Optionnel : Engagement SHA-256 pointant vers le package IVMS101 (Travel Rule FATF Rec. 16)
-                        transmis sur le canal inter-VASP chiffré (Canal 1), sans exposer de PII dans le XML/WORM (Canal 2).
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
+            <xs:element name="RootAnchor" type="sup:RootAnchorCode"/>
+            <xs:element name="MerkleParentHash" type="sup:Sha256PrefixedHash"/>
+            <xs:element name="IsvSeal" type="sup:IsvSealToken"/>
+            <xs:element name="ZkpProof" type="sup:ZkpProofToken"/>
+            <xs:element name="CompensationContract" type="sup:CompensationContractId"/>
+            <xs:element name="BoundUETR" type="sup:UUIDv4Type" minOccurs="0"/>
+            <xs:element name="BoundWirePackageSha256" type="sup:Sha256PrefixedHash" minOccurs="0"/>
+            <xs:element name="Ivms101ZeroPiiCommitment" type="sup:Sha256PrefixedHash" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
-    <!-- Éléments racines autorisés dans <SplmtryData><Envlp> -->
     <xs:element name="SupelaLineage" type="sup:SupelaLineageType"/>
     <xs:element name="SupelaAuditSeal" type="sup:SupelaLineageType"/>
 
