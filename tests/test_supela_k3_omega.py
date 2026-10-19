@@ -765,6 +765,8 @@ class TestSupelaK3Omega(unittest.TestCase):
         altération illégale (ex: prétendre `completeness_claim_prohibited = False`) est
         immédiatement rejetée par le validateur de schéma.
         """
+        import json
+        import os
         from src.universal_continuum_calculator import UniversalContinuumCalculator
 
         schema_path = os.path.abspath(
