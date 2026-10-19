@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gadboisjean1000-arch/Supela-K3-Omega/schemas/supela_continuum_23_pillars.schema.json",
+  "title": "Supela-K3-Omega Executable Continuum Receipt Schema (22 Formulated Pillars + Pillar 23 Unformulated-Unknown Boundary)",
+  "description": "Formal JSON Schema governing the deterministic calculation receipt across all 22 formulated mathematical, transistor (BJT/JFET/MOSFET), hardware ALU, CS, and cryptographic pillars, plus Pillar 23 enforcing Fail-Closed quarantine on the Unformulated Unknown.",
+  "type": "object",
+  "required": [
+    "continuum_title",
+    "total_pillars_computed",
+    "all_22_pillars_verified",
+    "all_23_pillars_verified",
+    "continuum_execution_sha256",
+    "epistemic_status",
+    "unformulated_unknown_invariant",
+    "axiomatic_system",
+    "pillars"
+  ],
+  "properties": {
+    "continuum_title": {
+      "type": "string"
+    },
+    "total_pillars_computed": {
+      "type": "integer",
+      "const": 23
+    },
+    "all_22_pillars_verified": {
+      "type": "boolean",
+      "const": true
+    },
+    "all_23_pillars_verified": {
+      "type": "boolean",
+      "const": true
+    },
+    "continuum_execution_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "epistemic_status": {
+      "type": "string",
+      "enum": [
+        "LEVEL_0_DECLARED",
+        "LEVEL_1_IMPLEMENTED",
+        "LEVEL_2_TESTED_QUARANTINE",
+        "LEVEL_2_TESTED",
+        "LEVEL_3_AUDITABLE"
+      ]
+    },
+    "unformulated_unknown_invariant": {
+      "type": "string"
+    },
+    "axiomatic_system": {
+      "type": "object",
+      "required": [
+        "axiom_1_silicon_to_proof_continuity",
+        "axiom_2_decimal_algebraic_exactness",
+        "axiom_3_local_epistemic_ceiling",
+        "axiom_4_monotonic_contradiction_demotion",
+        "axiom_5_omission_visibility_entropy",
+        "axiom_6_unformulated_unknown_fail_closed"
+      ],
+      "properties": {
+        "axiom_1_silicon_to_proof_continuity": { "type": "string" },
+        "axiom_2_decimal_algebraic_exactness": { "type": "string" },
+        "axiom_3_local_epistemic_ceiling": { "type": "string" },
+        "axiom_4_monotonic_contradiction_demotion": { "type": "string" },
+        "axiom_5_omission_visibility_entropy": { "type": "string" },
+        "axiom_6_unformulated_unknown_fail_closed": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "pillars": {
+      "type": "array",
+      "minItems": 23,
+      "maxItems": 23,
+      "items": {
+        "type": "object",
+        "required": ["pillar", "verified"],
+        "properties": {
+          "pillar": { "type": "string" },
+          "verified": { "type": "boolean", "const": true }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}

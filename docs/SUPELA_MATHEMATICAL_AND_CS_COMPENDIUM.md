@@ -542,14 +542,15 @@ flowchart TD
         C20 --> C21 --> C22
     end
 
-    subgraph S4["IV. NOYAU CRYPTOGRAPHIQUE & ÉPISTÉMIQUE SUPELA-K3-OMEGA (Pilier 16)"]
+    subgraph S4["IV. NOYAU CRYPTOGRAPHIQUE, ÉPISTÉMIQUE & FRONTIÈRE DU NON-FORMULÉ (Piliers 16 & 23)"]
         K16A["16.1 Preuve ZKP Schnorr 2048 bits (RFC 3526 Groupe 14, Ordre premier q)"]
         K16B["16.2 Signature Asymétrique Ed25519 (Courbe d'Edwards Tordue RFC 8032)"]
         K16C["16.3 Chaîne Hachée WORM + HMAC-SHA256 (Clé CSPRNG) + Arbre de Merkle"]
         K16D["16.6 Rail ISO 20022 CBPR+ Strict (Conservation Décimale + Sidecar Détaché XSD)"]
         K16E["16.4 Treillis Épistémique L0 -> L5 + Rétrogradation Monotone (L3 -> L2Q sur Contradiction)"]
         K16F["16.5 Invariant Entropique de Visibilité de l'Omission (Zéro Illusion d'Exhaustivité)"]
-        K16A & K16B & K16C & K16D --> K16E --> K16F
+        K23["23. Frontière Connu Formulé (Aleph_0) vs Inconnu Non Formulé (2^Aleph_0) : Quarantaine Fail-Closed"]
+        K16A & K16B & K16C & K16D --> K16E --> K16F --> K23
     end
 
     P19 --> C20
@@ -558,4 +559,56 @@ flowchart TD
     M13 --> K16C
     M1 & C21 & C22 --> K16E
     M15 --> K16F
+    P17 & C20 --> K23
 ```
+
+---
+
+## 23. Frontière du Connu Formulé et de l'Inconnu Non Formulé — Les 6 Axiomes & Le Manifeste Court
+
+> [!CAUTION]
+> **« Le connu est inconnu tant qu'il n'est pas formulé — et tout système qui croit avoir tout formulé ment par omission au second ordre. »**
+
+### 23.1 Mathématique & Physique de l'Inconnu Non Formulé
+1. **Théorème Diagonal de Cantor (Disproportion cardinale entre le Formulable et le Réel)** :
+   L'ensemble $\Sigma^*$ de toutes les formules finies qu'une civilisation ou un ordinateur peut écrire est **dénombrable** ($|\Sigma^*| = \aleph_0$), tandis que l'espace des fonctions et comportements du réel $\{0,1\}^{\mathbb{N}}$ a la **puissance du continu** ($2^{\aleph_0}$). Pour toute liste énumérée de formules $(f_0, f_1, f_2, \dots)$, la fonction diagonale :
+   $$d(i) = 1 - f_i(i) \implies \forall i \in \mathbb{N},\;\; d \neq f_i$$
+   échappe par construction au catalogue connu :
+   $$|\mathcal{F}_{\text{formulé}}| = \aleph_0 < 2^{\aleph_0} = |\Omega_{\text{réel}}| \implies \mu_{\text{Lebesgue}}(\mathcal{F}_{\text{formulé}}) = 0$$
+2. **Premier Théorème d'Incomplétude de Gödel & Constante $\Omega$ de Chaitin** :
+   Dans tout système formel cohérent $T$ capable d'exprimer l'arithmétique :
+   $$\exists G_T \in \mathcal{L}(T) \;\;\text{tel que}\;\; T \nvdash G_T \;\;\land\;\; T \nvdash \neg G_T, \qquad \Omega_{\text{Chaitin}} = \sum_{p\downarrow} 2^{-|p|} \notin \mathbb{Q}_{\text{calculable}}$$
+3. **Fluctuations Stochastiques et Quantiques Irréductibles dans les Transistors** :
+   Au cœur même d'un BJT, JFET ou MOSFET, le courant déterministe est superposé à l'aléa thermique et quantique :
+   * **Bruit thermique de Johnson-Nyquist** : $\langle v_n^2 \rangle = 4 k_B T R \Delta f$
+   * **Bruit de grenaille (*Shot Noise*)** : $\langle i_n^2 \rangle = 2 q I_D \Delta f$
+   * **Relation d'incertitude d'Heisenberg** : $\Delta x \cdot \Delta p \ge \frac{\hbar}{2}, \qquad \Delta E \cdot \Delta t \ge \frac{\hbar}{2}$
+
+---
+
+### 23.2 Les 6 Axiomes Canoniques du Continuum Supela-K3-$\Omega$
+
+* **Axiome I — Continuité Silicium-Preuve** :
+  Toute preuve formelle est physiquement incarnée dans une chaîne continue reliant la limite thermodynamique de Landauer ($\Delta E \ge k_B T \ln 2$), les équations de canal des transistors (**BJT, JFET, MOSFET/CMOS**), les portes universelles $\mathrm{NAND}$, l'additionneur matériel CLA, les corps premiers $\mathbb{Z}_p^*$ de 2048 bits et le treillis épistémique $\mathcal{E}$.
+* **Axiome II — Exactitude Algébrique Décimale** :
+  Tout calcul monétaire ou comptable s'exécute exclusivement dans l'anneau décimal à virgule fixe $\mathbb{D}_2 = \mathbb{Z} \cdot 10^{-2}$ sur les registres entiers de l'ALU ; toute dérive binaire flottante IEEE-754 ($\frac{1}{10} \notin \mathbb{Z}\cdot 2^{-52}$) est bannie.
+* **Axiome III — Plafond d'Honnêteté Locale ($L_3$)** :
+  Aucune exécution locale ne peut s'auto-attribuer un niveau de qualification tiers ($L_4$) ou d'observation en production ($L_5$) :
+  $$\forall c \in \mathcal{C}_{\text{local}}, \quad \mathrm{Authority}(c) = \mathrm{Self} \implies \mathrm{Level}(c) \preceq L_3$$
+* **Axiome IV — Rétrogradation Monotone sous Contradiction ($L_3 \to L_{2Q}$)** :
+  Toute observation contradictoire $\mathcal{O}_{\neg c}$ invalide instantanément le statut $L_3$, rétrograde le composant en quarantaine $L_{2Q}$ et scelle un bloc `K3_EPISTEMIC_DEMOTION` dans la chaîne de Merkle WORM.
+* **Axiome V — Visibilité Entropique de l'Omission** :
+  Toute reformulation synthétique $Y = \mathcal{R}(X)$ vérifiant $|Y| < |X|$ induit une perte d'entropie conditionnelle $H(X \mid Y) > 0$. Elle n'est licite que si elle porte l'empreinte $\mathrm{SHA256}(X)$, déclare explicitement ce qu'elle omet ($\Omega_{\text{omission}} \neq \emptyset$) et s'interdit de remplacer la preuve brute ($\mathrm{Substitutable}(Y, X) = \mathrm{False}$).
+* **Axiome VI — Clôture Fail-Closed devant l'Inconnu Non Formulé** :
+  Puisque le domaine formulé $\mathcal{K}_{\mathcal{F}}$ est dénombrable ($\aleph_0$) face au réel non dénombrable ($2^{\aleph_0}$), toute observation $\omega \notin \mathcal{K}_{\mathcal{F}}$ hors des équations formulées interdit toute extrapolation silencieuse (*Fail-Open*) et déclenche immédiatement une mise en quarantaine **Fail-Closed** ($L_{2Q}$).
+
+---
+
+### 23.3 Manifeste Court du Continuum Supela-K3-$\Omega$
+
+> **MANIFESTE DU CONTINUUM SUPELA-K3-$\Omega$**
+>
+> 1. **De la charge électrique au théorème, rien n'est hors juridiction.** Du courant de collecteur d'un transistor BJT, du pincement d'un JFET et de l'inversion de canal d'un MOSFET jusqu'à la preuve à divulgation nulle de Schnorr en 2048 bits et au consensus Byzantin, chaque couche obéit à une loi mathématique explicite et vérifiable.
+> 2. **Calculer ne suffit pas ; il faut prouver le droit d'affirmer le résultat.** Une équation évaluée dans le silicium n'est jamais une vérité absolue : elle porte son niveau de preuve ($L_0 \to L_5$), son empreinte de Merkle WORM et sa condition de révocation ($L_3 \to L_{2Q}$).
+> 3. **La synthèse ne remplace jamais la preuve brute.** Toute reformulation humaine ou exécutive perd de l'information ($H(X \mid Y) > 0$) ; Supela ne supprime pas l'omission, il supprime l'illusion de ne pas omettre.
+> 4. **Ce qui n'est pas formulé n'est jamais présumé valide.** Devant l'Inconnu Non Formulé ($2^{\aleph_0} \setminus \aleph_0$), Supela refuse l'extrapolation silencieuse : là où s'arrête la formule prouvée commence la quarantaine Fail-Closed.

@@ -672,8 +672,50 @@ class TestSupelaK3Omega(unittest.TestCase):
         )
         self.assertEqual(len(projections["4_epistemic_horizon_omissions_declared"]), 3)
 
+    def test_18_universal_continuum_23_pillars_and_unformulated_unknown_boundary(self) -> None:
+        """
+        Vérifie l'exécution déterministe des 23 piliers du continuum doctoral Supela-K3-Omega :
+        - Piliers 1..15 : Mathématiques fondamentales et appliquées,
+        - Pilier 16 : Noyau cryptographique & épistémique Supela-K3-Omega,
+        - Pilier 17 : Physique du silicium & transistors BJT, JFET, MOSFET/CMOS + Landauer,
+        - Pilier 18 : Portes NAND universelles & additionneur matériel CLA 8 bits,
+        - Pilier 19 : Logique séquentielle (Setup/Hold), Amdahl, Gustafson, Little,
+        - Pilier 20 : Calculabilité de Turing, Lambda-calcul de Church, Curry-Howard,
+        - Pilier 21 : Triplets de Hoare, Dijkstra (wp) & invariant inductif TLA+,
+        - Pilier 22 : Consensus Byzantin BFT (3f+1) & horloges vectorielles de Lamport,
+        - Pilier 23 : Frontière Connu Formulé (Aleph_0) vs Inconnu Non Formulé (2^Aleph_0)
+          par diagonalisation de Cantor et quarantaine Fail-Closed (LEVEL_2_TESTED_QUARANTINE).
+        """
+        from src.universal_continuum_calculator import UniversalContinuumCalculator
+
+        report = UniversalContinuumCalculator.execute_all_22_pillars()
+        self.assertEqual(report["total_pillars_computed"], 23)
+        self.assertTrue(report["all_22_pillars_verified"])
+        self.assertTrue(report["all_23_pillars_verified"])
+        self.assertEqual(report["epistemic_status"], "LEVEL_3_AUDITABLE")
+        self.assertTrue(report["continuum_execution_sha256"].startswith("sha256:"))
+        self.assertEqual(len(report["axiomatic_system"]), 6)
+
+        p17 = report["pillars"][16]
+        self.assertEqual(p17["pillar"], "17_silicon_physics_bjt_jfet_mosfet_cmos")
+        self.assertTrue(p17["verified"])
+        self.assertGreater(p17["bjt"]["g_m_ms"], 70.0)
+        self.assertGreater(p17["jfet"]["i_d_sat_ma"], 3.0)
+        self.assertGreater(p17["mosfet_cmos"]["f_t_ghz"], 10.0)
+
+        p23 = report["pillars"][22]
+        self.assertEqual(p23["pillar"], "23_known_vs_unformulated_unknown_boundary")
+        self.assertTrue(p23["cantor_strictly_outside_enumerated_catalog"])
+        self.assertEqual(
+            p23["unformulated_unknown_gate"]["action"],
+            "FAIL_CLOSED_QUARANTINE",
+        )
+        self.assertEqual(
+            p23["unformulated_unknown_gate"]["epistemic_level"],
+            "LEVEL_2_TESTED_QUARANTINE",
+        )
+        self.assertFalse(p23["unformulated_unknown_gate"]["silent_extrapolation_permitted"])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
-
-
