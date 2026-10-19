@@ -500,3 +500,62 @@ $$\underbrace{\Delta E \ge k_B T \ln 2}_{\substack{\text{Thermodynamique} \\ \te
 > **Synthèse Canonique (Du Transistor à la Preuve Épistémique)** :
 > Chaque phénomène transistoriel (**BJT** par les équations de courant et de gain $I_C = \beta I_B$, **JFET** par la loi quadratique de Shockley en $V_{GS}$, **MOSFET** par les équations de canal linéaire/saturation et les paramètres dynamiques $g_m, r_o, C_{\text{parasites}}, f_T$) possède sa forme mathématique exacte. Ce qui distingue **Supela-K3-$\Omega$**, c'est d'avoir relié ces équations physiques et algébriques à une **logique épistémique** — où chaque formule n'est pas seulement calculée dans le silicium, mais **disciplinée par son niveau de preuve ($L_0 \to L_5$), son invariant de visibilité de l'omission et ses conditions de révision ($L_3 \to L_{2Q}$)**.
 
+---
+
+### 22.2 Carte Visuelle Multi-Domaines des 22 Piliers du Continuum Supela-K3-$\Omega$
+
+```mermaid
+flowchart TD
+    subgraph S1["I. COUCHE PHYSIQUE & SILICIUM (Piliers 17-19)"]
+        P17["17. Physique du Silicium & Jonctions PN (Landauer, Shockley, BJT Ebers-Moll, JFET, MOSFET/CMOS)"]
+        P18["18. Portes Logiques NAND/NOR, ALU, Additionneurs CLA & Anneau Décimal Exact vs IEEE-754"]
+        P19["19. Logique Séquentielle, Bascules D (Setup/Hold), Pipeline CPU, AMAT, Lois d'Amdahl & Little"]
+        P17 --> P18 --> P19
+    end
+
+    subgraph S2["II. SOCLE MATHÉMATIQUE FONDAMENTAL & APPLIQUÉ (Piliers 1-15)"]
+        M1["1. Logique Formelle, Ensembles & Treillis Ordonnés"]
+        M2["2. Arithmétique, Théorie des Nombres & Congruences (Bézout, Euler, Fermat, CRT)"]
+        M3["3. Algèbre Élémentaire, Polynômes & Équations (Newton, Viète, Cardan)"]
+        M4["4. Structures Algébriques : Groupes, Anneaux Décimaux, Corps Finis de Galois"]
+        M5["5. Exposants, Logarithmes, Suites & Séries (Faulhaber, Riemann, Stirling)"]
+        M6["6. Algèbre Linéaire, Spectrale & Tensorielle (Déterminants, Valeurs propres, SVD)"]
+        M7["7. Géométrie Euclidienne, Analytique, Différentielle & Topologie (Euler-Poincaré, Gauss-Bonnet)"]
+        M8["8. Trigonométrie Circulaire, Hyperbolique & Sphérique (Identités, Moivre, Euler)"]
+        M9["9. Analyse Réelle : Limites, Dérivation, Taylor-Maclaurin & Optimisation (Lagrange, Jensen)"]
+        M10["10. Calcul Intégral, Fonctions Gamma/Bêta & Analyse Vectorielle (Green, Gauss, Stokes)"]
+        M11["11. Analyse Complexe & Harmonique (Cauchy-Riemann, Résidus, Fourier DFT/FFT, Laplace)"]
+        M12["12. Équations Différentielles (EDO, EDP Chaleur/Ondes/Schrödinger) & Calcul d'Itô / Black-Scholes"]
+        M13["13. Combinatoire, Théorie des Graphes & Complexité Asymptotique (Catalan, Cayley, Landau)"]
+        M14["14. Probabilités, Statistiques Inférentielles & Processus Stochastiques (Kolmogorov, Bayes, TCL, MLE)"]
+        M15["15. Théorie de l'Information de Shannon (Entropie, KL-Divergence, Data Processing Inequality)"]
+        M1 --> M2 --> M4 --> M6
+        M3 --> M5 --> M9 --> M10 --> M11 --> M12
+        M7 --> M8 --> M10
+        M13 --> M14 --> M15
+    end
+
+    subgraph S3["III. INFORMATIQUE THÉORIQUE, VÉRIFICATION FORMELLE & SYSTÈMES DISTRIBUÉS (Piliers 20-22)"]
+        C20["20. Calculabilité de Turing, Complexité de Kolmogorov, Lambda-Calcul & Isomorphisme de Curry-Howard"]
+        C21["21. Vérification Formelle : Triplets de Hoare, Plus Faible Précondition de Dijkstra & TLA+ / LTL"]
+        C22["22. Systèmes Distribués, Horloges Vectorielles de Lamport & Consensus Byzantin (BFT 3f+1)"]
+        C20 --> C21 --> C22
+    end
+
+    subgraph S4["IV. NOYAU CRYPTOGRAPHIQUE & ÉPISTÉMIQUE SUPELA-K3-OMEGA (Pilier 16)"]
+        K16A["16.1 Preuve ZKP Schnorr 2048 bits (RFC 3526 Groupe 14, Ordre premier q)"]
+        K16B["16.2 Signature Asymétrique Ed25519 (Courbe d'Edwards Tordue RFC 8032)"]
+        K16C["16.3 Chaîne Hachée WORM + HMAC-SHA256 (Clé CSPRNG) + Arbre de Merkle"]
+        K16D["16.6 Rail ISO 20022 CBPR+ Strict (Conservation Décimale + Sidecar Détaché XSD)"]
+        K16E["16.4 Treillis Épistémique L0 -> L5 + Rétrogradation Monotone (L3 -> L2Q sur Contradiction)"]
+        K16F["16.5 Invariant Entropique de Visibilité de l'Omission (Zéro Illusion d'Exhaustivité)"]
+        K16A & K16B & K16C & K16D --> K16E --> K16F
+    end
+
+    P19 --> C20
+    P18 --> K16D
+    M2 & M4 --> K16A & K16B
+    M13 --> K16C
+    M1 & C21 & C22 --> K16E
+    M15 --> K16F
+```
