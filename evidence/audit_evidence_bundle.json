@@ -10,7 +10,7 @@
         "Supela ne supprime pas l’omission ; il supprime l’illusion de ne pas omettre.",
         "L’honnêteté parfaite est impossible. La visibilité parfaite de l’imperfection ne l’est pas."
       ],
-      "unreformulated_input_envelope_sha256": "sha256:98d34a3adf13d4b89df3adb3a1833759c6fdbf5bf36c1476915b5c9797390976",
+      "unreformulated_input_envelope_sha256": "sha256:cb7380c51ffa593e6d2c5d16b122f92efef1cc023011b59db9c3b884eaabd776",
       "explicit_reformulations_and_omissions": {
         "1_json_schema_flattening_projection": {
           "is_reformulation": true,
@@ -58,7 +58,7 @@
   },
   "meta": {
     "engine_version": "Supela-2026-Epsilon (K3-Omega Level-4 Technical Prep)",
-    "generated_at_utc": "2026-10-19T12:26:46Z",
+    "generated_at_utc": "2026-10-19T12:29:30Z",
     "environment": {
       "os": "Windows",
       "python_version": "3.11.15",
@@ -107,19 +107,19 @@
     "version_output": "Version: 1.21.1\nBuild Commit: 2a109e54103370d2ef288782ef3cb4c8a37902b2-dirty\nBuild Timestamp: 2026-09-29T19:10:43Z\nBuild Hostname: \nGo Version: go1.27.1\nPlatform: windows/amd64\nRego Version: v1\nWebAssembly: available",
     "exit_code": 0,
     "passed": true,
-    "stdout": "C:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:65:\ndata.supela.k3.omega.guardrails_test.test_reject_recursive_json_schema: PASS (3.7316ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:102:\ndata.supela.k3.omega.guardrails_test.test_emergent_drift_quarantined: PASS (4.8411ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:87:\ndata.supela.k3.omega.guardrails_test.test_quota_exceeded_triggers_sovereign_fallback: PASS (4.8452ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:55:\ndata.supela.k3.omega.guardrails_test.test_reject_ai_direct_execution_privilege: PASS (5.8887ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:45:\ndata.supela.k3.omega.guardrails_test.test_nominal_proposal_allowed: PASS (5.8887ms)\n--------------------------------------------------------------------------------\nPASS: 5/5"
+    "stdout": "C:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:65:\ndata.supela.k3.omega.guardrails_test.test_reject_recursive_json_schema: PASS (2.8141ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:55:\ndata.supela.k3.omega.guardrails_test.test_reject_ai_direct_execution_privilege: PASS (2.8141ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:102:\ndata.supela.k3.omega.guardrails_test.test_emergent_drift_quarantined: PASS (3.3302ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:87:\ndata.supela.k3.omega.guardrails_test.test_quota_exceeded_triggers_sovereign_fallback: PASS (3.8635ms)\nC:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\policies\\guardrails_test.rego:45:\ndata.supela.k3.omega.guardrails_test.test_nominal_proposal_allowed: PASS (4.4037ms)\n--------------------------------------------------------------------------------\nPASS: 5/5"
   },
   "messages": {
     "pacs_008_001_10_cbpr_strict": {
       "module_id": "VR-13",
       "profile_mode": "CBPR_PLUS_STRICT_DETACHED_SIDECAR",
-      "uetr": "3d66c2ca-63ba-464d-b94f-8035ba717faa",
+      "uetr": "69c0d59b-bbf6-4de5-b567-7191ef5c261f",
       "uetr_epistemic_label": "CANDIDATE_UETR_UUIDV4",
       "contains_supplementary_data_on_wire": false,
-      "wire_xml_sha256": "sha256:cef00cfcf2d63464c0a84a28461293ded89e9a0d80931f3818e5b635f4c78876",
-      "wire_raw_xml": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10\"><FIToFICstmrCdtTrf><GrpHdr><MsgId>PROP-2026-EPSILON-VR-13-BUNDLE-PACS</MsgId><CreDtTm>2026-10-19T06:00:00Z</CreDtTm><NbOfTxs>1</NbOfTxs><SttlmInf><SttlmMtd>INDA</SttlmMtd></SttlmInf></GrpHdr><CdtTrfTxInf><PmtId><InstrId>PROP-2026-EPSILON-VR-13-BUNDLE-PACS</InstrId><EndToEndId>E2E-PROP-2026-EPSILON-VR-13-BUNDLE-</EndToEndId><UETR>3d66c2ca-63ba-464d-b94f-8035ba717faa</UETR></PmtId><IntrBkSttlmAmt Ccy=\"EUR\">15000.00</IntrBkSttlmAmt><IntrBkSttlmDt>2026-10-19</IntrBkSttlmDt><ChrgBr>SHAR</ChrgBr><InstgAgt><FinInstnId><BICFI>SUPELACAXXX</BICFI></FinInstnId></InstgAgt><InstdAgt><FinInstnId><BICFI>BNPAFRPPXXX</BICFI></FinInstnId></InstdAgt><Dbtr><Nm>SUPELA SOVEREIGN TREASURY</Nm></Dbtr><DbtrAgt><FinInstnId><BICFI>SUPELACAXXX</BICFI></FinInstnId></DbtrAgt><CdtrAgt><FinInstnId><BICFI>BNPAFRPPXXX</BICFI></FinInstnId></CdtrAgt><Cdtr><Nm>INSTITUTIONAL COUNTERPARTY</Nm></Cdtr></CdtTrfTxInf></FIToFICstmrCdtTrf></Document>",
-      "detached_sidecar_sha256": "sha256:4952b826cc1acd78bb2e8912db490d04e1abaf59dcecafc99aabb462dff56a39",
-      "detached_sidecar_xml": "<SupelaLineage xmlns=\"urn:supela:std:k3:omega:xsd:splmtry.001.001.01\"><RootAnchor>SUP-0</RootAnchor><MerkleParentHash>sha256:bdbad673bd072e96e320392ec5312920014442c5ab3492a1664e32ca4e89dc2a</MerkleParentHash><IsvSeal>ISV-2026-EPSILON-SEALED</IsvSeal><ZkpProof>zkp-schnorr-2048:bf6f1cde129afa39f3cacdfa121f15c0cf74184bbc21aeb3ea52599378496d91653d13c52eb351d8583939bb176db784d1677ac1c1bcbd83b3899eb841bdee7f93935f40bd93fdd0353627e311ca41b4053ef86ecc5bc2eb7b30951c359ac67364d9df81d58ad8043dc5be7193f1401b78e76a4470efcab1ddcd427eb9fa13c23116237883bbad9657c2404dff4a293e764aa03b041d82d7fd7a0d39c9291af69076f095463fe3dd0e2d93add2f710bafd33165209c8ecf61aadc3c82421e31b5c7548da89e0a92c37f07dd8a7bef76de606af0e9ff261fd47b7262f59622b2a359f706c3bf187106b430a40fa9e685cf087f1b7d62fa262deb52d17750405f:2c5196d8104a8b4b7a4a2c69c9e73f72a5bbbc9c2c297963278d179de61eb363:67a3c012a43962fa257643408cf59e95530f3f31a765bb723723ec826e244c79486ce7ee893668d2a572ddf0c67225e6e98cd18237cd2bd5178b64eefa682e670c256b7d25499e898de9aaf30fb0492b722bfc4e0746a5060f59274588c5fc4</ZkpProof><CompensationContract>COMP-ROLLBACK-PROP-2026-EPSILON-VR-13-BUND</CompensationContract><BoundUETR>3d66c2ca-63ba-464d-b94f-8035ba717faa</BoundUETR><BoundWirePackageSha256>sha256:3b4a6c9c69769817667dbbf52a030dba3e294d816d3226608ebc8dbe3cf79077</BoundWirePackageSha256></SupelaLineage>",
+      "wire_xml_sha256": "sha256:dd57393fc457e11eb140aa1773285bb4330c3250c7e2e0ea9126bbd874a277e7",
+      "wire_raw_xml": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10\"><FIToFICstmrCdtTrf><GrpHdr><MsgId>PROP-2026-EPSILON-VR-13-BUNDLE-PACS</MsgId><CreDtTm>2026-10-19T06:00:00Z</CreDtTm><NbOfTxs>1</NbOfTxs><SttlmInf><SttlmMtd>INDA</SttlmMtd></SttlmInf></GrpHdr><CdtTrfTxInf><PmtId><InstrId>PROP-2026-EPSILON-VR-13-BUNDLE-PACS</InstrId><EndToEndId>E2E-PROP-2026-EPSILON-VR-13-BUNDLE-</EndToEndId><UETR>69c0d59b-bbf6-4de5-b567-7191ef5c261f</UETR></PmtId><IntrBkSttlmAmt Ccy=\"EUR\">15000.00</IntrBkSttlmAmt><IntrBkSttlmDt>2026-10-19</IntrBkSttlmDt><ChrgBr>SHAR</ChrgBr><InstgAgt><FinInstnId><BICFI>SUPELACAXXX</BICFI></FinInstnId></InstgAgt><InstdAgt><FinInstnId><BICFI>BNPAFRPPXXX</BICFI></FinInstnId></InstdAgt><Dbtr><Nm>SUPELA SOVEREIGN TREASURY</Nm></Dbtr><DbtrAgt><FinInstnId><BICFI>SUPELACAXXX</BICFI></FinInstnId></DbtrAgt><CdtrAgt><FinInstnId><BICFI>BNPAFRPPXXX</BICFI></FinInstnId></CdtrAgt><Cdtr><Nm>INSTITUTIONAL COUNTERPARTY</Nm></Cdtr></CdtTrfTxInf></FIToFICstmrCdtTrf></Document>",
+      "detached_sidecar_sha256": "sha256:ff16cd275206222708d7d67ad9f740372519e7d7758c5a4513212ad0f0698ca5",
+      "detached_sidecar_xml": "<SupelaLineage xmlns=\"urn:supela:std:k3:omega:xsd:splmtry.001.001.01\"><RootAnchor>SUP-0</RootAnchor><MerkleParentHash>sha256:0289ea570a6e19f69e707ef0ed78e40b18341e21385d62e470d1ccb27053977a</MerkleParentHash><IsvSeal>ISV-2026-EPSILON-SEALED</IsvSeal><ZkpProof>zkp-schnorr-2048:430b4fbd965062d5f4824d3d3685ef71be1743f0c191ca28071b01964b4a43950ccefc0dbf3bfecd2a75ac8076d646f59fbcb8b7ecdb6c1c92e2375d2661a686b8f34ac50c1665563efa37e074db1090bb74fc778c4410281dce30307bd7f1ad1a11bda68cc5d4537120d7b25d042ceaab873c5a6216ca4962e5107bed5e38b988acd4bca393b0ea2787ea96b5f603a928e073fab5325419fc3db340e7e4647d1294f0157e40454f6ce921ff2f97a62d3945ce3b85411f017eb05aafb7cdf2e7f80185e28ec3aa5389a4ca1a8d6ea409713688e37f17f1d043fca403117383f56570039f03eb98810ce632303cad8f3769a08179bfca557a6cf2f5fddd8400cb:38ac2fd6eac83e33c252a3e13d1c6e2f442287572e49b58727e83cc59dc74b45:848782898ae23b2a7d80695cb118d9275a840a29ab33d126bbc72faf8b95c1d9a4c931fedaec2011a4effcdc3601c5560f134f299f068d3514d57537dd41a6ed097935a533f8c925b70118e01ac31fd762caba8b5adc21fc601b822d2e8e8ac</ZkpProof><CompensationContract>COMP-ROLLBACK-PROP-2026-EPSILON-VR-13-BUND</CompensationContract><BoundUETR>69c0d59b-bbf6-4de5-b567-7191ef5c261f</BoundUETR><BoundWirePackageSha256>sha256:f74be9a6b8b390b4bc838836e257badbb30e10311960e7e49a6f76507a2b6663</BoundWirePackageSha256></SupelaLineage>",
       "qualification_boundaries": {
         "local_structural_validation": "PASSED_LIBXML2_XSD_CBPR_PLUS_STRICT_AND_SIDECAR",
         "profile_mode": "CBPR_PLUS_STRICT",
@@ -129,9 +129,9 @@
     },
     "camt_053_001_10": {
       "module_id": "VR-14",
-      "uetr": "ae45888d-a186-44c8-aad6-ec7001053d0f",
-      "xml_sha256": "sha256:0aa273a044224faa2ee325c0dc4517380c010a342f87b3526ef4b3bccc4acaca",
-      "raw_xml": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:camt.053.001.10\"><BkToCstmrStmt><GrpHdr><MsgId>STMT-PROP-2026-EPSILON-VR-14-BUNDLE</MsgId><CreDtTm>2026-10-19T06:00:00Z</CreDtTm></GrpHdr><Stmt><Id>PROP-2026-EPSILON-VR-14-BUNDLE-CAMT</Id><Acct><Id><Othr>SUPELA-K3-LEDGER-MAIN</Othr></Id></Acct><Ntry><Amt Ccy=\"EUR\">15000.00</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts>BOOK</Sts><AcctSvcrRef>ae45888d-a186-44c8-aad6-ec7001053d0f</AcctSvcrRef></Ntry><SplmtryData><PlcAndNm>/Document/BkToCstmrStmt/Stmt</PlcAndNm><Envlp><SupelaAuditSeal xmlns=\"urn:supela:std:k3:omega:xsd:splmtry.001.001.01\"><RootAnchor>SUP-0</RootAnchor><MerkleParentHash>sha256:ed706cdb0633ad3e6168421e48e03ea67af435b5215b2aa360f378c7550d23ec</MerkleParentHash><IsvSeal>ISV-2026-EPSILON-SEALED</IsvSeal><ZkpProof>zkp-schnorr-2048:2e7f46405f8a2af90ac90b407154a08dd486ef0a48d6e8f7c3ac0cef8685875b8dcc40c47f840b49487c28646990fbf34ce309ab7e469c7ef4f2d2438036d7a78fa5a121f63f7c509a4a4bcbdee99d178fa3043943327620b243bf1551b6cddfccc6166d7ce448a96bf8f7589373f3da5b19c125b3cb1f7aeac791f273a9865b3535ce265bbf5162cc32aaff3a9d92500281e6be6a9d19cd7f6b45f9c646d744ea3cc397d68b8503134b41f7aec80912927ca73e10ca370bf2d5cee5d21a36780607566d219ed32a2c0965c1d07c8c9b65ee9dba46ec2df66fe188f7ba56a2d130b64a921ccd61f3b0dbd9423c53e4978dab4fca5a45535084e15ffe2ab76138:17f929815b8e9c4c98c1334f3d16b282eeeeeb91bcb6e774ac88bd1c7e8e6670:6bf90135649cbf9319773bd82192aa8c828945b0610c467136470cb91810064d99f07baeb17ffc3c8e88a1afff8364fb46292454b5e36a1961c85ecc63550509fde7c98ea0f55ce27c347867913cd51397dc861dd31f5d61e2ade5fac145339</ZkpProof><CompensationContract>COMP-ROLLBACK-PROP-2026-EPSILON-VR-14-BUND</CompensationContract></SupelaAuditSeal></Envlp></SplmtryData></Stmt></BkToCstmrStmt></Document>",
+      "uetr": "2f12f41e-c35e-4fb9-80ca-41f7f4891de2",
+      "xml_sha256": "sha256:e229bc034863aac02587be3db7fe1ed0126528379659d83f7344ac7df869f405",
+      "raw_xml": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:camt.053.001.10\"><BkToCstmrStmt><GrpHdr><MsgId>STMT-PROP-2026-EPSILON-VR-14-BUNDLE</MsgId><CreDtTm>2026-10-19T06:00:00Z</CreDtTm></GrpHdr><Stmt><Id>PROP-2026-EPSILON-VR-14-BUNDLE-CAMT</Id><Acct><Id><Othr>SUPELA-K3-LEDGER-MAIN</Othr></Id></Acct><Ntry><Amt Ccy=\"EUR\">15000.00</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts>BOOK</Sts><AcctSvcrRef>2f12f41e-c35e-4fb9-80ca-41f7f4891de2</AcctSvcrRef></Ntry><SplmtryData><PlcAndNm>/Document/BkToCstmrStmt/Stmt</PlcAndNm><Envlp><SupelaAuditSeal xmlns=\"urn:supela:std:k3:omega:xsd:splmtry.001.001.01\"><RootAnchor>SUP-0</RootAnchor><MerkleParentHash>sha256:85155709c963b9ce68859cc1edc2704a0ad653dce6e62cf74c617dc3c8f1289b</MerkleParentHash><IsvSeal>ISV-2026-EPSILON-SEALED</IsvSeal><ZkpProof>zkp-schnorr-2048:d0061832194755980f5dd704fef13d482f7a1b18a845f4fd8737b47b2d490252607547236d3710e9afbeccce94d73c9081eb415d28121c131a82102ef7f79d08672ddd042d8e3e42201c7e8150a80171aca1e00d4b5fbddc674644f084afec34cbc2eb48188725101791e11fb306bf263b51a43222272d164d12560d14c419dfab973737f5ae3f6be4f5f4a84454cf6beb8a334f76767700f88b91d7028a2d0557e70493ff5effa969a84170ddf7473da85956030122f8e49efcbbc266c0c1584f5506f7298a07a80b7a84a74b034d261ab48cb7d83c7cb3654b01522e8616902c8f0715b47102907e7545ed3f0e739f73db990084cd949b1aa1db3d826b8bb0:85aa0c0b082179d083f4165d0e526a89fc4ccca89eae1d629a7facdbd9285a7b:25a01c5685f816b95f503a1d1990112f7f68e5480c652cae9eaaa92ffab5ca81e938ec3d712ec01c953df25ac7da6cb333bb922fc29efd91f088374527c34873dca1e8558efbf09eec5c0be1204970aa60f2086b255540e0deef8f56ef35fe7b</ZkpProof><CompensationContract>COMP-ROLLBACK-PROP-2026-EPSILON-VR-14-BUND</CompensationContract></SupelaAuditSeal></Envlp></SplmtryData></Stmt></BkToCstmrStmt></Document>",
       "qualification_boundaries": {
         "local_structural_validation": "PASSED_CAMT053_BASE_SEQUENCE_AND_SIDE_XSD",
         "supplementary_data_status": "BILATERAL_AUDIT_STATEMENT_EXTENSION",
@@ -140,7 +140,7 @@
     },
     "head_001_001_02_bah": {
       "module_id": "VR-16",
-      "uetr": "03d21b9e-934d-466f-9457-3f8e63ba6cbb",
+      "uetr": "e4d38897-3746-4620-b25d-257bf6e8998e",
       "xml_sha256": "sha256:29007dc7545bc94f427ab118d374a94d38b004904aa68229c0d4ebc3d3d55d05",
       "raw_xml": "<AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\"><Fr><FIId><FinInstnId><BICFI>SUPELACAXXX</BICFI></FinInstnId></FIId></Fr><To><FIId><FinInstnId><BICFI>CHASUS33XXX</BICFI></FinInstnId></FIId></To><BizMsgIdr>PROP-2026-EPSILON-VR-16-BUNDLE-CBPR</BizMsgIdr><MsgDefIdr>pacs.008.001.10</MsgDefIdr><BizSvc>swift.cbprplus.02</BizSvc><CreDt>2026-10-19T06:00:00Z</CreDt></AppHdr>",
       "qualification_boundaries": {
@@ -151,12 +151,12 @@
     },
     "ivms101_dual_channel": {
       "module_id": "VR-15",
-      "uetr": "96b9cbbf-5a33-4e6a-bb17-69e6fbd6e45d",
+      "uetr": "1fe000f3-177c-48a4-a9c5-3c9f4b801bfb",
       "channel_2_zero_pii_commitment": {
-        "ivms101_payload_commitment": "sha256:9bd036120c8cf87f68ec058c11b77e65a69e76d316457048644ce139aebcfdde",
+        "ivms101_payload_commitment": "sha256:a8ab062cf3a795224ce689194bfd6b8a0829bea52751a9a7aa134973b9bfe2f7",
         "sanctions_screening_passed": true,
-        "zkp_commitment_proof": "zkp-schnorr-2048:9c6f858e83a71a941ef08b1f6f579e87b364a660daddf6304d41172ce1528705f4565fd6941cf27285b16909e7570fa6b3eb41bfd5a2be3d158a37e6c8c9033b218ca5c758a56147f90a8afc7a4bee51e2b31a2e2db15f6e41b13d03946783b1398257398463d6a51fe165587fbcb8385c9ad7d8d53cb0d9706b451d24a7062f0a879eaf1183b4630f5b24243fdc9c933764c1314173df68bddfb0b74de3347f98e4949971d9653fec72b997fbec36470c11f79b72b18b835ddfd59615330224f041a821241a03d7a7a4209befb349b42f5e73560a95ca7a4fe984c5876258d333992a7fdc7cc519cc2aa44a7c2f13693f7d916a91317d23ee97f75956d63f20:2056d21e6140d829305c31d915aea5b3c0f8632ddbc96e093d4111da15a7bfe7:1e9c2bf106d34bddff0e1bdb6dad3708671eb25ae2096f1c55ae816c40bfda820501c6d2c97e4b999b87876dbaea3a8c9044d44e7ee4691f24eeac0d181b25221f00db244769899e916149060b3b3c0cee8725d437cc505a0d8a736636f95bbf",
-        "merkle_parent_hash": "sha256:fdc8a6d8008c66a1ae8779ef6852db229041b4a7d916ecd651144e1ef28d9e5d",
+        "zkp_commitment_proof": "zkp-schnorr-2048:b84c2d0740783e88760858871bebbe0abf10940c11ae31ca9aef80083db9697f4f51a44c2e4591dd846f1e0db655fce4722eb25f85776149b54077f797b54ac5a1ece4f06ed3c6144671f3dfd6457db84f111758de9c8a8bd7f84f206fe89088a64517d4915ffbf46d4fa881023f37a6f8c0027185a04ca06493c2e1ca1af414f3e3e70c358421686e81d5011caa4772af58ae6ea3aedeb948fffaf69c7d27f27a05e3b82df12e55b0b9c4696201cb39c0d86a59ab2b6e625dd9bf508e2b7a51de278c26522686994b6f31c01c1f00cde664c8ab36e6a44d5d5147d42e33a72adbb6577acaeef8cb46b245465fcae9169046e4e7d3ca275abd6fd82576527e33:901e785560055b6ff269cc2e44c2138bc59b6bb063a197fb739a019db5e9af1e:8869cf2c7747aecec59a9be76e4f054a288a13cc005eb957982b1660ce963c36cdaee51035fb6c773e35219c3de3c1b3ab11cd7207170036f2112f5b1600a4c6debcc04453ae0db51bda341e1f8244483f4685fa84d816eb03aee6a7a1e27d01",
+        "merkle_parent_hash": "sha256:48577749b01e382f76f948cecd2067125ca47fe7725a5e3bf6bdb46aeb585fe2",
         "isv_seal": "ISV-2026-EPSILON-SEALED",
         "compensation_contract": "COMP-ROLLBACK-PROP-2026-EPSILON-VR-15-BUND"
       },
@@ -169,8 +169,8 @@
   },
   "tests": {
     "total_executed": 18,
-    "total_passed": 17,
-    "all_passed": false,
+    "total_passed": 18,
+    "all_passed": true,
     "execution_details": [
       {
         "test_name": "test_01_worm_ledger_genesis_and_integrity",
@@ -186,7 +186,7 @@
         "status": "PASSED",
         "synthetic_input": "Valid VR-14 proposal + 2048-bit Schnorr NIZK discrete-log proof",
         "observed_outcome": "Allowed=True, status=SCHNORR_2048_MODP_NIZK_VERIFIED, camt.053 generated",
-        "execution_log_sha256": "sha256:b8a6143ee2a4c21db32f9bba6c3f212ef6caac1d68eea854ef93bae109b6f392"
+        "execution_log_sha256": "sha256:f43c2f442b982dca5230dd961eac7ba0eac969423391ebd321f3c0cfe5734763"
       },
       {
         "test_name": "test_03_recursive_json_schema_auto_flattened_prevents_meta_400",
@@ -194,7 +194,7 @@
         "status": "PASSED",
         "synthetic_input": "Tool schema with circular $ref/#/$defs/TreeNode and open object Arguments",
         "observed_outcome": "Recursions cut at max_depth=2, open object sealed, 0 remaining issues",
-        "execution_log_sha256": "sha256:9161d0d202c45d269b7295e8aa3f1428e270333056d26e062c90d7a86723374f"
+        "execution_log_sha256": "sha256:8bc2761ec5f1a5fa6cb18f25291b4bd5ca58734cabe4c916f28616659e925dc8"
       },
       {
         "test_name": "test_04_recursive_schema_quarantined_when_flattener_disabled",
@@ -202,7 +202,7 @@
         "status": "PASSED",
         "synthetic_input": "Circular $ref schema with auto_flatten_schemas=False",
         "observed_outcome": "Allowed=False, Quarantine=True, mode=REQUIRE_SCHEMA_FLATTENING_GATE",
-        "execution_log_sha256": "sha256:30067652df4f9419d3a11e8ef7c5b47db0e39f36c12704d4accf1f55ccfc61f2"
+        "execution_log_sha256": "sha256:88b4ef207a1f18816f7ab205589e928be94285ca82657743c54b3064708ebd2a"
       },
       {
         "test_name": "test_05_quota_exceeded_triggers_sovereign_fallback",
@@ -210,7 +210,7 @@
         "status": "PASSED",
         "synthetic_input": "Telemetry error_code=DAILY_FREE_LIMIT_REACHED on nvidia/nemotron-3.5-super-vl",
         "observed_outcome": "Fallback to supela-local-sovereign-v1 (DEGRADED_FALLBACK_SEALED)",
-        "execution_log_sha256": "sha256:50f750e2e70a2e7051095a18a8d597cc16216e81785a53c26e0c288447da771b"
+        "execution_log_sha256": "sha256:cb51176ec275de1aeb61a116d5e990f834903b2083f115e8d09f9c67f541bc42"
       },
       {
         "test_name": "test_06_ai_autonomy_and_emergent_drift_quarantined",
@@ -218,7 +218,7 @@
         "status": "PASSED",
         "synthetic_input": "AI actor direct_execution_privilege=True + emergent_drift_delta=0.14 (> 0.05)",
         "observed_outcome": "Allowed=False, Quarantine=True, 2 explicit violations logged in WORM",
-        "execution_log_sha256": "sha256:6562ec7ad3c16f0ae2120ecf4090520e734070723f950f95dd176399a2d0c47a"
+        "execution_log_sha256": "sha256:a91b63e9c61e95cc181eda3a535d563d9d170491c272d3d62e5641850a3f9b0c"
       },
       {
         "test_name": "test_07_iso20022_pacs008_fatf_ivms101_and_swift_cbpr_mirrors",
@@ -226,7 +226,7 @@
         "status": "PASSED",
         "synthetic_input": "Valid VR-13 (pacs.008 CBPR_PLUS_STRICT), VR-15 (IVMS101), VR-16 (SWIFT BAH)",
         "observed_outcome": "libxml2 XSD validation passed for wire pacs.008, BAH head.001, and detached sidecar",
-        "execution_log_sha256": "sha256:fd77e7c7de78abd0b53fb7f88f575096555ddb0c0c81a12d6c1ad301b887ee97"
+        "execution_log_sha256": "sha256:9000843eefa1d7e1c8acea3c3bb69326cfb9ba0b3264f97b32eccdeda11679fc"
       },
       {
         "test_name": "test_08_live_http_mcp_gateway_prevents_meta_400_and_handles_429",
@@ -234,7 +234,7 @@
         "status": "PASSED",
         "synthetic_input": "Live HTTP POST /v1/chat/completions with recursive MCP tool + 429 upstream",
         "observed_outcome": "HTTP 200 sealed completion with flattened schema and sovereign fallback",
-        "execution_log_sha256": "sha256:114d45b62b893bc8c30bc89de9d748dacbdf2e413855cf97970441d9a9c39322"
+        "execution_log_sha256": "sha256:b5d1c767971832d9df1a269be81811dcc42878840c5a1c36cdc9edb8d2973203"
       },
       {
         "test_name": "test_09_negative_crypto_tampered_worm_payload_and_wrong_isv_key",
@@ -242,7 +242,7 @@
         "status": "PASSED",
         "synthetic_input": "Wrong HMAC-ISV key verification + in-memory payload mutation on Block #1",
         "observed_outcome": "verify_integrity() returns False and pinpoints tampered Block #1",
-        "execution_log_sha256": "sha256:2cf4fce1c592b94f7fcf612fe62e0165082235d180ba9d05bf8fb3651ccf8788"
+        "execution_log_sha256": "sha256:f0a662e2cb21b0fd32dfb5a1ea8b62aeb3ba0f3109edb6f629d917f683329a5e"
       },
       {
         "test_name": "test_10_negative_crypto_forged_zkp_witness_rejected",
@@ -258,7 +258,7 @@
         "status": "PASSED",
         "synthetic_input": "Duplicate submission of identical (proposal_id, merkle_parent_hash)",
         "observed_outcome": "Second submission rejected with REPLAY_BLOCKED in quarantine",
-        "execution_log_sha256": "sha256:6f6cb58edb93069a68a71ca73e5cc570ca7d89911876b477940e742db9ac6e42"
+        "execution_log_sha256": "sha256:5fa67dbc9a11847ce660dbc5c1985e24c47ac4e978058f9ec5775fc37cb97cb0"
       },
       {
         "test_name": "test_12_negative_iso20022_structural_validator_rejects_non_compliant_xml",
@@ -266,7 +266,7 @@
         "status": "PASSED",
         "synthetic_input": "Invalid BICFI ('INVALID_BIC_123') and unqualified <SplmtryData> namespace",
         "observed_outcome": "Rejected by libxml2 XSD / Iso20022StructuralValidator",
-        "execution_log_sha256": "sha256:8edf8aabe518cf067dbf98c950732a535996f2c8424cb07662919192007a8088"
+        "execution_log_sha256": "sha256:6c3fa77ff42cd477561681af15385f097a00c733f3f2208338dd560cea58bc3e"
       },
       {
         "test_name": "test_13_real_schnorr_2048_nizk_algebraic_verification_and_forgery_rejection",
@@ -274,7 +274,7 @@
         "status": "PASSED",
         "synthetic_input": "2048-bit MODP RFC 3526 Group 14 Schnorr NIZK proof + tampered (s+1 mod q) & hijacked context",
         "observed_outcome": "g^s == R * Y^c mod p verified; tampered s and hijacked context algebraically rejected",
-        "execution_log_sha256": "sha256:035f32db4c9bc9d1c817c8afdad1c2b6c3a33adc5791dcef0eed9afe81ac45ea"
+        "execution_log_sha256": "sha256:a114c9ac6638eda1996adface5dec156d79f3ab44ca029369877276b20d8abc1"
       },
       {
         "test_name": "test_14_cbpr_plus_strict_libxml2_xsd_and_detached_sidecar_validation",
@@ -282,7 +282,7 @@
         "status": "PASSED",
         "synthetic_input": "CBPR_PLUS_STRICT pacs.008 + detached sidecar + illegal <SplmtryData> injection on wire",
         "observed_outcome": "Clean wire XML & sidecar pass libxml2 XSD; polluted wire XML rejected",
-        "execution_log_sha256": "sha256:1feb5511f57ea183dd24f7bc18bd2e5f8301d871af8084482dc09df4ac6b8350"
+        "execution_log_sha256": "sha256:6369187dbaf7e31d69bbefc8828794816ca42e19941783dfb74f358dde61ca5b"
       },
       {
         "test_name": "test_15_real_opa_binary_execution_and_parity",
@@ -290,7 +290,7 @@
         "status": "PASSED",
         "synthetic_input": "Real CNCF opa.exe test policies/ -v + opa.exe eval on nominal and rogue envelopes",
         "observed_outcome": "opa test PASS 5/5; 100% decision parity between opa.exe and SupelaK3OmegaEngine",
-        "execution_log_sha256": "sha256:0cd5d7e42a1d94df8021ef54c13ec6c274c0c348926c59fdab2d57baefd0f4e4"
+        "execution_log_sha256": "sha256:0782a060fef20ab8f6858706ce797c9d4b8610a33bd2ee478cef75e625a9c465"
       },
       {
         "test_name": "test_16_epistemic_revision_and_demotion_on_contradictory_observation",
@@ -298,7 +298,7 @@
         "status": "PASSED",
         "synthetic_input": "Contradictory observation (SWIFT_ITB_NACK_H001) applied to a LEVEL_3_AUDITABLE receipt",
         "observed_outcome": "Demoted to LEVEL_2_TESTED_QUARANTINE, retroactive quarantine, K3_EPISTEMIC_DEMOTION sealed in WORM",
-        "execution_log_sha256": "sha256:7a50b6bda394e9f2a4134d6d7e5da57bf0e0fb4e525def1fd13bf163d8c30808"
+        "execution_log_sha256": "sha256:f916efa42f09766878d1e0958a04dcdee86558355c0e02fab298f2b271711e80"
       },
       {
         "test_name": "test_17_reformulation_omission_visibility_invariant",
@@ -306,21 +306,21 @@
         "status": "PASSED",
         "synthetic_input": "Lossy reformulation (recursive schema flattening + CBPR+ Max35Text truncation + wire SplmtryData omission)",
         "observed_outcome": "Unreformulated input SHA-256 preserved + all 4 projection omissions explicitly inventoried in receipt",
-        "execution_log_sha256": "sha256:19fe181c9e5d7d762914c38034cf606056877121591f744442ca614fa4ea376c"
+        "execution_log_sha256": "sha256:67bef70a65287289d56386da6b0661ac0e2d9e3996e665129f3c76bc1775e1ea"
       },
       {
         "test_name": "test_18_universal_continuum_23_pillars_and_unformulated_unknown_boundary",
         "category": "UNCLASSIFIED",
-        "status": "FAILED",
+        "status": "PASSED",
         "synthetic_input": "",
-        "observed_outcome": "test_18_universal_continuum_23_pillars_and_unformulated_unknown_boundary (tests.test_supela_k3_omega.TestSupelaK3Omega.test_18_universal_continuum_23_pillars_and_unformulated_unknown_boundary)\nVérifie l'exécution déterministe des 23 piliers du continuum doctoral Supela-K3-Omega : ... ERROR\n\n======================================================================\nERROR: test_18_universal_continuum_23_pillars_and_unformulated_unknown_boundary (tests.test_supela_k3_omega.TestSupelaK3Omega.test_18_universal_continuum_23_pillars_and_unformulated_unknown_boundary)\nVérifie l'exécution déterministe des 23 piliers du continuum doctoral Supela-K3-Omega :\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\tests\\test_supela_k3_omega.py\", line 689, in test_18_universal_continuum_23_pillars_and_unformulated_unknown_boundary\n    from src.universal_continuum_calculator import UniversalContinuumCalculator\n  File \"C:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\src\\universal_continuum_calculator.py\", line 26, in <module>\n    from src.worm_merkle import WormMerkleLedger\nImportError: cannot import name 'WormMerkleLedger' from 'src.worm_merkle' (C:\\Users\\Group\\.gemini\\antigravity\\scratch\\supela-k3-omega\\src\\worm_merkle.py)\n\n----------------------------------------------------------------------\nRan 1 test in 0.010s\n\nFAILED (errors=1)\n",
-        "execution_log_sha256": "sha256:d5bb0f6896794f1bd63c7a5cb2234fbaa0eb6d423dc025f2a3b8d7fe7a434dcc"
+        "observed_outcome": "",
+        "execution_log_sha256": "sha256:0b285bcca859fc2a3bcc6aeaadccdcada9b89c28e1fbf08ba67ef926573f76af"
       }
     ]
   },
   "crypto": {
     "zero_hardcoded_secret_key_in_repo": true,
-    "ephemeral_isv_key_fingerprint_sha256": "sha256:cfb94de12ba881b097d666b7379f10f30d75c53688b86ca23e7bef8f1413735e",
+    "ephemeral_isv_key_fingerprint_sha256": "sha256:4951bb33bbb042b6b8d217028b0d40a3337380ba54ab483cab6bc2cc7b885b44",
     "hmac_algorithm": "HMAC-SHA256 (CSPRNG 256-bit runtime key)",
     "asymmetric_detached_signature": {
       "algorithm": "OpenPGP Ed25519",
@@ -335,10 +335,10 @@
         "scheme": "SCHNORR-NIZK-FIAT-SHAMIR-RFC3526-2048",
         "group": "RFC3526-MODP-2048-PRIME-ORDER-Q",
         "public_key_y_hex": "fc55ec5ce9e8e5798a8fdfd687127d6f005b9e685b3ef62dc909e474bb2404f962dac187e2646a08d837e2469042a3c08949c2808f2230559e3d40c1de322e640f67eb1904ff8774cd2b26e72ca7e915adfb9a8092045616810cccc84409bfbde4e8d0dcfbb6d73f5e8f01dcd1fb44f269005f9e3e77c3a29d1849111dece4fe3139c2ba664a07a9b482d405cdfc6659d205fa028f766800173be095bab034b837a8b68a1522fcd71bf102eeec118b71d863bb70088174a09564d6d466e865ea28698784d47b472c23fd3e45344d708a0e933205897c042cc2d9fd7fde502f2161a0791bf4e82aa67ceb4bcf323bea7e29f378b1e55e87550645cc647af9c336",
-        "commitment_r_hex": "bf6f1cde129afa39f3cacdfa121f15c0cf74184bbc21aeb3ea52599378496d91653d13c52eb351d8583939bb176db784d1677ac1c1bcbd83b3899eb841bdee7f93935f40bd93fdd0353627e311ca41b4053ef86ecc5bc2eb7b30951c359ac67364d9df81d58ad8043dc5be7193f1401b78e76a4470efcab1ddcd427eb9fa13c23116237883bbad9657c2404dff4a293e764aa03b041d82d7fd7a0d39c9291af69076f095463fe3dd0e2d93add2f710bafd33165209c8ecf61aadc3c82421e31b5c7548da89e0a92c37f07dd8a7bef76de606af0e9ff261fd47b7262f59622b2a359f706c3bf187106b430a40fa9e685cf087f1b7d62fa262deb52d17750405f",
-        "challenge_c_hex": "2c5196d8104a8b4b7a4a2c69c9e73f72a5bbbc9c2c297963278d179de61eb363",
-        "response_s_hex": "67a3c012a43962fa257643408cf59e95530f3f31a765bb723723ec826e244c79486ce7ee893668d2a572ddf0c67225e6e98cd18237cd2bd5178b64eefa682e670c256b7d25499e898de9aaf30fb0492b722bfc4e0746a5060f59274588c5fc4",
-        "context_binding": "SUP-0|PROP-2026-EPSILON-VR-13-BUNDLE-PACS008|sha256:bdbad673bd072e96e320392ec5312920014442c5ab3492a1664e32ca4e89dc2a"
+        "commitment_r_hex": "430b4fbd965062d5f4824d3d3685ef71be1743f0c191ca28071b01964b4a43950ccefc0dbf3bfecd2a75ac8076d646f59fbcb8b7ecdb6c1c92e2375d2661a686b8f34ac50c1665563efa37e074db1090bb74fc778c4410281dce30307bd7f1ad1a11bda68cc5d4537120d7b25d042ceaab873c5a6216ca4962e5107bed5e38b988acd4bca393b0ea2787ea96b5f603a928e073fab5325419fc3db340e7e4647d1294f0157e40454f6ce921ff2f97a62d3945ce3b85411f017eb05aafb7cdf2e7f80185e28ec3aa5389a4ca1a8d6ea409713688e37f17f1d043fca403117383f56570039f03eb98810ce632303cad8f3769a08179bfca557a6cf2f5fddd8400cb",
+        "challenge_c_hex": "38ac2fd6eac83e33c252a3e13d1c6e2f442287572e49b58727e83cc59dc74b45",
+        "response_s_hex": "848782898ae23b2a7d80695cb118d9275a840a29ab33d126bbc72faf8b95c1d9a4c931fedaec2011a4effcdc3601c5560f134f299f068d3514d57537dd41a6ed097935a533f8c925b70118e01ac31fd762caba8b5adc21fc601b822d2e8e8ac",
+        "context_binding": "SUP-0|PROP-2026-EPSILON-VR-13-BUNDLE-PACS008|sha256:0289ea570a6e19f69e707ef0ed78e40b18341e21385d62e470d1ccb27053977a"
       }
     },
     "worm_ledger": {
@@ -346,63 +346,63 @@
       "in_memory_integrity_verified": true,
       "integrity_error": null,
       "total_blocks": 7,
-      "merkle_root": "sha256:a1f4b82e9695126b631193acc66c3f5a08978b12f10c3df84d156cd8e70c3330",
+      "merkle_root": "sha256:8f2315b4d94105050285be1397fedb1b84a9210e59b595f617362f3a8c6167a9",
       "block_chain_summary": [
         {
           "index": 0,
           "module_id": "SUP-0",
           "event_type": "GENESIS_SEAL",
           "parent_hash": "sha256:62be7c06b6d4aecb5aa320cf9d33c70d28f627d5694450085762654bb07b8639",
-          "entry_hash": "sha256:bdbad673bd072e96e320392ec5312920014442c5ab3492a1664e32ca4e89dc2a",
-          "isv_seal": "isv-hmac-sha256:6f98b095010b861398c74fa0261c892f1b6e68cbcbab9e826e1c1b4a3f42cc19"
+          "entry_hash": "sha256:0289ea570a6e19f69e707ef0ed78e40b18341e21385d62e470d1ccb27053977a",
+          "isv_seal": "isv-hmac-sha256:bd240f6eb73d6de56bd5c1bf0a5c6909d985b4e7d05ca4e06143b9e7cf2140d3"
         },
         {
           "index": 1,
           "module_id": "VR-13",
           "event_type": "K3_PROPOSAL_VERDICT",
-          "parent_hash": "sha256:bdbad673bd072e96e320392ec5312920014442c5ab3492a1664e32ca4e89dc2a",
-          "entry_hash": "sha256:ed706cdb0633ad3e6168421e48e03ea67af435b5215b2aa360f378c7550d23ec",
-          "isv_seal": "isv-hmac-sha256:35b010b6a4a2fddb626ed659431942588fb69ca2c6ecb9d52567fd022bcf8fc2"
+          "parent_hash": "sha256:0289ea570a6e19f69e707ef0ed78e40b18341e21385d62e470d1ccb27053977a",
+          "entry_hash": "sha256:85155709c963b9ce68859cc1edc2704a0ad653dce6e62cf74c617dc3c8f1289b",
+          "isv_seal": "isv-hmac-sha256:841d946f5e0d491656ed87d951673d2c70f75992166f36fb7c1ea9c2d92c8c0b"
         },
         {
           "index": 2,
           "module_id": "VR-14",
           "event_type": "K3_PROPOSAL_VERDICT",
-          "parent_hash": "sha256:ed706cdb0633ad3e6168421e48e03ea67af435b5215b2aa360f378c7550d23ec",
-          "entry_hash": "sha256:fdc8a6d8008c66a1ae8779ef6852db229041b4a7d916ecd651144e1ef28d9e5d",
-          "isv_seal": "isv-hmac-sha256:2ffe5dba7a21ef210689865196a951b9c1316ce339a72ff3cfe575dd8c8481eb"
+          "parent_hash": "sha256:85155709c963b9ce68859cc1edc2704a0ad653dce6e62cf74c617dc3c8f1289b",
+          "entry_hash": "sha256:48577749b01e382f76f948cecd2067125ca47fe7725a5e3bf6bdb46aeb585fe2",
+          "isv_seal": "isv-hmac-sha256:137dc17d75c9ea5fd3894371f53369b7a3765d1194038dd9eba3e68c5b6f8ec2"
         },
         {
           "index": 3,
           "module_id": "VR-15",
           "event_type": "K3_PROPOSAL_VERDICT",
-          "parent_hash": "sha256:fdc8a6d8008c66a1ae8779ef6852db229041b4a7d916ecd651144e1ef28d9e5d",
-          "entry_hash": "sha256:db39d284fff68fbc47373773802d11c705c6d91a88d59e353ebf7fd69ffbc683",
-          "isv_seal": "isv-hmac-sha256:2b5dcec7b467150acdb7ded6ddc265faa925b42f7be143bb2c16b1a67f851e75"
+          "parent_hash": "sha256:48577749b01e382f76f948cecd2067125ca47fe7725a5e3bf6bdb46aeb585fe2",
+          "entry_hash": "sha256:8d03e54761f8e69e6991ca2d6e924bbfcc65384f72583d35ae431143304ad857",
+          "isv_seal": "isv-hmac-sha256:54744e43413fa529018e601b3baf0c92f574f7849a3fbd51799336be7dc960c5"
         },
         {
           "index": 4,
           "module_id": "VR-16",
           "event_type": "K3_PROPOSAL_VERDICT",
-          "parent_hash": "sha256:db39d284fff68fbc47373773802d11c705c6d91a88d59e353ebf7fd69ffbc683",
-          "entry_hash": "sha256:192f998d52b03e2ebf1dfba09c233178add826538de6d556df1ba3da94309fb7",
-          "isv_seal": "isv-hmac-sha256:b07c84d16b430e313db4f896664aacaa81fe0bbbb4d6aaa60f28964b899cda10"
+          "parent_hash": "sha256:8d03e54761f8e69e6991ca2d6e924bbfcc65384f72583d35ae431143304ad857",
+          "entry_hash": "sha256:4dcc78c0f0149d706e62503a495fddd257517eb51af878921c13e2726b706b3e",
+          "isv_seal": "isv-hmac-sha256:98cb48257b0f4e0530564236e6a191576d958491e399492ff45a89dbff99fbb8"
         },
         {
           "index": 5,
           "module_id": "VR-16",
           "event_type": "K3_PROPOSAL_VERDICT",
-          "parent_hash": "sha256:192f998d52b03e2ebf1dfba09c233178add826538de6d556df1ba3da94309fb7",
-          "entry_hash": "sha256:62252feb480c785af53ca9fa8ea27806501d97890c95f6cceb7a4c6244064ca5",
-          "isv_seal": "isv-hmac-sha256:b14ad1681db825edabb61d8bb18cad3493e4256e5a194d2a44f96c1138b875db"
+          "parent_hash": "sha256:4dcc78c0f0149d706e62503a495fddd257517eb51af878921c13e2726b706b3e",
+          "entry_hash": "sha256:eb16cb33d20557510cfdba596773bd52057bc3c300cc0f00f9a6146d93c99e71",
+          "isv_seal": "isv-hmac-sha256:751a8c70122987032c29b65383dfea42b1d517ce236ce2abde8aff6231987198"
         },
         {
           "index": 6,
           "module_id": "EPISTEMIC-REVISION-GATE",
           "event_type": "K3_EPISTEMIC_DEMOTION",
-          "parent_hash": "sha256:62252feb480c785af53ca9fa8ea27806501d97890c95f6cceb7a4c6244064ca5",
-          "entry_hash": "sha256:2bdfcc36017ac2d2246c0daa739f26ca700bcd42a48cd2a8d66628e2f7b2d75a",
-          "isv_seal": "isv-hmac-sha256:0eb4b3587fbb64274ac42a686cfcd6d0776a48251dc932ace3a224d17814f748"
+          "parent_hash": "sha256:eb16cb33d20557510cfdba596773bd52057bc3c300cc0f00f9a6146d93c99e71",
+          "entry_hash": "sha256:3b94e26fe10bafd1e9e29adca2b8b88fb30085b93c4c54700a7a707036a26679",
+          "isv_seal": "isv-hmac-sha256:17f40d771a6b8c12ad25821c8ebfc5f2a01006b48351472155344992d38c9b1a"
         }
       ]
     },
@@ -417,7 +417,7 @@
         "demoted_from": "LEVEL_3_AUDITABLE",
         "contradiction_evidence": "SIMULATED_CONTRADICTION_MISSING_HARDWARE_TPM_QUOTE_AND_FINPLUS_NACK"
       },
-      "worm_demotion_entry_hash": "sha256:2bdfcc36017ac2d2246c0daa739f26ca700bcd42a48cd2a8d66628e2f7b2d75a"
+      "worm_demotion_entry_hash": "sha256:3b94e26fe10bafd1e9e29adca2b8b88fb30085b93c4c54700a7a707036a26679"
     },
     "negative_adversarial_checks": {
       "wrong_isv_key_rejected": true,
@@ -473,8 +473,8 @@
     }
   },
   "bundle_seal": {
-    "bundle_payload_sha256": "sha256:b922fd465d0749c20ef431bfcbce080b0342948676fa4195a276ccb4574f4860",
-    "ephemeral_worm_key_fingerprint_sha256": "sha256:cfb94de12ba881b097d666b7379f10f30d75c53688b86ca23e7bef8f1413735e",
+    "bundle_payload_sha256": "sha256:001a2fb0006e9405c12bbae505665dc81c346d1b2813cd2628393c4f4b42bb2d",
+    "ephemeral_worm_key_fingerprint_sha256": "sha256:4951bb33bbb042b6b8d217028b0d40a3337380ba54ab483cab6bc2cc7b885b44",
     "gpg_signing_key_fingerprint": "962E7595BA84F3422646093F83830D7037197404",
     "detached_gpg_signature_file": "evidence/audit_evidence_bundle.json.asc",
     "offline_verification_command": "gpg --verify evidence/audit_evidence_bundle.json.asc evidence/audit_evidence_bundle.json"

@@ -23,7 +23,7 @@ from typing import Any, Dict, List, Tuple
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.schnorr_zkp import generate_schnorr_nizk_proof, verify_schnorr_nizk_proof
-from src.worm_merkle import WormMerkleLedger
+from src.worm_merkle import SupelaWormLedger
 
 
 class UniversalContinuumCalculator:
@@ -436,13 +436,15 @@ class UniversalContinuumCalculator:
 
     @classmethod
     def compute_pillar_16_supela_k3_cryptographic_epistemic_core(cls) -> Dict[str, Any]:
-        proof = generate_schnorr_nizk_proof("SUPELA-22-PILLAR-CONTINUUM-WITNESS", "CONTINUUM-CTX-2026")
-        schnorr_ok = verify_schnorr_nizk_proof(proof, expected_context="CONTINUUM-CTX-2026")
+        ledger = SupelaWormLedger()
+        parent_h = ledger.head_hash
+        prop_id = "CONTINUUM-CTX-2026"
+        proof = generate_schnorr_nizk_proof("SUPELA-23-PILLAR-CONTINUUM-WITNESS", prop_id, parent_h)
+        schnorr_ok = verify_schnorr_nizk_proof(proof, proof.public_key_y_hex, prop_id, parent_h)
 
-        ledger = WormMerkleLedger()
-        ledger.append_event("CONTINUUM_INIT", {"pillar": 16, "status": "LEVEL_3_AUDITABLE"})
-        ledger.append_event("K3_EPISTEMIC_DEMOTION", {"from": "LEVEL_3_AUDITABLE", "to": "LEVEL_2_TESTED_QUARANTINE"})
-        merkle_ok = ledger.verify_integrity()
+        ledger.append_sealed_event("VR-13", "CONTINUUM_INIT", {"pillar": 16, "status": "LEVEL_3_AUDITABLE"})
+        ledger.append_sealed_event("VR-13", "K3_EPISTEMIC_DEMOTION", {"from": "LEVEL_3_AUDITABLE", "to": "LEVEL_2_TESTED_QUARANTINE"})
+        merkle_ok, _ = ledger.verify_integrity()
 
         return {
             "pillar": "16_supela_k3_cryptographic_epistemic_core",

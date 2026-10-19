@@ -1,0 +1,227 @@
+{
+  "continuum_title": "Supela-K3-Omega 23-Pillar Mathematical, Transistor, Doctoral CS & Unformulated-Unknown Boundary Executable Continuum",
+  "total_pillars_computed": 23,
+  "all_22_pillars_verified": true,
+  "all_23_pillars_verified": true,
+  "continuum_execution_sha256": "sha256:7a0f896de29de52e8d66bfcf1db19535c9dad34fc8773c543e9064da0ca5b62b",
+  "epistemic_status": "LEVEL_3_AUDITABLE",
+  "unformulated_unknown_invariant": "Known is enumerable (Aleph_0); unformulated reality is uncountable (2^Aleph_0). Any unformulated observation triggers Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE).",
+  "axiomatic_system": {
+    "axiom_1_silicon_to_proof_continuity": "Delta_E >= k_B*T*ln(2) -> Transistor(BJT/JFET/MOSFET) -> Gate(NAND) -> ALU(CLA) -> Ring(D_2, Z_p*) -> Proof(Schnorr, Ed25519, Merkle) -> Lattice(L0..L5)",
+    "axiom_2_decimal_algebraic_exactness": "All monetary and accounting flows execute in the exact fixed-point decimal ring D_2 = Z * 10^-2; binary IEEE-754 floating-point drift is forbidden.",
+    "axiom_3_local_epistemic_ceiling": "For all local runtime components c, Authority(c) == Self implies Level(c) <= LEVEL_3_AUDITABLE (no self-attribution of Level 4 or Level 5).",
+    "axiom_4_monotonic_contradiction_demotion": "Any contradictory observation O_{not c} on a LEVEL_3_AUDITABLE claim immediately demotes it to LEVEL_2_TESTED_QUARANTINE and seals a K3_EPISTEMIC_DEMOTION block in the WORM Merkle chain.",
+    "axiom_5_omission_visibility_entropy": "For any reformulation Y = R(X) with |Y| < |X|, Shannon conditional entropy H(X|Y) > 0; Y is valid iff bound to SHA256(X) with an explicit non-empty omission manifest and Substitutable(Y, X) == False.",
+    "axiom_6_unformulated_unknown_fail_closed": "The set of all formulated equations Sigma* is countable (Aleph_0) whereas physical/mathematical reality is uncountable (2^Aleph_0); any unformulated observation outside the enumerated domain triggers Fail-Closed quarantine (LEVEL_2_TESTED_QUARANTINE)."
+  },
+  "pillars": [
+    {
+      "pillar": "01_logic_sets_lattices",
+      "de_morgan_exhaustive": true,
+      "inclusion_exclusion_card": 7,
+      "cantor_powerset_card": 32,
+      "epistemic_lattice_strict_order": true,
+      "verified": true
+    },
+    {
+      "pillar": "02_number_theory_modular",
+      "bezout_identity": "252*(4) + 198*(-5) = 18",
+      "euler_phi_100": 40,
+      "crt_solution_mod_105": 23,
+      "legendre_5_mod_101": 1,
+      "verified": true
+    },
+    {
+      "pillar": "03_algebra_polynomials",
+      "binomial_8_pow_7": 2097152,
+      "quadratic_roots": [
+        2.0,
+        3.0
+      ],
+      "cardano_cubic_root": 2.0,
+      "verified": true
+    },
+    {
+      "pillar": "04_algebraic_structures_decimal_ring",
+      "frobenius_mod_97_valid": true,
+      "ieee754_binary_drift_detected": true,
+      "decimal_ring_d2_exact": true,
+      "verified": true
+    },
+    {
+      "pillar": "05_exponents_logarithms_series",
+      "faulhaber_sums_valid": true,
+      "stirling_n20_relative_error": 0.004158,
+      "verified": true
+    },
+    {
+      "pillar": "06_linear_spectral_tensor_algebra",
+      "trace": 7.0,
+      "determinant": 10.0,
+      "eigenvalues": [
+        5.0,
+        2.0
+      ],
+      "cayley_hamilton_zero": true,
+      "cauchy_schwarz_valid": true,
+      "verified": true
+    },
+    {
+      "pillar": "07_geometry_topology",
+      "heron_area_13_14_15": 84.0,
+      "sphere_volume_r3": 113.097336,
+      "euler_poincare_chi": 2,
+      "verified": true
+    },
+    {
+      "pillar": "08_trigonometry_circular_hyperbolic_spherical",
+      "cos_addition_exact_formula_valid": true,
+      "sin_addition_exact_formula_valid": true,
+      "hyperbolic_identity_valid": true,
+      "de_moivre_n5_valid": true,
+      "verified": true
+    },
+    {
+      "pillar": "09_real_analysis_taylor_optimization",
+      "taylor_exp_1_25": 3.490342957462,
+      "jensen_convexity_valid": true,
+      "verified": true
+    },
+    {
+      "pillar": "10_integral_calculus_special_functions",
+      "simpson_int_sin_0_pi": 2.000000000001,
+      "euler_beta_3_4": 0.016666666667,
+      "verified": true
+    },
+    {
+      "pillar": "11_complex_harmonic_fourier",
+      "euler_identity_residual": 1.2246467991473532e-16,
+      "parseval_time_energy": 11.0,
+      "parseval_freq_energy": 11.0,
+      "verified": true
+    },
+    {
+      "pillar": "12_differential_equations_stochastic",
+      "rk4_ode_y1": 0.4060058497,
+      "black_scholes_call": 10.450584,
+      "black_scholes_put": 5.573526,
+      "call_put_parity_valid": true,
+      "verified": true
+    },
+    {
+      "pillar": "13_combinatorics_graphs_complexity",
+      "catalan_c5": 42,
+      "cayley_spanning_trees_k6": 1296,
+      "handshaking_lemma_valid": true,
+      "verified": true
+    },
+    {
+      "pillar": "14_probability_statistics_markov",
+      "bayes_posterior": 0.166667,
+      "variance_konig_huygens": 4.0,
+      "verified": true
+    },
+    {
+      "pillar": "15_shannon_information_theory",
+      "shannon_entropy_bits": 1.75,
+      "max_uniform_entropy_bits": 2.0,
+      "kl_divergence_bits": 0.25,
+      "channel_capacity_mbps": 80.0,
+      "verified": true
+    },
+    {
+      "pillar": "16_supela_k3_cryptographic_epistemic_core",
+      "schnorr_2048_rfc3526_verified": true,
+      "worm_merkle_root": "sha256:9719c4ff62cd3a56fecef294ab7eb686b046e6bc12f7db6c5a8e1822dd6669e2",
+      "worm_merkle_integrity": true,
+      "verified": true
+    },
+    {
+      "pillar": "17_silicon_physics_bjt_jfet_mosfet_cmos",
+      "thermal_voltage_vt_mv": 25.852,
+      "landauer_bit_erasure_joules": 2.870978885078724e-21,
+      "bjt": {
+        "i_c_ma": 2.0,
+        "i_e_ma": 2.02,
+        "g_m_ms": 77.3635,
+        "r_o_kohm": 50.0,
+        "p_d_mw": 10.0
+      },
+      "jfet": {
+        "i_d_sat_ma": 3.9062,
+        "g_m_ms": 3.125
+      },
+      "mosfet_cmos": {
+        "i_d_lin_ua": 280.0,
+        "i_d_sat_ua": 640.0,
+        "g_m_ms": 1.6,
+        "r_o_kohm": 78.125,
+        "f_t_ghz": 12.7324,
+        "p_cmos_dyn_uw": 7.5
+      },
+      "verified": true
+    },
+    {
+      "pillar": "18_nand_gates_cla_adder_alu",
+      "nand_universal_synthesis_valid": true,
+      "cla_8bit_sum_173_plus_69": 242,
+      "verified": true
+    },
+    {
+      "pillar": "19_sequential_cpu_amdahl_little",
+      "max_clock_ghz": 4.1667,
+      "hold_slack_ps": 50.0,
+      "amdahl_speedup_16c": 6.4,
+      "gustafson_speedup_16c": 14.5,
+      "little_law_in_flight_tx": 100.0,
+      "verified": true
+    },
+    {
+      "pillar": "20_turing_lambda_curry_howard",
+      "church_lambda_3_plus_4": 7,
+      "church_lambda_3_mult_4": 12,
+      "verified": true
+    },
+    {
+      "pillar": "21_hoare_dijkstra_tla_verification",
+      "hoare_invariant_maintained": true,
+      "variant_strictly_decreasing": true,
+      "postcondition_verified": true,
+      "verified": true
+    },
+    {
+      "pillar": "22_distributed_bft_and_continuum_extrapolation",
+      "bft_total_nodes": 13,
+      "bft_max_byzantine_faults": 4,
+      "bft_quorum_size": 9,
+      "bft_min_honest_intersection": 1,
+      "vector_clock_causality_valid": true,
+      "verified": true
+    },
+    {
+      "pillar": "23_known_vs_unformulated_unknown_boundary",
+      "cantor_unformulated_diagonal_witness": [
+        1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1
+      ],
+      "cantor_strictly_outside_enumerated_catalog": true,
+      "transistor_johnson_nyquist_noise_uv_rms": 128.7159,
+      "transistor_shot_noise_na_rms": 566.0701,
+      "heisenberg_lower_bound_js": 5.272859085e-35,
+      "unformulated_unknown_gate": {
+        "domain_status": "UNFORMULATED_UNKNOWN_DETECTED",
+        "action": "FAIL_CLOSED_QUARANTINE",
+        "epistemic_level": "LEVEL_2_TESTED_QUARANTINE",
+        "silent_extrapolation_permitted": false,
+        "reason": "Known is finite/enumerable (Aleph_0); unformulated reality is uncountable (2^Aleph_0). Silent extrapolation is forbidden."
+      },
+      "verified": true
+    }
+  ]
+}
