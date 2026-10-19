@@ -388,10 +388,10 @@ class SupelaK3OmegaEngine:
                 "1_json_schema_flattening_projection": {
                     "is_reformulation": True,
                     "was_lossy_projection": bool(sanitization_report.was_modified),
-                    "original_schema_sha256": san_dict.get("original_hash"),
-                    "reformulated_schema_sha256": san_dict.get("sanitized_hash"),
-                    "omitted_or_truncated_elements": san_dict.get("resolved_refs", [])
-                    + san_dict.get("removed_defs", []),
+                    "original_schema_sha256": san_dict.get("original_schema_sha256"),
+                    "reformulated_schema_sha256": san_dict.get("sanitized_schema_sha256"),
+                    "recursions_neutralized": san_dict.get("recursions_neutralized", 0),
+                    "omitted_or_truncated_elements": san_dict.get("stripped_definitions", []),
                 },
                 "2_cbpr_plus_strict_wire_projection": {
                     "is_reformulation": module_id == "VR-13",
