@@ -1,0 +1,16 @@
+.git
+.gitignore
+.github
+.vscode
+*.log
+*.bundle
+quote.msg
+quote.sig
+pcr.bin
+cosign.key
+cosign.pub
+node_modules
+__pycache__
+.pytest_cache
+.env
+.DS_Store
