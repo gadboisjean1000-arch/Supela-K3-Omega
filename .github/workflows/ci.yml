@@ -116,7 +116,7 @@ jobs:
         uses: sigstore/cosign-installer@v3
 
       - name: Verify cosign setup
-        run: cosign --version
+        run: cosign version
 
       - name: Check for cosign keys
         run: |
