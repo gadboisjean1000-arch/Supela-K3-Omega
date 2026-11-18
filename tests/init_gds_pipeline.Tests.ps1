@@ -12,7 +12,7 @@ AfterAll {
     Remove-Item $script:vault -Recurse -Force -ErrorAction SilentlyContinue
 }
 
-Describe "GDS runtime - rituel d initialisation (GDS = <D, O, A, gamma>)" {
+Describe "GDS runtime - rituel d initialisation (GDS = [D, O, A, gamma])" {
     It "cree les 4 sous-dossiers canoniques" {
         foreach ($d in "Diffusion_D", "Ouverture_O", "Absorption_A", "Operateur_Gamma") {
             (Test-Path (Join-Path $script:vault $d)) | Should -Be $true
