@@ -1,4 +1,4 @@
-﻿name: gds-monolithe-ci
+name: gds-monolithe-ci
 
 # Pipeline de preuve du Monolithe Supela-K3-Omega.
 # Il ne proclame rien : il MESURE. Chaque verrou est refutable.
@@ -58,8 +58,11 @@ jobs:
       - name: Pester runtime tests
         shell: pwsh
         run: |
-          Install-Module Pester -Force -SkipPublisherCheck -Scope CurrentUser -MinimumVersion 3.4.0
-          $r = Invoke-Pester -Script ./tests/init_gds_pipeline.Tests.ps1 -PassThru
+          if (-not (Get-Module -ListAvailable -Name Pester | Where-Object { $_.Version -ge [version]'5.0.0' })) {
+            Install-Module Pester -Force -SkipPublisherCheck -Scope CurrentUser -MinimumVersion 5.0.0
+          }
+          Import-Module Pester -MinimumVersion 5.0.0
+          $r = Invoke-Pester -Path ./tests/init_gds_pipeline.Tests.ps1 -PassThru
           if ($r.FailedCount -gt 0) { exit 1 }
 
   cosign-sign-verify:
@@ -67,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: sigstore/action-cosign-installer@v3
+      - uses: sigstore/cosign-installer@v3
       - name: Generate throwaway keypair (CI proof)
         run: |
           export COSIGN_PASSWORD=ci-throwaway
