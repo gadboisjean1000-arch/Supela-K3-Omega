@@ -41,6 +41,8 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
     needs: test-opa
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
     permissions:
       contents: read
       packages: write
@@ -71,6 +73,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
 
       - name: Build and push
+        id: build
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -111,13 +114,24 @@ jobs:
           sarif_file: trivy-dockerfile.sarif
 
   verify-signature:
-    name: Cosign Binary Setup Check (SHA-256 pinned v3.1.4)
+    name: Sign & Verify GHCR Image (Sigstore Fulcio/OIDC + Rekor)
     runs-on: ubuntu-latest
     needs: docker-build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'release'
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Cosign v3.1.4 (SHA-256 verified)
         run: |
@@ -125,17 +139,17 @@ jobs:
           echo "424e2c97d0b45fd7a6b608a87f090f35633f4c23ece5f092d48bba11aaf4bbfa  cosign" | sha256sum -c -
           chmod +x cosign
           sudo mv cosign /usr/local/bin/cosign
+          cosign version
 
-      - name: Verify cosign setup
-        run: cosign version
-
-      - name: Check for cosign keys
+      - name: Keyless sign & verify pushed GHCR image digest via Fulcio/OIDC + Rekor
+        env:
+          IMAGE_DIGEST: ${{ needs.docker-build.outputs.digest }}
         run: |
-          if [ -f cosign.pub ]; then
-            echo "cosign.pub found - ready for external image signing verification"
-          else
-            echo "cosign.pub not found - image signing remains declarative until sovereign key is configured"
-          fi
+          IMAGE_REF="${REGISTRY}/${IMAGE_NAME}@${IMAGE_DIGEST}"
+          cosign sign --yes "${IMAGE_REF}"
+          cosign verify "${IMAGE_REF}" \
+            --certificate-identity-regexp "^https://github\\.com/${{ github.repository }}/\\.github/workflows/ci\\.yml@refs/(heads|tags)/" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
 
   summary:
     name: Build Summary
