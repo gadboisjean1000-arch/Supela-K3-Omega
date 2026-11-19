@@ -7,7 +7,7 @@
 
 | Domaine | Référentiel | Preuve / Contrôle dans `Supela-K3-Omega` | Statut |
 |---|---|---|---|
-| **Défense / Supply-Chain** | NIST SP 800-218 (SSDF) / SLSA | Binaires CI et `Dockerfile` `opa v1.22.4` & `cosign v3.1.4` épinglés SHA-256 ; Trivy `@v0.28.0` ; signature `--bundle` ; `SECURITY.md` | ✅ Mécanisme prouvé en CI |
+| **Défense / Supply-Chain** | NIST SP 800-218 (SSDF) / SLSA | Binaires CI et `Dockerfile` `opa v1.22.4`, `cosign v3.1.4` & `trivy v0.76.2` épinglés SHA-256 ; signature `--bundle` ; `SECURITY.md` | ✅ Mécanisme prouvé en CI |
 | **Gouvernance OSBL & Pyramide Internationale** | *Loi sur les compagnies du Québec* (Partie III), Convention de Berne, Convention de Vienne (CVIM), Convention de New York (1958), Droit matériel suisse (CO), TCB minimal, *Strictum Jus* | [`CADRE_DIRECTEUR_OSBL_VALORISATION.md`](https://github.com/gadboisjean1000-arch/omega-zero-4d/blob/main/docs/constitution/CADRE_DIRECTEUR_OSBL_VALORISATION.md) | 🔷 Cadre directeur documenté |
 | **Zero-Trust & Gouvernance** | ISO/IEC 27001 / 42001, NIST AI RMF | `policies/gds_invariants.rego` : quorum recalculé, révocations exclues, anti-rejeu 15 min, cloisonnement inter-tenant | ✅ 13/13 PASS (`opa test`) |
 | **Résilience / Souveraineté** | UE NIS2 (2022/2555), DORA (2022/2554), Loi 25 | WORM logique (`IsReadOnly` + append-only SHA-256), idempotence prouvée sur 2 runs (Pester 6/6) | ✅ WORM logique prouvé · 🔷 Aligné |
