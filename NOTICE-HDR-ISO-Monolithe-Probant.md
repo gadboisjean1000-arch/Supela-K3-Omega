@@ -60,6 +60,17 @@ Jusqu'alors : **`scellement_final: interdit`**.
 
 Cet artefact préfère l'honnêteté à l'illusion : boucle conceptuelle **fermée**, boucle de preuve **armée et honnête dans ses limites**. Un lecteur HDR y trouvera une contribution originale assumée et des ancrages réels citables ; un auditeur ISO y trouvera des exigences vérifiables et des mécanismes réfutables.
 
+## 7. Addendum de Synchronisation (2026-11-19 · Monotonie `K_t ⊆ K_{t+1}`)
+
+> *Les sections 1 à 6 conservent intact l'état mesuré au 2026-10-09 sans effacement historique.*
+
+Depuis le relevé initial du 2026-10-09, les évolutions vérifiées suivantes ont été intégrées dans le dépôt :
+- **Pipeline CI réel :** les workflows actifs résident dans `.github/workflows/opa-gds-ci.yml` et `.github/workflows/ci.yml` (binaires `opa v1.22.4` et `cosign v3.1.4` épinglés par empreinte **SHA-256** ; scan `Dockerfile` par Trivy versionné `@0.28.0`).
+- **Tests OPA Rego v1 :** les **13/13 tests de réfutation** (`policies/gds_invariants.rego` + `tests/gds_invariants_test.rego`) sont exécutés et verts en CI (`opa fmt`, `opa check --strict`, `opa test`).
+- **Standards institutionnels & académiques :** ajout de `LICENSE` (`Apache-2.0`), `NOTICE`, `CITATION.cff` (ORCID `0009-0001-5361-6795`), `SECURITY.md`, `INSTITUTIONAL_STANDARDS.md` et `.gitattributes`.
+- **Unification avec le moteur exécutable :** pont direct vers [`gadboisjean1000-arch/omega-zero-4d`](https://github.com/gadboisjean1000-arch/omega-zero-4d) (noyau Rust `#![forbid(unsafe_code)]`, 31 tests Rego, formalisation mathématique unifiée vérifiant `VR-Fractal-Ω` et `GENERIC n-D`, 6 thèses ORCID).
+- **Condition de scellement inchangée :** **`scellement_final: interdit`** tant que l'ancrage silicium (`tpm2_quote`), l'identité keyless/HSM de production (Fulcio/OIDC ou KMS) et un audit externe indépendant ne sont pas exécutés.
+
 ---
 
 *Notice d'accompagnement — non scellée. Témoin : `Supela-MONOLITHE-INTEGRAL.md`.*

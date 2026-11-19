@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+title: "Supela-K3-Omega: Formal Monolith, GDS = <D, O, A, gamma> Invariants, VR-Fractal-Omega & Executable CI Proofs"
+message: "If you cite or audit this monolith, its OPA Rego v1 invariants, or VR-Fractal-Omega in academic, institutional, or engineering work, please use these metadata."
+type: software
+authors:
+  - family-names: "Gadbois"
+    given-names: "Jean-François"
+    orcid: "https://orcid.org/0009-0001-5361-6795"
+    affiliation: "Supela K Omega"
+version: "1.1.0"
+date-released: "2026-11-19"
+license: "Apache-2.0"
+repository-code: "https://github.com/gadboisjean1000-arch/Supela-K3-Omega"
+url: "https://github.com/gadboisjean1000-arch/Supela-K3-Omega"
+abstract: >-
+  Self-refuting formal monolith encoding the Coherence Operator gamma* over
+  GDS = <D, O, A, gamma> in OPA Rego v1 (13 refutation tests), idempotent
+  logical WORM runtime (PowerShell + Pester), Cosign v3 bundle signatures,
+  multiscale fractal convergence specification (VR-Fractal-Omega), and
+  HDR/ISO audit notice under strict proven-vs-declarative epistemic discipline.
+keywords:
+  - "supela"
+  - "formal-verification"
+  - "open-policy-agent"
+  - "rego"
+  - "sigstore-cosign"
+  - "worm-ledger"
+  - "fractal-convergence"
+  - "ai-governance"
+  - "zero-trust"
+references:
+  - type: software
+    title: "Supela Ω-ZERO · Local–Cloud–4D: Formal Fail-Closed Governance Engine & Rust Guard Kernel"
+    authors:
+      - family-names: "Gadbois"
+        given-names: "Jean-François"
+        orcid: "https://orcid.org/0009-0001-5361-6795"
+    repository-code: "https://github.com/gadboisjean1000-arch/omega-zero-4d"
+    license: "Apache-2.0"

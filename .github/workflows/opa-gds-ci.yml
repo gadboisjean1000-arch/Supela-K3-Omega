@@ -13,9 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install OPA
+      - name: Install OPA v1.22.4 (SHA-256 verified)
         run: |
-          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+          curl -fsSL -o opa https://github.com/open-policy-agent/opa/releases/download/v1.22.4/opa_linux_amd64_static
+          echo "35e3b352e715e80624ead6c89930d8585f6f7d94cdc409eb2a9fe36620dcccba  opa" | sha256sum -c -
           chmod +x opa && sudo mv opa /usr/local/bin/opa
           opa version
       - name: Format check (opa fmt --diff must be empty)
@@ -70,7 +71,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: sigstore/cosign-installer@v3
+      - name: Install Cosign v3.1.4 (SHA-256 verified)
+        run: |
+          curl -fsSL -o cosign https://github.com/sigstore/cosign/releases/download/v3.1.4/cosign-linux-amd64
+          echo "424e2c97d0b45fd7a6b608a87f090f35633f4c23ece5f092d48bba11aaf4bbfa  cosign" | sha256sum -c -
+          chmod +x cosign && sudo mv cosign /usr/local/bin/cosign
+          cosign version
       - name: Generate throwaway keypair (CI proof)
         run: |
           export COSIGN_PASSWORD=ci-throwaway
@@ -83,9 +89,42 @@ jobs:
       - name: Verify signature (verify-blob --bundle)
         run: cosign verify-blob --key cosign.pub --bundle artifact.bundle artifact.json
 
+  sigstore-fulcio-oidc-keyless:
+    name: Sigstore Fulcio/OIDC + Rekor keyless sign & verify
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Cosign v3.1.4 (SHA-256 verified)
+        run: |
+          curl -fsSL -o cosign https://github.com/sigstore/cosign/releases/download/v3.1.4/cosign-linux-amd64
+          echo "424e2c97d0b45fd7a6b608a87f090f35633f4c23ece5f092d48bba11aaf4bbfa  cosign" | sha256sum -c -
+          chmod +x cosign && sudo mv cosign /usr/local/bin/cosign
+          cosign version
+      - name: Compute SHA256SUMS and sign keyless via Fulcio/OIDC + Rekor
+        run: |
+          sha256sum CITATION.cff Supela-MONOLITHE-INTEGRAL.md policies/gds_invariants.rego VR-Fractal-Omega.md > SHA256SUMS.txt
+          cosign sign-blob --yes --bundle SHA256SUMS.txt.sigstore.json SHA256SUMS.txt
+      - name: Verify Fulcio X.509 SAN, GitHub OIDC issuer, and Rekor inclusion
+        run: |
+          cosign verify-blob SHA256SUMS.txt \
+            --bundle SHA256SUMS.txt.sigstore.json \
+            --certificate-identity-regexp "^https://github\\.com/${{ github.repository }}/\\.github/workflows/opa-gds-ci\\.yml@refs/(heads|pull|tags)/" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+      - name: Upload Sigstore keyless bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: supela-k3-sigstore-fulcio-oidc-bundle
+          path: |
+            SHA256SUMS.txt
+            SHA256SUMS.txt.sigstore.json
+
 # Note de transparence :
-#  - PROUVE : validite OPA (fmt/check/13 tests), idempotence + append-only (PS),
-#    signature/verification cosign.
-#  - NE PROUVE PAS : ancrage TPM/TEE (tpm2-tools, hors de ce pipeline) et
-#    signatures keyless de production (Fulcio/OIDC) - le CI utilise une cle
-#    jetable pour prouver le MECANISME, pas une identite de production.
+#  - PROUVE : validite OPA (fmt/check/13 tests), idempotence + append-only (PS 6/6),
+#    signature/verification cosign cle jetable ET signature keyless Sigstore
+#    Fulcio/OIDC + Rekor verifiee par SAN + issuer GitHub OIDC.
+#  - NE PROUVE PAS : ancrage silicium TPM/TEE (tpm2-tools, hors de ce pipeline)
+#    ni certification ISO externe (Authenticite != Validite != Verite).
