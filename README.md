@@ -1,7 +1,33 @@
-# SUPELA MONOLITHE — Exécution & Preuve
+# SUPELA MONOLITHE — Exécution & Preuve (`Supela-K3-Omega`)
 
+[![OPA GDS CI](https://github.com/gadboisjean1000-arch/Supela-K3-Omega/actions/workflows/opa-gds-ci.yml/badge.svg)](https://github.com/gadboisjean1000-arch/Supela-K3-Omega/actions/workflows/opa-gds-ci.yml)
+[![Build & Scan CI](https://github.com/gadboisjean1000-arch/Supela-K3-Omega/actions/workflows/ci.yml/badge.svg)](https://github.com/gadboisjean1000-arch/Supela-K3-Omega/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+[![ORCID](https://img.shields.io/badge/ORCID-0009--0001--5361--6795-A6CE39.svg)](https://orcid.org/0009-0001-5361-6795)
+[![OPA Rego v1](https://img.shields.io/badge/OPA%20Rego%20v1-13%2F13%20PASS-brightgreen.svg)](policies/gds_invariants.rego)
+
+> **Executive Summary (EN) :** *Supela-K3-Omega* is the formal monolith and executable policy-proof companion of [Supela Ω-ZERO · Local–Cloud–4D](https://github.com/gadboisjean1000-arch/omega-zero-4d). It encodes the Coherence Operator `γ*` over `GDS = ⟨D, O, A, γ⟩` in OPA Rego v1 (13 refutation tests), idempotent logical WORM storage (PowerShell + Pester), SHA-256-verified Cosign v3 CI pipelines, and the multiscale fractal convergence law [`VR-Fractal-Omega.md`](VR-Fractal-Omega.md). Authored by Jean-François Gadbois ([ORCID 0009-0001-5361-6795](https://orcid.org/0009-0001-5361-6795)).
+>
 > Nomenclature canonique : `GDS = ⟨D, O, A, γ⟩` · `γ* = γ ∘ Λ` · `SCT = γ*(D,O,A)`
 > Principe : ce dossier **ne proclame pas** sa validité ; il la **mesure**.
+
+## Architecture Unifiée de l'Écosystème Supela
+
+```mermaid
+flowchart LR
+    K3["Supela-K3-Omega (ce dépôt)<br/>GDS = ⟨D, O, A, γ⟩ · VR-Fractal-Ω<br/>OPA 13/13 · WORM PS · Cosign v3 · Notice HDR/ISO"]
+    OZ["omega-zero-4d (moteur exécutable)<br/>Π₀ · 7 Statuts Manque · Escalade 4D · Math Core<br/>Rust Guard-Kernel · OPA 31/31 · 6 Thèses ORCID"]
+
+    K3 <-->|"Pont network_bus.py & Théorème VR-Fractal-Ω"| OZ
+```
+
+## Repères Institutionnels & Scientifiques
+
+- [`NOTICE-HDR-ISO-Monolithe-Probant.md`](NOTICE-HDR-ISO-Monolithe-Probant.md) — Notice d'audit HDR/ISO (`cohérent, partiellement prouvé, non scellé`)
+- [`INSTITUTIONAL_STANDARDS.md`](INSTITUTIONAL_STANDARDS.md) — Alignement Défense / Gouvernement / ISO / NIST SSDF / Université
+- [`VR-Fractal-Omega.md`](VR-Fractal-Omega.md) — Résolution d'échelle fractale & théorème de moyenne harmonique pondérée (§6)
+- [`CITATION.cff`](CITATION.cff), [`SECURITY.md`](SECURITY.md), [`LICENSE`](LICENSE) (`Apache-2.0`) & [`NOTICE`](NOTICE)
+- Dépôt compagnon : [`gadboisjean1000-arch/omega-zero-4d`](https://github.com/gadboisjean1000-arch/omega-zero-4d)
 
 ## État des verrous (honnête, au 2026-10-09)
 

@@ -1,0 +1,3 @@
+# Cross-platform deterministic byte-identical line endings (Linux / Windows / macOS CI)
+* text=auto eol=lf
+*.pdf binary

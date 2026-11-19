@@ -20,11 +20,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install OPA
+      - name: Install OPA v1.22.4 (SHA-256 verified)
         run: |
-          curl -fsSL https://openpolicyagent.org/downloads/latest/opa_linux_amd64 -o opa
+          curl -fsSL -o opa https://github.com/open-policy-agent/opa/releases/download/v1.22.4/opa_linux_amd64_static
+          echo "35e3b352e715e80624ead6c89930d8585f6f7d94cdc409eb2a9fe36620dcccba  opa" | sha256sum -c -
           chmod +x opa
           sudo mv opa /usr/local/bin/
+          opa version
 
       - name: OPA Format Check
         run: opa fmt --diff policies/ tests/
@@ -90,7 +92,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Trivy scan (Dockerfile)
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           scan-type: config
           scan-ref: Dockerfile
@@ -112,8 +114,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v3
+      - name: Install Cosign v3.1.4 (SHA-256 verified)
+        run: |
+          curl -fsSL -o cosign https://github.com/sigstore/cosign/releases/download/v3.1.4/cosign-linux-amd64
+          echo "424e2c97d0b45fd7a6b608a87f090f35633f4c23ece5f092d48bba11aaf4bbfa  cosign" | sha256sum -c -
+          chmod +x cosign
+          sudo mv cosign /usr/local/bin/cosign
 
       - name: Verify cosign setup
         run: cosign version
