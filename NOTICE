@@ -1,0 +1,16 @@
+Supela-K3-Omega — Monolithe Formel & Preuves Exécutables
+Copyright 2026 Jean-François Gadbois
+ORCID: https://orcid.org/0009-0001-5361-6795
+Organization: Supela K Omega
+
+This product includes software and formal specifications developed by
+Jean-François Gadbois as part of the unified Supela architecture:
+  - Supela-K3-Omega Formal Monolith (https://github.com/gadboisjean1000-arch/Supela-K3-Omega)
+  - Supela Ω-ZERO · Local–Cloud–4D (https://github.com/gadboisjean1000-arch/omega-zero-4d)
+
+Epistemic Notice:
+  This artifact measures its validity rather than proclaiming it.
+  OPA Rego v1 (13/13), PowerShell idempotent logical WORM, and Cosign v3
+  mechanism verification are proven in CI; hardware TPM/TEE anchoring
+  (`tpm2_quote`) and production Fulcio/OIDC identities remain declarative
+  until wired on dedicated hardware.

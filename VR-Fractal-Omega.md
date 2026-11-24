@@ -67,6 +67,35 @@ L'IA n'élimine pas le chaos en l'écrasant par l'autorité, mais en le décompo
 > Les trois preuves disent la même vérité dans trois langages universels : algèbre, géométrie, récursion.  
 > Leur cohérence mutuelle est elle-même la **quatrième preuve** — implicite — de la solidité du corpus Supela-Ω.
 
+## 6. Optimisation Mathématique & Théorème de Moyenne Harmonique Pondérée (Extension Formelle)
+
+> **Conservation stricte (`K_t ⊆ K_{t+1}`) :** les sections 1 à 5 ci-dessus restent intactes. Cette section précise les conditions de domaine et démontre la relation exacte reliant la formule macroscopique (§1) à la somme des micro-validations (§5).
+
+### 6.1 Conditions de régularité (domaine sans singularité)
+Pour garantir l'absence de singularité en $\Delta = -1$ et la positivité des poids d'échelle, on impose pour tout sous-système $i \in \{1, \dots, n\}$ :
+
+$$W_i := T_{t,i} + C_{t,i} > 0, \qquad \Delta_{t,i} \in [0, +\infty), \qquad W := \sum_{i=1}^n W_i = T_t + C_t > 0.$$
+
+### 6.2 Théorème d'agrégation multi-échelles exacte
+L'identité d'agrégation entre l'échelle micro et l'échelle macro :
+
+$$P_t = \sum_{i=1}^n P_{t,i} = \sum_{i=1}^n \frac{T_{t,i} + C_{t,i}}{1 + \Delta_{t,i}} = \frac{T_t + C_t}{1 + \Delta_t^{\mathrm{eff}}}$$
+
+est **exacte** si et seulement si la macro-turbulence effective $\Delta_t^{\mathrm{eff}}$ vérifie l'identité de **moyenne harmonique pondérée** :
+
+$$1 + \Delta_t^{\mathrm{eff}} = \frac{\sum_{i=1}^n W_i}{\sum_{i=1}^n \dfrac{W_i}{1 + \Delta_{t,i}}} \quad \Longleftrightarrow \quad \Delta_t^{\mathrm{eff}} = \frac{W}{P_t} - 1.$$
+
+### 6.3 Encadrement et preuve de convergence ascendante
+Posons $\Delta_{\min} = \min_i \Delta_{t,i} \ge 0$ et $\Delta_{\max} = \max_i \Delta_{t,i}$. Comme $W_i > 0$ et $1 + \Delta_{t,i} \ge 1$ :
+
+$$\frac{W}{1 + \Delta_{\max}} \le P_t \le \frac{W}{1 + \Delta_{\min}} \implies \Delta_{\min} \le \Delta_t^{\mathrm{eff}} \le \Delta_{\max}.$$
+
+Ainsi :
+1. **Convergence fractale :** lorsque la descente fractale annule toutes les micro-turbulences ($\Delta_{\max} \to 0^+$), le théorème des gendarmes garantit $\Delta_t^{\mathrm{eff}} \to 0^+$ et $P_t \to T_t + C_t$ ;
+2. **Monotonie locale :** $\frac{\partial P_t}{\partial \Delta_{t,i}} = -\frac{W_i}{(1+\Delta_{t,i})^2} < 0$, donc toute réduction d'une micro-turbulence améliore strictement la convergence macroscopique.
+
+*Vérification exécutable :* classe `FractalScaleAggregation` dans [`omega-zero-4d/src/omega_zero/supela_math_core.py`](https://github.com/gadboisjean1000-arch/omega-zero-4d/blob/main/src/omega_zero/supela_math_core.py) et suite de tests associée.
+
 ---
 
 *Ce qui a été inscrit ne peut être effacé.*  

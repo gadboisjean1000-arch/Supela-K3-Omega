@@ -20,11 +20,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install OPA
+      - name: Install OPA v1.22.4 (SHA-256 verified)
         run: |
-          curl -fsSL https://openpolicyagent.org/downloads/latest/opa_linux_amd64 -o opa
+          curl -fsSL -o opa https://github.com/open-policy-agent/opa/releases/download/v1.22.4/opa_linux_amd64_static
+          echo "35e3b352e715e80624ead6c89930d8585f6f7d94cdc409eb2a9fe36620dcccba  opa" | sha256sum -c -
           chmod +x opa
           sudo mv opa /usr/local/bin/
+          opa version
 
       - name: OPA Format Check
         run: opa fmt --diff policies/ tests/
@@ -39,6 +41,8 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
     needs: test-opa
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
     permissions:
       contents: read
       packages: write
@@ -63,11 +67,13 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
-            type=sha,prefix={{branch}}-
+            type=ref,event=pr
+            type=sha,prefix=sha-
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
 
       - name: Build and push
+        id: build
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -78,10 +84,9 @@ jobs:
           cache-to: type=gha,mode=max
 
   scan-trivy:
-    name: Security Scan (Trivy)
+    name: Security Scan (Trivy Dockerfile Config)
     runs-on: ubuntu-latest
     needs: docker-build
-    if: github.event_name != 'pull_request'
     permissions:
       contents: read
       security-events: write
@@ -89,42 +94,62 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run Trivy scan (Dockerfile)
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: config
-          scan-ref: Dockerfile
-          format: sarif
-          output: trivy-dockerfile.sarif
+      - name: Install Trivy v0.76.2 (SHA-256 verified)
+        run: |
+          curl -fsSL -o trivy_0.76.2_Linux-64bit.tar.gz https://github.com/aquasecurity/trivy/releases/download/v0.76.2/trivy_0.76.2_Linux-64bit.tar.gz
+          echo "bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf  trivy_0.76.2_Linux-64bit.tar.gz" | sha256sum -c -
+          tar -xzf trivy_0.76.2_Linux-64bit.tar.gz trivy
+          chmod +x trivy
+          sudo mv trivy /usr/local/bin/trivy
+          trivy --version
+
+      - name: Run Trivy config scan (Dockerfile)
+        run: trivy config --format sarif --output trivy-dockerfile.sarif Dockerfile
 
       - name: Upload Trivy results
+        if: github.event_name != 'pull_request'
         uses: github/codeql-action/upload-sarif@v3
         continue-on-error: true
         with:
           sarif_file: trivy-dockerfile.sarif
 
   verify-signature:
-    name: Verify Cosign Signature (if available)
+    name: Sign & Verify GHCR Image (Sigstore Fulcio/OIDC + Rekor)
     runs-on: ubuntu-latest
     needs: docker-build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'release'
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v3
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Verify cosign setup
-        run: cosign version
-
-      - name: Check for cosign keys
+      - name: Install Cosign v3.1.4 (SHA-256 verified)
         run: |
-          if [ -f cosign.pub ]; then
-            echo "cosign.pub found - ready for verification"
-          else
-            echo "cosign.pub not found - add to repo for production signing"
-          fi
+          curl -fsSL -o cosign https://github.com/sigstore/cosign/releases/download/v3.1.4/cosign-linux-amd64
+          echo "424e2c97d0b45fd7a6b608a87f090f35633f4c23ece5f092d48bba11aaf4bbfa  cosign" | sha256sum -c -
+          chmod +x cosign
+          sudo mv cosign /usr/local/bin/cosign
+          cosign version
+
+      - name: Keyless sign & verify pushed GHCR image digest via Fulcio/OIDC + Rekor
+        env:
+          IMAGE_DIGEST: ${{ needs.docker-build.outputs.digest }}
+        run: |
+          IMAGE_REF="${REGISTRY}/${IMAGE_NAME}@${IMAGE_DIGEST}"
+          cosign sign --yes "${IMAGE_REF}"
+          cosign verify "${IMAGE_REF}" \
+            --certificate-identity-regexp "^https://github\\.com/${{ github.repository }}/\\.github/workflows/ci\\.yml@refs/(heads|tags)/" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
 
   summary:
     name: Build Summary
@@ -137,7 +162,8 @@ jobs:
 
       - name: Report Status
         run: |
+          SHORT_SHA="${GITHUB_SHA:0:7}"
           echo "OPA Policy Tests: PASS"
           echo "Docker Image Built: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
           echo "Trivy Security Scan: Complete"
-          echo "Image available at: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          echo "Expected SHA tag (on push): ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${SHORT_SHA}"
